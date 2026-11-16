@@ -26,7 +26,11 @@ Upstream code is reused wherever it fits: keep its file headers and third-party 
    authority; never invent an interface.
 7. **Every user-visible string is translated** (see §8). No literal UI text in components.
 8. **Bounded work.** No unbounded Git output, no list rendered in full, no file read without a size cap (see §7).
-9. Everything committed is public: no personal paths, user names, internal hosts, tokens, or real repository data.
+9. **Imports that the daemon cannot resolve break installation.** Paseo compiles the plugin on the host after
+   `npm ci --omit=dev`, and resolves type-only imports too. Plugin code (`client/`, `server/`, `shared/`, the entries)
+   imports — values or types — only the SDK, `zod`, `react`, `react-native`, `@tanstack/react-query`, Node built-ins
+   and the runtime dependencies listed in §2. Never a devDependency.
+10. Everything committed is public: no personal paths, user names, internal hosts, tokens, or real repository data.
 
 ## 2. Identity
 
@@ -36,7 +40,7 @@ Upstream code is reused wherever it fits: keep its file headers and third-party 
 | Display name | `Advanced Git` (`高级 Git` in zh-CN listing) |
 | `requirements.paseo` | `>=0.14.0` |
 | Panels | `advanced-git` (locations `workspace` and `explorer`) |
-| Settings documents | `safety` (scope `host`), `view` (scope `device`) |
+| Settings documents | `safety` and `view`, both scope `host` (SDK 0.14 has no device scope; per-tab layout lives in `useTabState`) |
 | Query-key prefix | `"advanced-git"` |
 | Runtime dependencies (daemon half only) | `vscode-diff`, `strip-json-comments`, `highlight.js` |
 

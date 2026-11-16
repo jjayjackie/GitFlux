@@ -2,7 +2,9 @@
 // complete document, as the SDK asks.
 //
 // `safety` is host-scoped: the daemon reads it (server.registerSettings) to decide what a destructive call may do,
-// never trusting the request. `view` is device-scoped: how this device draws the panel.
+// never trusting the request. `view` holds how the panel is drawn. It is host-scoped too: SDK 0.14, the oldest this
+// plugin supports, has no device scope (`defineSettings` throws on anything but "host"), so the clients of one host
+// share these preferences. Layout that belongs to one tab (sizes, folded sections) is kept by the tab instead.
 
 import { defineSettings } from "@getpaseo/plugin";
 import { z } from "zod";
@@ -94,6 +96,6 @@ export const viewPreferencesSchema = z.object({
 });
 export type ViewPreferences = z.infer<typeof viewPreferencesSchema>;
 
-export const viewSettings = defineSettings({ id: "view", scope: "device", version: 1, schema: viewPreferencesSchema });
+export const viewSettings = defineSettings({ id: "view", scope: "host", version: 1, schema: viewPreferencesSchema });
 
 export const DEFAULT_VIEW_PREFERENCES: ViewPreferences = viewPreferencesSchema.parse({});
