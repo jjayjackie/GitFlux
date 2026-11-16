@@ -1,0 +1,14 @@
+# Text files are stored and checked out with LF everywhere, Windows runners included, so fixtures, parsers and
+# expectations that compare text see the same bytes on every platform.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.mp4 binary
+*.webm binary
+*.ico binary
+*.tgz binary
+*.zip binary

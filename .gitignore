@@ -2,3 +2,11 @@ node_modules/
 preview/dist/
 # Throwaway repositories and files for trying the panel in the preview
 tmp/
+# Release archives built by scripts/package.mjs
+dist/
+# Test and end-to-end output
+test-results/
+playwright-report/
+blob-report/
+e2e/.artifacts/
+.DS_Store

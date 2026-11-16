@@ -1,4 +1,7 @@
 {
+  // The plugin itself: both entries, client/, server/, shared/ and the node:test suites.
+  // No DOM library: client code runs on phones too; client/web.ts declares the few browser globals it uses.
+  // Paseo's plugin compiler reads this file to resolve imports, so it carries no `paths` or other aliases.
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
@@ -10,8 +13,11 @@
     "skipLibCheck": true,
     "noEmit": true,
     "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "erasableSyntaxOnly": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["index.client.tsx", "index.server.ts", "client", "server", "shared", "test"]
 }

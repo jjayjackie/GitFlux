@@ -1,7 +1,14 @@
 {
+  // The browser preview: the stand-ins for the host and the page that mounts the real entries. DOM allowed here.
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "lib": ["ES2023", "DOM", "DOM.Iterable"]
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["react", "react-dom", "node"],
+    // The stand-in for @getpaseo/plugin/client re-exports the SDK's own hooks from its published files, which the
+    // package's `exports` map does not expose. build.mjs maps the same prefix for esbuild.
+    "paths": {
+      "@paseo-sdk-dist/*": ["../node_modules/@getpaseo/plugin/dist/*"]
+    }
   },
-  "include": ["main.tsx", "host"]
+  "include": ["main.tsx", "host", "../index.client.tsx", "../client"]
 }
