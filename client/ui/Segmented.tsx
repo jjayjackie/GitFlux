@@ -71,7 +71,9 @@ function Segment<Value extends string>({ option, selected, iconOnly, onPress, te
       testID={testID}
       onPress={option.disabled ? undefined : onPress}
       style={({ pressed }) => ({
-        flex: iconOnly ? undefined : 1,
+        // Grows to share a wide row, never narrower than its words (`flex: 1` on the web is a zero basis, which cut them).
+        flexGrow: iconOnly ? 0 : 1,
+        flexShrink: 0,
         minHeight: th.row,
         paddingHorizontal: th.space.md,
         borderRadius: th.radius.sm,
