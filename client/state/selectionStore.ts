@@ -88,7 +88,7 @@ export type NarrowTab = "changes" | "graph" | "branches";
  */
 export type GitCommand =
   | { type: "fetch" }
-  | { type: "pull" }
+  | { type: "pull"; from?: { remote: string; branch: string } } // from: a branch of a remote rather than the upstream
   | { type: "push" }
   | { type: "sync" }
   | { type: "commit" }

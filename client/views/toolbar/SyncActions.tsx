@@ -48,7 +48,8 @@ export function SyncActions({ repository }: SyncActionsProps) {
         void sync.fetch();
         break;
       case "pull":
-        void sync.pull();
+        if (command.from) void sync.pullFrom(command.from.remote, command.from.branch);
+        else void sync.pull();
         break;
       case "push":
         void sync.push();
