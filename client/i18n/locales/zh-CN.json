@@ -155,7 +155,7 @@
     },
     "REF_NOT_FOUND": {
       "title": "未找到",
-      "hint": "该分支、标签、远程、储藏或修订已不存在。请刷新后重试。"
+      "hint": "该分支、标签、远程、储藏或版本已不存在。请刷新后重试。"
     },
     "NOTHING_TO_COMMIT": {
       "title": "没有可提交的内容",
@@ -239,7 +239,7 @@
     "publishHint": "推送此分支并将其设为上游",
     "ahead_other": "{{count}} 个提交待推送",
     "behind_other": "{{count}} 个提交待拉取",
-    "detached": "游离于 {{hash}}",
+    "detached": "分离于 {{hash}}",
     "noCommits": "尚无提交",
     "repository": "仓库",
     "branch": "分支",
@@ -338,7 +338,7 @@
       "allowHardReset": {
         "label": "允许硬重置",
         "hint": "确认后使用 --hard 重置分支。",
-        "warning": "已开启：硬重置会丢弃工作树和索引中未提交的更改。"
+        "warning": "已开启：硬重置会丢弃工作树和暂存区中未提交的更改。"
       },
       "allowForceDelete": {
         "label": "允许强制删除",
@@ -393,7 +393,7 @@
       },
       "codeFontSize": {
         "label": "代码字号",
-        "hint": "差异和追溯（blame）中代码的字号。",
+        "hint": "差异和追溯视图中代码的字号。",
         "value": "{{size}} 像素"
       },
       "graphScope": {
@@ -567,8 +567,8 @@
       "menu": "放弃更改…",
       "trackedOne": "确定要放弃“{{name}}”中的更改吗？",
       "trackedMany_other": "确定要放弃 {{count}} 个文件中的所有更改吗？",
-      "restoreOne": "确定要还原“{{name}}”吗？",
-      "restoreMany_other": "确定要还原全部 {{count}} 个文件吗？",
+      "restoreOne": "确定要恢复“{{name}}”吗？",
+      "restoreMany_other": "确定要恢复全部 {{count}} 个文件吗？",
       "untrackedOne": "确定要删除以下未跟踪的文件吗：“{{name}}”？",
       "untrackedMany_other": "确定要删除这 {{count}} 个未跟踪的文件吗？",
       "irreversible": "此操作不可撤销！如果继续，你当前的工作集将永久丢失。",
@@ -579,8 +579,8 @@
       "discardFile": "放弃文件",
       "discardAll_other": "放弃全部 {{count}} 个文件",
       "discardTracked_other": "放弃 {{count}} 个已跟踪的文件",
-      "restoreFile": "还原文件",
-      "restoreAll_other": "还原全部 {{count}} 个文件",
+      "restoreFile": "恢复文件",
+      "restoreAll_other": "恢复全部 {{count}} 个文件",
       "moveToTrash": "移到废纸篓",
       "permanentTitle": "无法使用废纸篓删除。是否要改为永久删除？",
       "deleteFile": "删除文件",
@@ -589,10 +589,10 @@
     "conflicts": {
       "title": "合并更改",
       "open": "打开冲突",
-      "acceptOurs": "接受当前（我方）",
-      "acceptOursNamed": "接受 {{path}} 的当前一方",
-      "acceptTheirs": "接受传入（对方）",
-      "acceptTheirsNamed": "接受 {{path}} 的传入一方",
+      "acceptOurs": "全部采用当前（我方）",
+      "acceptOursNamed": "对 {{path}} 采用当前版本",
+      "acceptTheirs": "全部采用传入（对方）",
+      "acceptTheirsNamed": "对 {{path}} 采用传入版本",
       "markResolved": "标记为已解决",
       "markResolvedNamed": "将 {{path}} 标记为已解决",
       "markAllResolved": "全部标记为已解决",
@@ -618,13 +618,13 @@
     "message": "提交信息",
     "moreActions": "更多提交操作",
     "commit": "提交",
-    "commitSignedOff": "提交（签名）",
+    "commitSignedOff": "提交（签收）",
     "commitStaged": "提交已暂存的更改",
     "commitAll": "全部提交",
-    "amend": "提交（修正）",
+    "amend": "提交（修补）",
     "commitPush": "提交并推送",
     "commitSync": "提交并同步",
-    "signoff": "签名（Sign Off）",
+    "signoff": "签收（Signed-off-by）",
     "commitHint": "提交更改",
     "commitHintBranch": "在“{{branch}}”上提交更改",
     "continueHint": "继续进行中的操作",
@@ -648,7 +648,7 @@
       "noMessage": "请先填写提交信息。",
       "nothingToCommit": "没有可提交的更改。",
       "nothingStaged": "没有可提交的暂存更改。",
-      "noCommits": "还没有可修正的提交。",
+      "noCommits": "还没有可修补的提交。",
       "conflicts": "请先解决冲突中的文件。",
       "operation": "此操作进行中时无法执行：请先继续或中止它。"
     },
@@ -658,10 +658,10 @@
       "confirm": "是"
     },
     "amendPushed": {
-      "title": "修正已推送的提交？",
-      "body": "最后一个提交已在 {{upstream}} 上。修正会在本地替换它，之后此分支只能强制推送。",
+      "title": "修补已推送的提交？",
+      "body": "最后一个提交已在 {{upstream}} 上。修补会在本地替换它，之后此分支只能强制推送。",
       "lost": "已发布到 {{upstream}} 的 {{hash}}",
-      "confirm": "修正"
+      "confirm": "修补"
     }
   },
   "graph": {
@@ -749,7 +749,7 @@
     "header": {
       "commit": "提交",
       "fileHistory": "文件历史记录",
-      "blame": "追溯 (Blame)",
+      "blame": "追溯（Blame）",
       "compare": "比较",
       "stash": "储藏",
       "conflict": "合并冲突"
@@ -789,7 +789,7 @@
       "selectFile": "选择一个文件以查看其更改。",
       "resizeInfo": "调整提交信息区域的大小",
       "resizeFiles": "调整文件列表的大小",
-      "fileHistory": "打开文件历史",
+      "fileHistory": "打开文件历史记录",
       "blame": "追溯",
       "blameAt": "在此提交处追溯",
       "deleted": "文件已被删除",
@@ -827,7 +827,7 @@
     "openFile": "打开文件",
     "openFileUnavailable": "只有在网页版和桌面版中才能从面板打开文件",
     "fileHistory": "打开文件历史记录",
-    "blame": "显示追溯 (Blame)",
+    "blame": "显示追溯（Blame）",
     "copyPath": "复制相对路径",
     "syntaxColours": "语法着色",
     "stageFile": "暂存更改",
@@ -891,7 +891,7 @@
     }
   },
   "history": {
-    "title": "文件历史",
+    "title": "文件历史记录",
     "file": {
       "empty": "没有提交更改过此文件。",
       "capped": "仅加载了前 {{count}} 个提交。",
@@ -937,11 +937,11 @@
     },
     "pick": {
       "noCommit": "不提交：将结果保留为已暂存",
-      "mainline": "与合并提交比较的父提交",
-      "mainlineIntro": "{{hash}} 是合并提交。请选择它保留的那一侧父提交：",
+      "mainline": "作为主线的父提交",
+      "mainlineIntro": "{{hash}} 是合并提交。请选择以哪个父提交为主线（还原或拣选时保留它这一侧）：",
       "parent": "父提交 {{number}}：{{hash}}",
-      "firstParent": "被合并进入的分支",
-      "otherParent": "被合并进来的分支",
+      "firstParent": "合并的目标分支",
+      "otherParent": "被合并的分支",
       "conflicted": "因冲突而停止。请在“冲突”部分解决冲突，然后继续或中止。"
     },
     "cherryPick": {
@@ -979,17 +979,17 @@
     "title": "冲突",
     "current": "当前",
     "incoming": "传入",
-    "acceptCurrent": "采用当前",
-    "acceptCurrentHint": "采用当前一方的整个文件版本并暂存",
-    "acceptIncoming": "采用传入",
-    "acceptIncomingHint": "采用传入一方的整个文件版本并暂存",
+    "acceptCurrent": "全部采用当前",
+    "acceptCurrentHint": "采用当前一方的整个文件并暂存",
+    "acceptIncoming": "全部采用传入",
+    "acceptIncomingHint": "采用传入一方的整个文件并暂存",
     "acceptDeletes": "该方删除了此文件：采用它将删除此文件",
     "markResolved": "标记为已解决",
     "markersLeft": "文件中仍有冲突标记。",
     "saveFirst": "请先保存结果",
     "deleteAction": "删除文件…",
     "deleteTitle": "要删除 {{path}} 吗？",
-    "deleteBody": "此文件将从工作树和索引中移除，从而解决其冲突。",
+    "deleteBody": "此文件将从工作树和暂存区中移除，从而解决其冲突。",
     "delete": "删除文件",
     "openFile": "打开文件",
     "binary": "这是二进制文件：无法在此比较或合并其两方。",
@@ -1013,9 +1013,9 @@
     "tooLongToSave": "结果过大，无法在此保存",
     "resultText": "结果",
     "blockOf": "冲突 {{current}} / {{total}}",
-    "useCurrent": "使用当前",
-    "useIncoming": "使用传入",
-    "useBoth": "两者都用",
+    "useCurrent": "采用当前更改",
+    "useIncoming": "采用传入的更改",
+    "useBoth": "保留双方更改",
     "deletedInCurrent": "当前一方删除了此文件；显示的是传入一方的版本。",
     "deletedInIncoming": "传入一方删除了此文件；显示的是当前一方的版本。",
     "tooFarApart": "两方差异过大，无法在此比较；改为并排显示。",
@@ -1034,10 +1034,10 @@
     },
     "step": "第 {{step}} 步，共 {{total}} 步",
     "onto": "正在将 {{branch}} 重放到 {{onto}} 上",
-    "detachedHead": "游离的 HEAD",
+    "detachedHead": "分离头指针",
     "applying": "正在应用 {{commit}}：{{subject}}",
     "applyingHash": "正在应用 {{commit}}",
-    "stoppedForEdit": "因编辑而停止：如有需要请修正提交，然后继续。",
+    "stoppedForEdit": "已停在需要编辑的提交处：如有需要可修补该提交，然后继续。",
     "conflicts_other": "{{count}} 个文件存在冲突：解决后继续。",
     "readyToContinue": "没有文件存在冲突：准备好后继续。",
     "continueHint": "使用已解决的文件继续",
@@ -1101,13 +1101,13 @@
     "rename": "重命名…",
     "delete": "删除…",
     "setUpstream": "设置上游…",
-    "unsetUpstream": "取消上游",
+    "unsetUpstream": "取消设置上游",
     "push": "推送…",
     "compare": "与当前分支比较",
     "copyName": "复制名称",
     "create": "创建分支…",
     "isCurrent": "这是当前分支。",
-    "upstreamUnset": "{{name}} 已不再有上游。",
+    "upstreamUnset": "{{name}} 已不再跟踪上游。",
     "pushed": "已推送 {{name}}。",
     "invalid": {
       "empty": "请输入名称。",
@@ -1136,12 +1136,12 @@
     },
     "checkoutDialog": {
       "switched": "已切换到 {{ref}}。",
-      "dirtyTitle": "本地更改会受到影响",
+      "dirtyTitle": "本地更改会被覆盖",
       "dirtyBody": "切换到 {{ref}} 会覆盖本地更改。高级 Git 可以先储藏这些更改，切换后再重新应用。",
       "stashSwitch": "储藏、切换并重新应用",
       "stashConflict": "已切换到 {{ref}}，但重新应用更改时发生冲突。储藏已保留：请在“更改”中解决冲突。",
       "detachedTitle": "检出 {{ref}}？",
-      "detachedBody": "这会在没有分支的情况下检出 {{ref}}（分离的 HEAD）。在此处所做的提交不属于任何分支，直到你创建一个分支。",
+      "detachedBody": "这会以分离头指针的方式检出 {{ref}}，不在任何分支上。在此处所做的提交不属于任何分支，除非你为它们创建分支。",
       "detachedConfirm": "检出",
       "remoteTitle": "检出 {{ref}}",
       "remoteBody": "创建一个跟踪 {{ref}} 的本地分支并切换到该分支。如果已有同名本地分支跟踪它，则切换到那个分支。",
@@ -1164,16 +1164,16 @@
       "submit": "合并",
       "merged": "已将 {{ref}} 合并到 {{current}}。",
       "fastForward": "已将 {{current}} 快进到 {{ref}}。",
-      "upToDate": "{{current}} 已包含 {{ref}} 的全部提交。",
+      "upToDate": "{{current}} 已包含 {{ref}} 的全部提交，无需合并。",
       "squashed": "已压缩 {{ref}}：更改已暂存，提交它们即可完成。",
       "conflict": "合并 {{ref}} 时出现冲突而停止。请在“更改”中解决冲突，然后提交或中止合并。"
     },
     "rebaseDialog": {
       "title": "变基到 {{onto}}",
-      "body": "将 {{current}} 上不在 {{onto}} 中的提交重新应用到它之上。这些提交会被改写：它们会得到新的哈希。",
+      "body": "将 {{current}} 上不在 {{onto}} 中的提交重新应用到 {{onto}} 之上。这些提交会被改写，得到新的哈希。",
       "autostash": "先储藏本地更改，完成后再重新应用",
       "publishedTitle": "这些提交已经推送",
-      "publishedBody": "要改写的部分提交已在 {{current}} 的上游中。拥有这些提交的每个人都需要进行协调，之后推送需要强制推送。",
+      "publishedBody": "要改写的部分提交已在 {{current}} 的上游中。拥有这些提交的每个人都需要处理被改写的历史，之后推送需要强制推送。",
       "publishedConfirm": "改写已经推送的提交",
       "submit": "变基",
       "done": "已将 {{current}} 变基到 {{onto}}。",
@@ -1268,7 +1268,7 @@
     "create": "创建标签…",
     "annotated": "附注标签",
     "lightweight": "轻量标签",
-    "checkout": "检出（分离）…",
+    "checkout": "检出（分离头指针）…",
     "createBranch": "从此处创建分支…",
     "push": "推送到远程…",
     "delete": "删除…",
@@ -1316,7 +1316,7 @@
     "drop": "删除…",
     "show": "显示更改",
     "onBranch": "位于 {{branch}}",
-    "detachedHead": "位于分离的 HEAD",
+    "detachedHead": "位于分离头指针",
     "applied": "已应用 {{ref}}。",
     "popped": "已弹出 {{ref}}。",
     "conflicted": "应用 {{ref}} 时出现冲突。请在“更改”中解决冲突；储藏已保留。",
@@ -1375,7 +1375,7 @@
       "mode": "检出",
       "existing": "现有分支",
       "newBranch": "新分支",
-      "detached": "分离的 HEAD",
+      "detached": "分离头指针",
       "branch": "分支",
       "branchHint": "未在其他工作树中检出的本地分支。",
       "newName": "新分支名称",
@@ -1401,7 +1401,7 @@
       "uninitialized": "未初始化",
       "clean": "干净",
       "modified": "已修改",
-      "ahead": "已移动",
+      "ahead": "提交不同",
       "conflict": "冲突"
     },
     "stateHint": {
@@ -1448,10 +1448,10 @@
     "actionHint": {
       "pick": "使用该提交",
       "reword": "使用该提交，但修改提交信息",
-      "edit": "在该提交处停下以修改它",
+      "edit": "停在该提交处以便修补它",
       "squash": "并入前一个提交，保留两者的提交信息",
       "fixup": "并入前一个提交，只保留前一个提交的信息",
-      "drop": "舍弃该提交"
+      "drop": "丢弃该提交"
     },
     "actionLabel": "“{{subject}}”的操作",
     "by": "{{author}}，{{time}}",
@@ -1474,11 +1474,11 @@
       "messageTooLong": "提交信息过长。",
       "unchanged": "此计划尚未做任何更改。"
     },
-    "pushed": "其中一些提交已在上游。改写它们会改写已发布的历史：所有拉取过这些提交的人都需要进行恢复。",
+    "pushed": "其中一些提交已在上游。改写它们就是改写已发布的历史：所有拉取过这些提交的人都需要处理被改写的历史。",
     "pushedAck": "我了解这会改写已发布的历史",
     "pushedBadge": "已推送",
     "pushedHint": "上游已包含此提交",
-    "merges": "该范围包含合并提交。变基会舍弃它们并将历史拉平。",
+    "merges": "该范围包含合并提交。变基会去掉这些合并提交，使历史变为线性。",
     "truncated": "提交超过 {{count}} 个：太多，无法在此变基。",
     "autostash": "先储藏本地更改",
     "autostashHint": "变基结束后恢复它们（git rebase --autostash）。",
@@ -1486,13 +1486,13 @@
     "stale": "读取提交后分支已发生变化。已重新读取：请检查计划后再次开始。",
     "done": "变基已完成。",
     "conflict": "变基因冲突而停止。请解决冲突，然后继续或中止。",
-    "stopped": "变基在需要编辑的提交处停止。请修改它，然后继续。"
+    "stopped": "变基已停在需要编辑的提交处。请修补该提交，然后继续。"
   },
   "safety": {
     "title": "安全",
     "snapshots": {
       "title": "安全快照",
-      "intro": "在可能放弃已跟踪文件更改的操作之前，Advanced Git 会在此记录这些更改。恢复会将快照中的更改应用到工作树，并保留快照。",
+      "intro": "在可能放弃已跟踪文件更改的操作之前，高级 Git 会在此记录这些更改。恢复会将快照中的更改应用到工作树，并保留快照。",
       "off": "安全快照已在安全设置中关闭：不会再创建新的快照。",
       "empty": "尚无安全快照。",
       "detail": "{{reason}} · {{branch}}",
