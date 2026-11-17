@@ -1,7 +1,7 @@
 // Two panes with a divider between them that drags (architecture §9: "every divider drags"), side by side or one over
 // the other. One pane has a size in pixels (controlled: `size`, saved by `onSize` when a drag ends); the other takes the
 // rest. Double-pressing the divider resets the size to the default. A collapsed pane is as tall (or wide) as its own
-// content, and the divider no longer drags. Adapted from upstream's Split.tsx (client/legacy/Split.tsx): the drag is a
+// content, and the divider no longer drags. Adapted from upstream's Split.tsx (paseo-source-control: client/Split.tsx): the drag is a
 // PanResponder on a strip wider than the line, which works with a mouse on the web and a finger on touch.
 //
 // Usage:

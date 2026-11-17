@@ -7,7 +7,7 @@
 //   <View style={{ height: th.row, backgroundColor: th.c.surface1, padding: th.space.md, borderRadius: th.radius.sm }} />
 //   <Text style={{ color: th.syntax.keyword ?? th.c.foreground, ...th.code }} />
 //
-// Adapted from upstream's useHost (client/legacy/ui.tsx).
+// Adapted from upstream's useHost (paseo-source-control: client/ui.tsx).
 
 import type { PluginTheme } from "@getpaseo/plugin";
 import type { PluginHostProps } from "@getpaseo/plugin/client";

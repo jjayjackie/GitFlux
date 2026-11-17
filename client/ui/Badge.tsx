@@ -13,7 +13,7 @@ import { T, useToneColor } from "./Text.tsx";
 import type { Tone } from "./Text.tsx";
 import { useTheme } from "./theme.ts";
 
-/** The letter and colour VS Code gives a file's state (upstream's mark in client/legacy/Files.tsx). */
+/** The letter and colour VS Code gives a file's state (upstream's mark in paseo-source-control: client/Files.tsx). */
 export function statusMark(status: string): { letter: string; tone: Tone } {
   if (status === "?") return { letter: "U", tone: "success" };
   if (status === "A") return { letter: "A", tone: "success" };

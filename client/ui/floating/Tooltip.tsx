@@ -1,5 +1,5 @@
 // Hover hints: every button says what it does once the pointer rests on it (docs/design.md, "Words"). Adapted from
-// upstream's useHint (client/legacy/ui.tsx).
+// upstream's useHint (paseo-source-control: client/ui.tsx).
 //
 // Usage:
 //   const hint = useHint(t("toolbar.fetchHint"));

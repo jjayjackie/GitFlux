@@ -2,7 +2,7 @@
 // the pointer. Each comes in a dark and a light set, picked by the luminance of the theme's `surface0`, as upstream
 // does. Pure: unit-tested.
 //
-// Diff, hover and graph colours are upstream's (client/legacy/Diff.tsx, ui.tsx, Graph.tsx), which took them from
+// Diff, hover and graph colours are upstream's (paseo-source-control: client/Diff.tsx, ui.tsx, Graph.tsx), which took them from
 // VS Code 1.142.0's default themes, Dark 2026 and Light 2026 (extensions/theme-defaults/themes) and from
 // src/vs/platform/theme/common/colors. Syntax colours follow VS Code's Dark+ and Light+ themes
 // (extensions/theme-defaults/themes/dark_plus.json, dark_vs.json, light_plus.json, light_vs.json), mapped to

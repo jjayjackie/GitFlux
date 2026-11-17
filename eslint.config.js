@@ -215,10 +215,8 @@ export default tseslint.config(
   },
 
   // Client components: no literal UI text, in JSX children or in user-visible props (architecture §8).
-  // client/legacy/ (upstream code being ported, not rendered) is exempt until it is ported and deleted.
   {
     files: ["client/**/*.tsx", "index.client.tsx"],
-    ignores: ["client/legacy/**"],
     plugins: { react },
     settings: { react: { version: "19.1" } },
     rules: {
@@ -231,18 +229,6 @@ export default tseslint.config(
         },
       ],
       "no-restricted-syntax": ["error", ...ERASABLE_ONLY, ...LITERAL_UI_TEXT],
-    },
-  },
-
-  // Upstream code kept while it is ported (client/legacy/, the old contract shared/git.ts): held to what makes it
-  // compile and to the boundaries, not to rules it was not written against.
-  {
-    files: ["client/legacy/**", "shared/git.ts"],
-    rules: {
-      "no-empty": "warn",
-      "@typescript-eslint/no-unused-expressions": "warn",
-      "@typescript-eslint/ban-ts-comment": "warn",
-      "@typescript-eslint/no-unsafe-function-type": "warn",
     },
   },
 );

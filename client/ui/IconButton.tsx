@@ -1,5 +1,5 @@
 // A button with an icon and a hover hint. `toggled`, it is a switch, on while its background shows, as VS Code shows a
-// toggled action. Adapted from upstream's IconButton (client/legacy/ui.tsx).
+// toggled action. Adapted from upstream's IconButton (paseo-source-control: client/ui.tsx).
 //
 // Usage:
 //   <IconButton icon={codicon.refresh} label={t("common.refresh")} onPress={refresh} testID="ag-refresh" />

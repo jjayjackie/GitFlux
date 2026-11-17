@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { fileLink } from "../../../client/legacy/fileLink.ts";
+import { fileLink } from "../../../client/ui/fileLink.ts";
 
 /** What Paseo makes of the link's address: a URL path, decoded. */
 function read(link: string) {

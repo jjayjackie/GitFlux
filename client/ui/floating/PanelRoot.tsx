@@ -1,6 +1,6 @@
 // The panel's root and its floating layer: hints, menus and hover cards are drawn here, over everything else, so that
 // no list can cut them off and nothing is drawn outside the panel. A menu or a card shows one at a time; a hint shows
-// over either. Adapted from upstream's PanelRoot (client/legacy/ui.tsx), with menus that take icons, shortcuts,
+// over either. Adapted from upstream's PanelRoot (paseo-source-control: client/ui.tsx), with menus that take icons, shortcuts,
 // disabled reasons, separators and submenus, stay inside the panel, and answer the keyboard on the web.
 //
 // Usage (layout/Panel.tsx does this once; ui/Dialog.tsx puts a layer inside each dialog):

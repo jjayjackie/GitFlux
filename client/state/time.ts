@@ -1,6 +1,6 @@
 // Times as the panel words them, built from translated keys rather than `Intl`, which some native runtimes lack
 // (architecture §8). Relative times follow VS Code's fromNow with full words ("3 hours ago"), as upstream's
-// client/legacy/ago.ts did; absolute ones are "2026-01-31 14:05" in the device's time zone. Pure: unit-tested in both
+// paseo-source-control: client/ago.ts did; absolute ones are "2026-01-31 14:05" in the device's time zone. Pure: unit-tested in both
 // languages.
 //
 // Adapted from fromNow in VS Code 1.142.0's src/vs/base/common/date.ts.

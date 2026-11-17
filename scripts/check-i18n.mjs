@@ -15,7 +15,7 @@
 // count as named when their prefix matches).
 // Passes with a notice when client/i18n/ does not exist yet.
 //
-// Node built-ins only. client/legacy/ (upstream code being ported) is not scanned.
+// Node built-ins only.
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
@@ -159,7 +159,7 @@ function sources(directory) {
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
     const path = join(directory, entry.name);
     if (entry.isDirectory()) {
-      if (entry.name !== "legacy" && entry.name !== "node_modules") found.push(...sources(path));
+      if (entry.name !== "node_modules") found.push(...sources(path));
     } else if (/\.(ts|tsx)$/.test(entry.name) && !/\.d\.ts$/.test(entry.name)) found.push(path);
   }
   return found;

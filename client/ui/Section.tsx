@@ -1,5 +1,5 @@
 // Things that fold: a titled section (Branches, Tags, Staged Changes…) with a count and actions, a group heading inside
-// one, and the chevron. Adapted from upstream's Heading and Chevron (client/legacy/ui.tsx): a section's title bar is a
+// one, and the chevron. Adapted from upstream's Heading and Chevron (paseo-source-control: client/ui.tsx): a section's title bar is a
 // button, as VS Code's pane header is (paneview.ts); its actions lie over it rather than in it, since a button holds no
 // other. A group is a row of a tree (abstractTree.ts: "treeitem").
 //

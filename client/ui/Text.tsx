@@ -1,5 +1,5 @@
 // Text in the theme's colours: every visible string goes through `T` (or a component built on it), so that no text
-// falls back to React Native's default colour. Adapted from upstream's T (client/legacy/ui.tsx).
+// falls back to React Native's default colour. Adapted from upstream's T (paseo-source-control: client/ui.tsx).
 //
 // Usage:
 //   <T>{t("common.loading")}</T>

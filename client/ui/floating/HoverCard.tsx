@@ -1,6 +1,6 @@
 // Hover cards: more about a row (a commit, a branch) once the pointer has rested on it, kept while the pointer moves
 // onto the card, as VS Code's hovers are; a long press shows it where there is no pointer. Adapted from upstream's
-// useHoverCard and CardArea (client/legacy/ui.tsx).
+// useHoverCard and CardArea (paseo-source-control: client/ui.tsx).
 //
 // Usage:
 //   <CardArea style={{ flex: 1 }}>          // the part of the panel cards keep clear of (a column, a section)

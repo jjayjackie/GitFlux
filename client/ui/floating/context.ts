@@ -1,6 +1,6 @@
 // What floats over the panel — hints, menus and hover cards — is drawn by PanelRoot, inside the panel: a plugin can draw
 // nothing outside it (docs/design.md, "What the host allows"). This file holds the shared types and the context.
-// Adapted from upstream's floating layer (client/legacy/ui.tsx).
+// Adapted from upstream's floating layer (paseo-source-control: client/ui.tsx).
 
 import { createContext, useContext } from "react";
 import type { ReactNode, RefObject } from "react";
