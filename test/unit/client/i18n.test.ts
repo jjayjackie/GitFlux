@@ -4,13 +4,14 @@
 
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { test } from "node:test";
 import { GIT_ERROR_CODES } from "../../../shared/errors.ts";
 import { safetyPolicySchema, SAFETY_SWITCHES, viewPreferencesSchema } from "../../../shared/settings.ts";
 import { BUSY_LABELS } from "../../../client/state/busyStore.ts";
 
 type Resource = { [key: string]: string | Resource };
-const load = (locale: string) => JSON.parse(readFileSync(new URL(`../../../client/i18n/locales/${locale}.json`, import.meta.url), "utf8")) as Resource;
+const load = (locale: string) => JSON.parse(readFileSync(join(import.meta.dirname, "../../../client/i18n/locales", `${locale}.json`), "utf8")) as Resource;
 
 const PLURAL = /_(zero|one|two|few|many|other)$/;
 

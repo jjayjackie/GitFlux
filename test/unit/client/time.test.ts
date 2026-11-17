@@ -1,12 +1,13 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { test } from "node:test";
 import { absoluteTime, formatTime, relativeTime, span } from "../../../client/state/time.ts";
 import type { Translate } from "../../../client/state/time.ts";
 
 type Resource = { [key: string]: string | Resource };
 
-const load = (locale: string) => JSON.parse(readFileSync(new URL(`../../../client/i18n/locales/${locale}.json`, import.meta.url), "utf8")) as Resource;
+const load = (locale: string) => JSON.parse(readFileSync(join(import.meta.dirname, "../../../client/i18n/locales", `${locale}.json`), "utf8")) as Resource;
 
 /** Enough of i18next for these strings: nested keys, `{{name}}`, and English's one/other plural (Chinese has other only). */
 function translator(locale: "en" | "zh-CN"): Translate {

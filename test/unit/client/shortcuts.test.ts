@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { test } from "node:test";
 import { allowedInInput, chordFor, chordKeys, findShortcut, formatChord, SHORTCUTS } from "../../../client/shortcuts.ts";
 import { GIT_COMMAND_TYPES } from "../../../client/state/selectionStore.ts";
 
 type Resource = { [key: string]: string | Resource };
-const en = JSON.parse(readFileSync(new URL("../../../client/i18n/locales/en.json", import.meta.url), "utf8")) as Resource;
+const en = JSON.parse(readFileSync(join(import.meta.dirname, "../../../client/i18n/locales/en.json"), "utf8")) as Resource;
 
 function has(resource: Resource, key: string): boolean {
   let node: string | Resource | undefined = resource;

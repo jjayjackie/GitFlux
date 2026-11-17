@@ -73,7 +73,7 @@ test("a command without a handler waits for one, for a while", () => {
   assert.equal(pendingCount(), 1);
   // Another host's handler does not take it.
   registerHandler("b", "ws", ["push"], (command) => got.push(command), null, 1_500);
-  assert.deepEqual(got, []);
+  assert.equal(got.length, 0); // not deepEqual(got, []): its assertion signature would narrow `got` to never[]
   registerHandler("a", "ws", ["push"], (command) => got.push(command), null, 2_000);
   assert.deepEqual(got, [{ type: "push" }]);
   assert.equal(pendingCount(), 0);
