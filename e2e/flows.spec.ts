@@ -91,6 +91,23 @@ test("graph: a search narrows the list to matching commits", async ({ page }) =>
   expect(problems).toEqual([]);
 });
 
+test("graph: a ref badge's menu pulls, and shows only that ref in the graph until every branch is shown again", async ({ page }) => {
+  const problems = watchProblems(page);
+  await open(page);
+  await expect(page.getByTestId("ag-graph-list")).toBeVisible();
+  await page.locator('[data-testid$="-refs-remote-origin/main"]').first().click();
+  const menu = page.getByTestId("ag-menu");
+  await expect(menu).toBeVisible();
+  await expect(menu.getByTestId("ag-ref-pull")).toBeVisible();
+  await menu.getByTestId("ag-ref-graph-only").click();
+  await expect(page.getByTestId("ag-graph-only")).toBeVisible();
+  await expect(page.getByTestId("ag-graph-row-incoming")).toHaveCount(0);
+  await page.screenshot({ path: join(SCREENSHOTS, "flow-graph-only.png") });
+  await page.getByTestId("ag-graph-only-clear").click();
+  await expect(page.getByTestId("ag-graph-only")).toHaveCount(0);
+  expect(problems).toEqual([]);
+});
+
 test("navigator: branches, remotes, tags and the stash are listed", async ({ page }) => {
   const problems = watchProblems(page);
   await open(page);
