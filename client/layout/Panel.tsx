@@ -13,6 +13,7 @@ import { useWorkspace } from "@getpaseo/plugin/client";
 import { Loading } from "@getpaseo/plugin/client/ui";
 import { useEffect, useMemo } from "react";
 import { repoDiscoverRpc } from "../../shared/rpc/repo.ts";
+import { RefMenuProvider } from "../dialogs/refs/RefMenu.tsx";
 import { useT } from "../i18n/messages.ts";
 import { allowedInInput, findShortcut } from "../shortcuts.ts";
 import { useHost, useReconnectRefresh, HostProvider } from "../state/host.ts";
@@ -152,6 +153,7 @@ function Repositories({ directory }: { directory: string }) {
   return (
     <>
       <ActionsHost key={cwd} repository={selected} />
+      <RefMenuProvider key={cwd} repository={selected}>
       <Shell
       banner={
         <>
@@ -167,6 +169,7 @@ function Repositories({ directory }: { directory: string }) {
       detailOpen={detail.kind !== "none"}
       onCloseDetail={() => setDetail(NO_DETAIL)}
       />
+      </RefMenuProvider>
     </>
   );
 }

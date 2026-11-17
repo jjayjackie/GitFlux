@@ -4,14 +4,9 @@
 import { View } from "react-native";
 import type { StashEntry } from "../../../shared/schemas.ts";
 import { useT } from "../../i18n/messages.ts";
-import { DeleteRemoteTagDialog } from "../../dialogs/refs/DeleteRemoteTagDialog.tsx";
-import type { DeleteRemoteTagDialogProps } from "../../dialogs/refs/DeleteRemoteTagDialog.tsx";
-import { DeleteTagDialog } from "../../dialogs/refs/DeleteTagDialog.tsx";
-import type { DeleteTagDialogProps } from "../../dialogs/refs/DeleteTagDialog.tsx";
+import { tagMenu } from "../../dialogs/refs/refMenus.ts";
 import { DropStashDialog } from "../../dialogs/refs/DropStashDialog.tsx";
 import type { DropStashDialogProps } from "../../dialogs/refs/DropStashDialog.tsx";
-import { PushTagDialog } from "../../dialogs/refs/PushTagDialog.tsx";
-import type { PushTagDialogProps } from "../../dialogs/refs/PushTagDialog.tsx";
 import { NO_DETAIL } from "../../state/selection.ts";
 import * as codicon from "../../ui/codicons.ts";
 import { MoreButton, separator, useContextMenu } from "../../ui/floating/Menu.tsx";
@@ -30,29 +25,11 @@ import type { RowViewProps } from "./rowKit.tsx";
 export function TagRow({ row, env }: RowViewProps<"tag">) {
   const th = useTheme();
   const { t } = useT();
-  const { cwd, dialogs } = env;
   const tag = row.tag;
   const name = tag.name;
   const selected = env.focused === row.key;
   const [hovered, hover] = useHovered();
-  const remoteGate = env.gate("allowRemoteDelete");
-  const items = (): MenuItem[] => [
-    { id: "checkout", label: t("tag.checkout"), icon: codicon.tag, onPress: () => env.dispatch({ type: "checkout", kind: "tag", ref: name }) },
-    { id: "createBranch", label: t("tag.createBranch"), icon: codicon.add, onPress: () => env.dispatch({ type: "create-branch", startPoint: name }) },
-    { id: "push", label: t("tag.push"), icon: codicon.repoPush, onPress: () => dialogs.open<PushTagDialogProps>(PushTagDialog, { cwd, name }) },
-    separator("s1"),
-    { id: "delete", label: t("tag.delete"), icon: "Trash2", danger: true, onPress: () => dialogs.open<DeleteTagDialogProps>(DeleteTagDialog, { cwd, name }) },
-    {
-      id: "deleteRemote",
-      label: t("tag.deleteRemote"),
-      danger: true,
-      disabled: !remoteGate.allowed,
-      reason: remoteGate.reason,
-      onPress: () => dialogs.open<DeleteRemoteTagDialogProps>(DeleteRemoteTagDialog, { cwd, name }),
-    },
-    separator("s2"),
-    { id: "copy", label: t("tag.copyName"), icon: codicon.copy, onPress: () => env.copy(name) },
-  ];
+  const items = (): MenuItem[] => tagMenu(t, env, name);
   const menu = useContextMenu(items);
   const kind = tag.annotated ? t("tag.annotated") : t("tag.lightweight");
   const hint = [name, kind, tag.tagger, tag.message].filter((line): line is string => typeof line === "string" && line !== "").join("\n");

@@ -22,6 +22,7 @@ import type { Gate } from "../../state/policy.ts";
 import { useGitMutation } from "../../state/rpc.ts";
 import type { DetailTarget, GitCommand } from "../../state/selection.ts";
 import type { Dialogs } from "../../ui/Dialog.tsx";
+import type { GraphOnly } from "../graph/only.ts";
 import type { NavSection } from "./model.ts";
 
 /** A mutation as the rows see it: whether it can start now, and why not. */
@@ -62,6 +63,8 @@ export interface NavEnv {
   copy(text: string): void;
   gate(switchName: SafetySwitch | null, branch?: string | null): Gate;
   actions: NavActions;
+  /** Limiting the graph to a ref ("show only this branch"). */
+  graph: GraphOnly;
   /** Expands or folds a tree key (model.ts's keys). */
   toggle(key: string): void;
   toggleSection(section: NavSection): void;

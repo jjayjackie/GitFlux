@@ -2,13 +2,15 @@
 // graph colours the refs it follows (paseo-source-control: client/Graph.tsx's Badges): the checked-out branch in the theme's accent,
 // its upstream and its base branch in VS Code's colours (scmGraph.historyItemRemoteRefColor / BaseRefColor), and,
 // with every branch shown, the others in their commit's lane colour. On a row, past `room` they fold into "+N", whose
-// hint names the rest; pressing a badge offers to check it out (and, for a branch, to merge it or rebase onto it).
+// hint names the rest; pressing a badge opens the same menu as the ref's row in the navigation (dialogs/refs/RefMenu.tsx:
+// check out, merge, rebase, pull, create, rename, delete, push, compare, show only it in the graph, copy).
 // `still` badges (a hover card, drawn outside the panel's scope) do nothing when pressed.
 
 import { useRef } from "react";
 import { Pressable, View } from "react-native";
 import type { View as NativeView } from "react-native";
 import type { Ref } from "../../../shared/schemas.ts";
+import { useRefMenu } from "../../dialogs/refs/RefMenu.tsx";
 import { useT } from "../../i18n/messages.ts";
 import { useDispatch } from "../../state/selection.ts";
 import * as codicon from "../../ui/codicons.ts";
@@ -126,6 +128,7 @@ function RefBadge({ current, testID, ...props }: PillProps & { current: string |
   const th = useTheme();
   const { t } = useT();
   const dispatch = useDispatch();
+  const menuFor = useRefMenu();
   const menu = useMenu();
   const { badge } = props;
   const label = t(REF_LABELS[badge.kind], { name: badge.name });
@@ -133,6 +136,8 @@ function RefBadge({ current, testID, ...props }: PillProps & { current: string |
   const anchor = useRef<NativeView | null>(null);
   const { fill } = colours(th, badge, props.lane, props.followed);
   const items = (): MenuItem[] => {
+    if (menuFor !== null) return menuFor(badge);
+    // Outside the panel's shell (no RefMenuProvider): checking out, merging and rebasing only.
     const kind = badge.kind;
     const name = badge.name;
     if (kind === "head") return [{ id: "checkout", label: t("graph.ref.checkout", { name }), disabled: true, reason: t("graph.menu.alreadyCheckedOut") }];
