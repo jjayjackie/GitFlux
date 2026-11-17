@@ -248,7 +248,8 @@ jobs:
         with:
           name: e2e-artifacts-${{ github.run_attempt }}
           path: e2e/.artifacts/
-          if-no-files-found: warn
+          include-hidden-files: true # the folder's own name starts with a dot
+          if-no-files-found: error
           retention-days: 14
 
   package:
