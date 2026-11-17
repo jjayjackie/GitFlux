@@ -8,7 +8,7 @@
       "description": "每个工作区旁的完整 Git 客户端：分支、远程、标签、储藏、工作树、子模块、历史与冲突解决"
     }
   },
-  "media": ["media/commit.png", "media/diff.png", "media/conflict.png", "media/zh-CN-light.png"],
+  "media": ["media/commit.png", "media/diff.png", "media/conflict.png", "media/zh-CN-light.png", "media/safety.png", "media/narrow.png"],
   "requirements": {
     "paseo": ">=0.14.0"
   },
