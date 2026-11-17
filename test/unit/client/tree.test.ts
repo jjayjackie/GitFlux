@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { everyFile, tree } from "../../../client/legacy/tree.ts";
-import type { Folder } from "../../../client/legacy/tree.ts";
+import { everyFile, tree } from "../../../client/views/files/tree.ts";
+import type { Folder } from "../../../client/views/files/tree.ts";
 
 const files = (...paths: string[]) => paths.map((path) => ({ path, status: "M" }));
 /** A folder as an outline: its name, then what is in it. */

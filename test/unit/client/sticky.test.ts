@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { held } from "../../../client/legacy/sticky.ts";
+import { held } from "../../../client/views/files/sticky.ts";
 
 const H = 10;
 const VIEW = 1000; // tall enough that nothing gives way

@@ -1,4 +1,6 @@
 // Which rows of a tree-shaped list stay at its top while it scrolls, as VS Code's sticky scroll keeps them.
+// Upstream's (paseo-source-control: client/sticky.ts, paseo-source-control), kept with its tests. FileTree.tsx draws a plain ui/Tree for
+// now: the kit's List does not report its scroll offset, which the kept rows follow. Once it does, this decides them.
 
 import type { ReactNode } from "react";
 
