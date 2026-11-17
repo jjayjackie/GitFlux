@@ -92,9 +92,18 @@ export type GitCommand =
   | { type: "push" }
   | { type: "sync" }
   | { type: "commit" }
-  | { type: "create-branch" }
+  | { type: "create-branch"; startPoint?: string } // handled by the navigation's dialogs; startPoint: a revision
   | { type: "switch-branch" }
   | { type: "stash" }
+  // Asked for from the graph, the navigation or a commit's details; each is handled by the view that owns its dialog.
+  | { type: "checkout"; kind: "branch" | "remote" | "tag" | "commit"; ref: string } // navigation dialogs
+  | { type: "merge"; ref: string } // navigation dialogs: merge `ref` into the current branch
+  | { type: "rebase"; onto: string } // navigation dialogs: rebase the current branch onto `onto`
+  | { type: "create-tag"; target?: string } // navigation dialogs
+  | { type: "reset"; target: string } // graph dialogs: reset the current branch to `target`
+  | { type: "cherry-pick"; hashes: readonly string[] } // graph dialogs
+  | { type: "revert"; hashes: readonly string[] } // graph dialogs
+  | { type: "interactive-rebase"; base: string } // graph dialogs: rewrite the commits after `base`
   | { type: "refresh" }
   | { type: "focus-search"; area: SearchArea }
   | { type: "show-shortcuts" }
@@ -113,6 +122,14 @@ export const GIT_COMMAND_TYPES: readonly GitCommandType[] = [
   "create-branch",
   "switch-branch",
   "stash",
+  "checkout",
+  "merge",
+  "rebase",
+  "create-tag",
+  "reset",
+  "cherry-pick",
+  "revert",
+  "interactive-rebase",
   "refresh",
   "focus-search",
   "show-shortcuts",
