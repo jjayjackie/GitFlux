@@ -77,6 +77,7 @@ paseo plugin logs advanced-git
 - **键盘快捷键**仅在桌面应用和浏览器中可用；iOS 和 Android 上没有快捷键。
 - **打开文件**仅在桌面应用和浏览器中提供（与上游一样，需要网页环境）。
 - **提交图**最多并排绘制十条泳道。
+- **比较**只能在两个提交或分支之间进行；与工作树的比较请在“更改”窗格中查看。
 - **交互式变基**支持 pick、reword、edit、squash、fixup、drop 和重新排序；不提供 `exec`、`break`、`label`、`merge` 行以及 `--rebase-merges`。
 - **大型仓库**按有限的分段读取：列表、日志、差异和 blame 在达到 [shared/limits.ts](shared/limits.ts) 中的上限时停止，并会提示。
 - **翻译**使用 Paseo 的 `defineTranslations` / `useTranslation`。它们已存在于 0.14.0 SDK 的类型声明和更新日志中，但 Paseo 插件参考文档仍将其标为“未发布 API”。

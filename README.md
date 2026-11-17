@@ -101,6 +101,7 @@ on one repository are serialised, and every Git command has a deadline.
 - **Keyboard shortcuts** work in the desktop app and in a browser; there are none on iOS or Android.
 - **Open file** is offered on the desktop and in a browser only (it needs a web page, as upstream's did).
 - **The graph** draws at most ten lanes side by side.
+- **Comparisons** are between two commits or branches; comparing with the working tree is done from the Changes pane.
 - **Interactive rebase** handles pick, reword, edit, squash, fixup and drop with reordering; `exec`, `break`, `label`
   and `merge` lines and `--rebase-merges` are not offered.
 - **Large repositories** are read in bounded pieces: lists, logs, diffs and blame stop at the limits in

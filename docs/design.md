@@ -63,6 +63,8 @@ Text is Paseo's, in its font and smoothed as Paseo smooths it. Code in the diff 
 | Off the web, each row of a wrapped line is selected on its own, and a tab is drawn and copied as spaces | React Native draws the rows of a line as boxes in one text, and gives a tab the width the line was wrapped with, on the web only |
 | Off the web, the side of a change with less to show is filled out flat, without VS Code's diagonal stripes | React Native has no repeating background to draw them with |
 | Commit waits for a message to be written | VS Code opens an editor for an empty message; the panel has none |
+| Folder rows do not stay at the top while the changed files scroll (upstream's sticky rows) | The kit's virtualised list does not report its scroll position to the rows yet; the logic is kept (`views/files/sticky.ts`, tested) for when it does |
+| A commit or a file's history cannot be compared with the working tree, only with another commit | The comparison contract takes two revisions; the working tree's diff is in the Changes pane |
 | Amending a commit already pushed asks first | A pushed commit can then only be pushed by force |
 | Dialogs offer no "Always", "Never" or "Don't Show Again" | Those choices write the user's VS Code settings |
 
