@@ -395,7 +395,8 @@ export const lineChangeSchema = z.object({ original: lineRange, modified: lineRa
 export type LineChange = z.infer<typeof lineChangeSchema>;
 
 /**
- * highlight.js scope names, indexed by the `scope` numbers of a token line. Index 0 is plain text. Server and client
+ * Syntax scope names (highlight.js's vocabulary, which the daemon maps its tokeniser's kinds onto), indexed by the
+ * `scope` numbers of a token line. Index 0 is plain text. Server and client
  * share this table, so appending is safe and reordering is not.
  */
 export const TOKEN_SCOPES = [

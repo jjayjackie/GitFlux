@@ -6,7 +6,7 @@
 // VS Code 1.142.0's default themes, Dark 2026 and Light 2026 (extensions/theme-defaults/themes) and from
 // src/vs/platform/theme/common/colors. Syntax colours follow VS Code's Dark+ and Light+ themes
 // (extensions/theme-defaults/themes/dark_plus.json, dark_vs.json, light_plus.json, light_vs.json), mapped to
-// highlight.js scopes.
+// syntax scopes (TOKEN_SCOPES in shared/schemas.ts).
 // Copyright (c) Microsoft Corporation. Licensed under the MIT License: https://github.com/microsoft/vscode/blob/1.142.0/LICENSE.txt
 
 import type { TokenScope } from "../../shared/schemas.ts";
@@ -77,7 +77,7 @@ export const DIFF_LIGHT: DiffPalette = {
   },
 };
 
-/** A colour per highlight.js scope; null draws the scope in the theme's foreground. */
+/** A colour per syntax scope (TOKEN_SCOPES); null draws the scope in the theme's foreground. */
 export type SyntaxPalette = Readonly<Record<TokenScope, string | null>>;
 
 /** VS Code Dark+. */

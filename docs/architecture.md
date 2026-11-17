@@ -29,7 +29,8 @@ Upstream code is reused wherever it fits: keep its file headers and third-party 
 9. **Imports that the daemon cannot resolve break installation.** Paseo compiles the plugin on the host after
    `npm ci --omit=dev`, and resolves type-only imports too. Plugin code (`client/`, `server/`, `shared/`, the entries)
    imports — values or types — only the SDK, `zod`, `react`, `react-native`, `@tanstack/react-query`, Node built-ins
-   and the runtime dependencies listed in §2. Never a devDependency.
+   and the runtime dependencies listed in §2. Never a devDependency. A dependency's own typings are followed as
+   well: one whose `.d.ts` imports something Paseo cannot resolve (highlight.js does) cannot be used at all.
 10. Everything committed is public: no personal paths, user names, internal hosts, tokens, or real repository data.
 
 ## 2. Identity
@@ -42,7 +43,7 @@ Upstream code is reused wherever it fits: keep its file headers and third-party 
 | Panels | `advanced-git` (locations `workspace` and `explorer`) |
 | Settings documents | `safety` and `view`, both scope `host` (SDK 0.14 has no device scope; per-tab layout lives in `useTabState`) |
 | Query-key prefix | `"advanced-git"` |
-| Runtime dependencies (daemon half only) | `vscode-diff`, `strip-json-comments`, `highlight.js` |
+| Runtime dependencies (daemon half only) | `vscode-diff`, `strip-json-comments`, `prismjs` |
 
 ## 3. Layout and ownership
 

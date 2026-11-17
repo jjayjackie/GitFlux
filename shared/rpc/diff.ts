@@ -8,7 +8,7 @@ import { countSchema, cwdSchema, diffSourceSchema, fileSchema, lineChangeSchema,
  * The diff of one file from `source`. Where VS Code opens one side only (a file added, deleted, untracked or in
  * conflict) the answer is that side (`file`). Sides are read up to DIFF_MAX_BYTES (`too-large` past it, with the
  * larger side's size) and DIFF_MAX_LINES (`truncated`: only the first lines are compared). With `highlight`, sides up
- * to HIGHLIGHT_MAX_BYTES come with `tokens` (see tokenLineSchema) and the `language` highlight.js detected or was
+ * to HIGHLIGHT_MAX_BYTES come with `tokens` (see tokenLineSchema) and the `language` the tokeniser chose or was
  * told by the file's extension; otherwise neither.
  */
 export const diffFileRpc = defineRpc({

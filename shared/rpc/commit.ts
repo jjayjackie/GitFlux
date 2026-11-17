@@ -6,7 +6,7 @@ import { MESSAGE_MAX, PICK_MAX } from "../limits.ts";
 import { cwdSchema, hashSchema, invalid } from "../schemas.ts";
 
 /**
- * Commits what is staged. `all` stages every tracked change first, as VS Code's smart commit does. Amending folds what
+ * Commits what is staged. `all` stages every change first, untracked files included (`git add --all`), as VS Code's smart commit does. Amending folds what
  * is staged into the last commit; with an empty message it keeps that commit's own. Amending a commit its upstream
  * already has rewrites published history: the daemon then fails with CONFIRMATION_REQUIRED unless
  * `confirmAmendPushed` is set. During a merge, cherry-pick or revert this concludes it, as `git commit` does; it never
