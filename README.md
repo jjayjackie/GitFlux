@@ -34,7 +34,7 @@ More in [docs/features.md](docs/features.md).
 Requires Paseo 0.14.0+, and on each host: `git` 2.35+ and `npm` on the daemon's `PATH`.
 
 ```bash
-paseo plugin install git:jjayjackie/paseo-advanced-git-plugin --ref v0.1.0
+paseo plugin install git:jjayjackie/paseo-advanced-git-plugin --ref v0.2.0
 ```
 
 Or paste `git:jjayjackie/paseo-advanced-git-plugin` into **Settings → Plugins → Plugin source**. For a host without
@@ -43,8 +43,8 @@ network access, download `paseo-advanced-git-<version>-bundled.tgz` from
 and install the folder:
 
 ```bash
-tar -xzf paseo-advanced-git-0.1.0-bundled.tgz
-paseo plugin install "$(pwd)/paseo-advanced-git-0.1.0"
+tar -xzf paseo-advanced-git-0.2.0-bundled.tgz
+paseo plugin install "$(pwd)/paseo-advanced-git-0.2.0"
 ```
 
 Open a workspace: **Advanced Git** appears as a tab and in the Explorer, with commands in the Command Center.

@@ -29,14 +29,14 @@
 需要 Paseo 0.14.0 或更高版本；每台主机上的守护进程 `PATH` 中需要有 `git` 2.35+ 和 `npm`。
 
 ```bash
-paseo plugin install git:jjayjackie/paseo-advanced-git-plugin --ref v0.1.0
+paseo plugin install git:jjayjackie/paseo-advanced-git-plugin --ref v0.2.0
 ```
 
 也可以在 **设置 → 插件 → 插件来源** 中粘贴 `git:jjayjackie/paseo-advanced-git-plugin`。对于无法联网的主机，请从 [Releases](https://github.com/jjayjackie/paseo-advanced-git-plugin/releases) 下载 `paseo-advanced-git-<版本>-bundled.tgz`，用 `SHA256SUMS` 校验后解压并安装该目录：
 
 ```bash
-tar -xzf paseo-advanced-git-0.1.0-bundled.tgz
-paseo plugin install "$(pwd)/paseo-advanced-git-0.1.0"
+tar -xzf paseo-advanced-git-0.2.0-bundled.tgz
+paseo plugin install "$(pwd)/paseo-advanced-git-0.2.0"
 ```
 
 打开一个工作区：**高级 Git** 会作为标签页出现，也会出现在资源管理器中，命令中心里也有它的命令。
