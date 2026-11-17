@@ -64,6 +64,12 @@ export const HIGHLIGHT_MAX_BYTES = 1024 * 1024;
 /** Bytes read from the start of a file to decide it is binary, as git does. */
 export const BINARY_SNIFF_BYTES = 8_000;
 
+/** Cells (lines of one side × lines of the other) the panel's own line diff of a conflict's two sides may fill. */
+export const LINE_DIFF_MAX_CELLS = 4_000_000;
+
+/** Characters of a conflicted file the panel offers to edit as plain text. */
+export const CONFLICT_EDIT_MAX_CHARS = 200_000;
+
 // --- lists ------------------------------------------------------------------------
 
 /** Branches (local and remote, each), tags, stashes, worktrees, submodules and remotes listed at most; past it, `truncated`. */

@@ -7,7 +7,10 @@
 //   setDetail({ kind: "commit", hash });
 //   const [repository, setRepository] = useSelectedRepository();
 //   useCommand(["fetch", "pull", "push", "sync"], (command) => run(command.type));   // toolbar
-//   useCommand(["focus-search"], (command) => { if (command.type === "focus-search" && command.area === "graph") searchRef.current?.focus(); });
+//   useCommand(["focus-search"], (command) => {                       // false passes it on to the next handler
+//     if (command.type !== "focus-search" || command.area !== "graph") return false;
+//     searchRef.current?.focus();
+//   });
 //   const send = useDispatch();  send({ type: "show-tab", tab: "graph" });
 
 import { createContext, createElement, useCallback, useContext, useEffect, useId, useMemo, useRef, useSyncExternalStore } from "react";
@@ -70,7 +73,7 @@ export function useDetail(): [DetailTarget, (detail: DetailTarget) => void] {
  * Handles commands of some types while the component is mounted. `handler` always sees the latest props. Register
  * each command type in one place only: the most recently mounted handler takes a command.
  */
-export function useCommand(types: readonly GitCommandType[], handler: (command: GitCommand) => void): void {
+export function useCommand(types: readonly GitCommandType[], handler: (command: GitCommand) => unknown): void {
   const { hostId, workspaceId, instance } = useScope();
   const latest = useRef(handler);
   latest.current = handler;

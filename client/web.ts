@@ -35,8 +35,13 @@ interface WebMouseEvent {
   preventDefault(): void;
   stopPropagation(): void;
 }
+interface WebWheelEvent {
+  deltaY: number;
+  deltaMode?: number;
+  preventDefault(): void;
+}
 interface WebElement {
-  addEventListener(type: string, listener: (event: never) => void, options?: boolean): void;
+  addEventListener(type: string, listener: (event: never) => void, options?: boolean | { passive?: boolean }): void;
   removeEventListener(type: string, listener: (event: never) => void, options?: boolean): void;
   tagName?: string;
   isContentEditable?: boolean;
@@ -46,6 +51,7 @@ interface WebElement {
 }
 interface WebGlobals {
   navigator?: { userAgent?: string; platform?: string };
+  getSelection?(): { removeAllRanges?(): void } | null;
   addEventListener?: WebElement["addEventListener"];
   removeEventListener?: WebElement["removeEventListener"];
 }
@@ -158,6 +164,27 @@ export function clickFirstLink(element: unknown): boolean {
   if (!link) return false;
   link.click();
   return true;
+}
+
+/**
+ * Turns the mouse wheel over `element` into `scroll(pixels)` (down is positive; lines and pages are converted at 16 and
+ * 400 pixels). When `scroll` returns true the page does not scroll as well. For the diff's overview ruler, which
+ * scrolls the diff. Returns the remover; a no-op on native.
+ */
+export function onWheel(element: unknown, scroll: (pixels: number) => boolean): () => void {
+  const target = asElement(element);
+  if (!target) return () => {};
+  const listener = (event: WebWheelEvent) => {
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? 400 : 1;
+    if (scroll(event.deltaY * unit)) event.preventDefault();
+  };
+  target.addEventListener("wheel", listener as (event: never) => void, { passive: false });
+  return () => target.removeEventListener("wheel", listener as (event: never) => void);
+}
+
+/** Clears the page's text selection, so a new one can start on the other side of a diff. A no-op on native. */
+export function clearTextSelection(): void {
+  if (isWeb) web().getSelection?.()?.removeAllRanges?.();
 }
 
 /** Moves keyboard focus to `element` (the panel's root after a menu closes). A no-op on native. */

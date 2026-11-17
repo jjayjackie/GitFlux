@@ -1,6 +1,6 @@
 // What the panel has selected, shared by every instance of the panel on one host and workspace (the Explorer one and a
 // workspace tab show the same repository and the same detail), and the command bus that brings Command Center items and
-// keyboard shortcuts to the mounted panel. Replaces upstream's client/legacy/diffTab.ts.
+// keyboard shortcuts to the mounted panel. Replaces upstream's paseo-source-control: client/diffTab.ts.
 //
 // Pure (no React): unit-tested. The hooks are in ./selection.ts. Every entry is keyed `hostId \0 workspaceId`
 // (architecture §6): what is set under one host is invisible under another.
@@ -109,7 +109,8 @@ export type GitCommand =
   | { type: "show-shortcuts" }
   | { type: "close-detail" }
   | { type: "toggle-navigation" }
-  | { type: "show-tab"; tab: NarrowTab };
+  | { type: "show-tab"; tab: NarrowTab }
+  | { type: "diff-step"; delta: 1 | -1 }; // the diff in the detail column: next or previous change
 
 export type GitCommandType = GitCommand["type"];
 
@@ -136,6 +137,7 @@ export const GIT_COMMAND_TYPES: readonly GitCommandType[] = [
   "close-detail",
   "toggle-navigation",
   "show-tab",
+  "diff-step",
 ];
 
 interface Handler {
@@ -145,7 +147,8 @@ interface Handler {
   /** The panel instance it belongs to (an Explorer panel and a workspace tab are two). */
   instance: string | null;
   types: ReadonlySet<GitCommandType>;
-  run: (command: GitCommand) => void;
+  /** Returns false to pass the command on (a `focus-search` for another area); anything else (undefined too) takes it. */
+  run: (command: GitCommand) => unknown;
 }
 
 /** A command no handler took yet: kept briefly, for a panel the Command Center has just opened. */
@@ -167,25 +170,15 @@ const matches = (handler: Handler, hostId: string | null, workspaceId: string, t
   (hostId === null || handler.hostId === hostId) && handler.workspaceId === workspaceId && handler.types.has(type);
 
 /**
- * Hands a command to a handler now, without queueing it: one of `instance`'s handlers when it has one for the command
- * (a keyboard shortcut goes to the panel that has focus), else the most recently registered one. Returns whether a
- * handler took it.
+ * Hands a command to a handler now, without queueing it: `instance`'s handlers first (a keyboard shortcut goes to the
+ * panel that has focus), then the others, the most recently registered first in each. The first handler that does not
+ * return false takes it. Returns whether one did.
  */
 export function deliver(hostId: string | null, workspaceId: string, command: GitCommand, instance: string | null = null): boolean {
-  let fallback: Handler | null = null;
-  for (let n = handlers.length - 1; n >= 0; n--) {
-    const handler = handlers[n];
-    if (!matches(handler, hostId, workspaceId, command.type)) continue;
-    if (instance === null || handler.instance === instance) {
-      handler.run(command);
-      return true;
-    }
-    fallback ??= handler;
-  }
-  if (fallback) {
-    fallback.run(command);
-    return true;
-  }
+  const candidates = handlers.filter((handler) => matches(handler, hostId, workspaceId, command.type)).reverse();
+  const own = instance === null ? candidates : candidates.filter((handler) => handler.instance === instance);
+  const others = instance === null ? [] : candidates.filter((handler) => handler.instance !== instance);
+  for (const handler of [...own, ...others]) if (handler.run(command) !== false) return true;
   return false;
 }
 
@@ -209,7 +202,7 @@ export function registerHandler(
   hostId: string,
   workspaceId: string,
   types: readonly GitCommandType[],
-  run: (command: GitCommand) => void,
+  run: (command: GitCommand) => unknown,
   instance: string | null = null,
   now = Date.now(),
 ): () => void {
@@ -217,8 +210,8 @@ export function registerHandler(
   handlers.push(handler);
   const fresh = pending.filter((entry) => now - entry.at < PENDING_MS);
   const due = fresh.filter((entry) => matches(handler, entry.hostId, entry.workspaceId, entry.command.type));
-  pending = fresh.filter((entry) => !due.includes(entry));
-  for (const entry of due) run(entry.command);
+  const taken = due.filter((entry) => run(entry.command) !== false);
+  pending = fresh.filter((entry) => !taken.includes(entry));
   return () => {
     const at = handlers.findIndex((other) => other.id === handler.id);
     if (at !== -1) handlers.splice(at, 1);

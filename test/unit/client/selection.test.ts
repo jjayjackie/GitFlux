@@ -101,6 +101,22 @@ test("delivery prefers the instance that has focus, and never queues", () => {
   assert.equal(pendingCount(), 0);
 });
 
+test("a handler that returns false passes the command on, also to one queued for later", () => {
+  const got: string[] = [];
+  registerHandler("a", "ws", ["focus-search"], (command) => (command.type === "focus-search" && command.area === "nav" ? got.push("nav") : false));
+  registerHandler("a", "ws", ["focus-search"], (command) => (command.type === "focus-search" && command.area === "graph" ? got.push("graph") : false));
+  assert.ok(deliver("a", "ws", { type: "focus-search", area: "nav" }));
+  assert.ok(deliver("a", "ws", { type: "focus-search", area: "graph" }));
+  assert.equal(deliver("a", "ws", { type: "focus-search", area: "changes" }), false);
+  assert.deepEqual(got, ["nav", "graph"]);
+  assert.equal(dispatch("a", "ws2", { type: "focus-search", area: "changes" }, 1_000), false);
+  registerHandler("a", "ws2", ["focus-search"], () => false, null, 1_100);
+  assert.equal(pendingCount(), 1);
+  registerHandler("a", "ws2", ["focus-search"], () => got.push("changes"), null, 1_200);
+  assert.equal(pendingCount(), 0);
+  assert.deepEqual(got, ["nav", "graph", "changes"]);
+});
+
 test("removing a handler stops it", () => {
   const got: string[] = [];
   const remove = registerHandler("a", "ws", ["fetch"], () => got.push("x"));

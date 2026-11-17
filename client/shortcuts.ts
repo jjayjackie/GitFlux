@@ -35,6 +35,8 @@ export const SHORTCUTS: readonly Shortcut[] = [
   { chord: "Alt+3", command: { type: "show-tab", tab: "branches" }, description: "shortcuts.showBranches" },
   { chord: "Escape", command: { type: "close-detail" }, description: "shortcuts.closeDetail" },
   { chord: "?", command: { type: "show-shortcuts" }, description: "shortcuts.showShortcuts" },
+  { chord: "F7", command: { type: "diff-step", delta: 1 }, description: "shortcuts.nextChange" }, // as VS Code's diff editor
+  { chord: "Shift+F7", command: { type: "diff-step", delta: -1 }, description: "shortcuts.previousChange" },
 ];
 
 const byChord = new Map(SHORTCUTS.map((shortcut) => [shortcut.chord, shortcut]));
