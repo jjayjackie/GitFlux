@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { existsSync, mkdirSync, symlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { after, test } from "node:test";
-import { changesDiscardRpc, changesHunksRpc, changesMarkersRpc, changesStageRpc, changesUnstageRpc } from "../../shared/rpc/changes.ts";
+import { changesDiscardRpc, changesMarkersRpc, changesStageRpc, changesUnstageRpc } from "../../shared/rpc/changes.ts";
 import { repoStatusRpc } from "../../shared/rpc/repo.ts";
 import { safetyRestoreRpc, safetySnapshotsRpc } from "../../shared/rpc/safety.ts";
 import { failure, startPlugin } from "../helpers/plugin.ts";
@@ -127,11 +127,4 @@ test("paths that leave the repository are refused before git runs", async (t) =>
     const { code } = await failure(plugin.call(changesStageRpc, { cwd: repo.cwd, files: [{ path, status: "M" }] }));
     assert.ok(code === "INVALID_ARGUMENT" || code === "PATH_OUTSIDE_REPOSITORY", `${path}: ${code}`);
   }
-});
-
-test("what is not written yet says so", async (t) => {
-  const repo = repository(t);
-  const { code, detail } = await failure(plugin.call(changesHunksRpc, { cwd: repo.cwd, file: { path: "a.txt", status: "M" }, staged: false }));
-  assert.equal(code, "UNKNOWN");
-  assert.match(detail, /Not implemented yet: git\.changes\.hunks/);
 });
