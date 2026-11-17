@@ -117,14 +117,16 @@ async function list(ctx: HandlerContext): Promise<BranchList> {
 
 // --- create --------------------------------------------------------------------------------------------
 
-/** The full name of the remote-tracking branch `revision` names, or null when it names something else. */
+/**
+ * The full name of the remote-tracking branch `revision` names (`origin/main` or `refs/remotes/origin/main`), or null
+ * when it names something else.
+ */
 async function remoteTrackingRef(ctx: HandlerContext, revision: string): Promise<string | null> {
-  try {
-    const full = (await ctx.read(["rev-parse", "--symbolic-full-name", "--end-of-options", revision])).trim().split(/\r?\n/)[0] ?? "";
-    return full.startsWith("refs/remotes/") ? full : null;
-  } catch {
-    return null;
-  }
+  // By name, not through rev-parse: a short name like `origin/main` is a remote-tracking branch when
+  // refs/remotes/origin/main exists (git's own lookup order puts a local branch of that name first, which create's
+  // callers never mean when they ask to track).
+  const full = revision.startsWith("refs/remotes/") ? revision : `refs/remotes/${revision}`;
+  return (await refHash(ctx, full)) !== null ? full : null;
 }
 
 async function create(ctx: HandlerContext, input: ZodOutput<typeof branchCreateRpc.input>): Promise<void> {

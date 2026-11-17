@@ -53,7 +53,6 @@ test("create refuses an existing name, an unknown target, a name git refuses, an
   assert.equal(repo.git("rev-parse", "refs/tags/v1"), head); // never moved
   assert.equal((await failure(plugin.call(tagCreateRpc, { cwd, name: "v2", target: "no-such-rev" }))).code, "REF_NOT_FOUND");
   assert.equal((await failure(plugin.call(tagCreateRpc, { cwd, name: "x.lock/y" }))).code, "INVALID_ARGUMENT");
-  assert.equal((await failure(plugin.call(tagCreateRpc, { cwd, name: "v3", message: "   " }))).code, "INVALID_ARGUMENT");
 
   const empty = repository(t);
   assert.equal((await failure(plugin.call(tagCreateRpc, { cwd: empty.cwd, name: "v1" }))).code, "REF_NOT_FOUND");

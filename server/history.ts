@@ -447,13 +447,15 @@ async function fileHistory(ctx: HandlerContext, input: FileInput): Promise<FileH
     "--root",
     "--decorate=full",
     `--format=${FILE_FORMAT}`,
-    `--max-count=${input.limit + 1}`,
-    `--skip=${input.skip}`,
+    // With --follow, git learns the file's older name only as it shows the commit that renamed it: --skip would pass
+    // over that commit unseen and lose the trail. So a followed history is read from the start and cut here.
+    `--max-count=${(input.follow ? input.skip : 0) + input.limit + 1}`,
+    ...(input.follow ? [] : [`--skip=${input.skip}`]),
     "--end-of-options",
     start,
     "--",
     input.path,
   ]);
-  const commits = parseFileLog(out, input.path);
+  const commits = parseFileLog(out, input.path).slice(input.follow ? input.skip : 0);
   return { commits: commits.slice(0, input.limit), more: commits.length > input.limit };
 }

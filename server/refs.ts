@@ -22,7 +22,8 @@
 //   hasUnmerged(tools), hasLocalChanges(tools)  whether files are in conflict / anything (untracked too) would be
 //                                         stashed; each reads one record at most.
 //   checkedOutElsewhere(detail)           whether git refused because the branch is checked out in another work tree.
-//   deleteOnRemote(tools, remote, ref)    `git push --delete`; REF_NOT_FOUND when the remote has no such ref.
+//   deleteOnRemote(tools, remote, ref)    `git push --delete` of a full ref; REF_NOT_FOUND when the remote has no such
+//                                         ref (asked with ls-remote first: git reports that deletion as up to date).
 
 import { existsSync } from "node:fs";
 import { join } from "node:path";
@@ -274,10 +275,13 @@ export function checkedOutElsewhere(detail: string): boolean {
 }
 
 /**
- * `git push --delete <remote> <full ref>`. A ref the remote does not have is REF_NOT_FOUND: git words that as a
- * failure of its own ("remote ref does not exist") that the shared table does not read.
+ * `git push --delete <remote> <full ref>`. A ref the remote does not have is REF_NOT_FOUND. git does not say so for a
+ * full ref name: it treats `refs/…` as a new ref, and deleting one that is not there is "up to date", exit 0. So the
+ * remote is asked first (`ls-remote`, the exact name); git's own "remote ref does not exist" is read as well.
  */
 export async function deleteOnRemote(tools: GitTools, remote: string, ref: string): Promise<void> {
+  const listed = (await tools.git(["ls-remote", "--end-of-options", remote, ref], { kind: "network" })).stdout;
+  if (!listed.split(/\r?\n/).some((line) => line.endsWith(`\t${ref}`))) throw new GitError("REF_NOT_FOUND", `${remote} has no ${ref}`);
   try {
     await tools.git(["push", "--delete", "--end-of-options", remote, ref], { kind: "network" });
   } catch (error) {

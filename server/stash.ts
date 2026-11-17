@@ -139,8 +139,10 @@ async function save(ctx: HandlerContext, input: SaveInput): Promise<{ created: b
   if (!(await born(ctx))) throw new GitError("REF_NOT_FOUND", "You do not have the initial commit yet");
   if (await hasUnmerged(ctx)) throw new GitError("MERGE_CONFLICT", "Files are in conflict: resolve them before stashing");
   const before = await stashTip(ctx);
+  // No global --literal-pathspecs: `git stash push` runs further git commands with the pathspec `:/` (the whole tree)
+  // of its own, which that option would make a file named ":/" (keep-index and staged then fail, untracked files are
+  // not cleaned). Each path is made literal with its own magic instead.
   const args = [
-    "--literal-pathspecs",
     "stash",
     "push",
     ...(input.message === undefined ? [] : [`--message=${input.message}`]),
@@ -151,7 +153,7 @@ async function save(ctx: HandlerContext, input: SaveInput): Promise<{ created: b
   if (paths.length === 0) await ctx.git(args);
   // One stash for any number of paths: they go on stdin, NUL-separated, never on the command line (so no chunks,
   // which would make one stash per chunk).
-  else await ctx.git([...args, "--pathspec-from-file=-", "--pathspec-file-nul"], { stdin: paths.join("\0") });
+  else await ctx.git([...args, "--pathspec-from-file=-", "--pathspec-file-nul"], { stdin: paths.map((path) => `:(literal)${path}`).join("\0") });
   // "No local changes to save" succeeds too: whether refs/stash moved is the answer, not git's wording.
   const after = await stashTip(ctx);
   return { created: after !== null && after !== before };

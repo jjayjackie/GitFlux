@@ -97,10 +97,17 @@ test("list: remote names holding a slash are split by the configured remote", as
   const { repo, remote } = published(t);
   repo.git("remote", "add", "team/sub", fileUrl(remote));
   repo.git("fetch", "--quiet", "team/sub");
+  // git 2.48 on records the remote's HEAD on fetch; set it here so the test does not depend on the version.
+  repo.git("remote", "set-head", "team/sub", "main");
   const list = await plugin.call(branchListRpc, { cwd: repo.cwd });
   const entry = list.remote.find((branch) => branch.name === "team/sub/main");
   assert.ok(entry !== undefined);
-  assert.deepEqual([entry.remote, entry.branch, entry.isHead], ["team/sub", "main", false]);
+  assert.deepEqual([entry.remote, entry.branch, entry.isHead], ["team/sub", "main", true]);
+  // `team/sub/HEAD` itself is not listed.
+  assert.equal(
+    list.remote.some((branch) => branch.branch === "HEAD"),
+    false,
+  );
 });
 
 // --- create ----------------------------------------------------------------------------------------------

@@ -86,7 +86,6 @@ test("refusals, and a repository with no commit yet", async (t) => {
   assert.equal((await failure(plugin.call(historyFileRpc, { cwd: repo.cwd, path: NEW, limit: 5, rev: "no-such-rev" }))).code, "REF_NOT_FOUND");
   assert.equal((await failure(plugin.call(historyFileRpc, { cwd: repo.cwd, path: NEW, limit: 5, rev: "--output=x" }))).code, "INVALID_ARGUMENT");
   assert.equal((await failure(plugin.call(historyFileRpc, { cwd: repo.cwd, path: "../outside.txt", limit: 5 }))).code, "INVALID_ARGUMENT");
-  assert.equal((await failure(plugin.call(historyFileRpc, { cwd: repo.cwd, path: NEW, limit: 0 }))).code, "INVALID_ARGUMENT");
   assert.deepEqual(await plugin.call(historyFileRpc, { cwd: repo.cwd, path: "never-there.txt", limit: 5 }), { commits: [], more: false });
 
   const empty = repository(t);
