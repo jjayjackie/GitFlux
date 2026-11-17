@@ -52,7 +52,7 @@ if (!/^(latest|\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?)$/.test(options.paseoVersion)) fa
 if (!existsSync(join(options.pluginDir, "paseo-plugin.json"))) fatal(`${options.pluginDir} has no paseo-plugin.json`);
 const manifestId = JSON.parse(readFileSync(join(options.pluginDir, "paseo-plugin.json"), "utf8")).id;
 if (manifestId !== PLUGIN_ID) fatal(`paseo-plugin.json id is ${manifestId}, expected ${PLUGIN_ID}`);
-for (const dependency of ["vscode-diff", "strip-json-comments", "highlight.js"]) {
+for (const dependency of ["vscode-diff", "strip-json-comments", "prismjs"]) {
   if (!existsSync(join(options.pluginDir, "node_modules", dependency)))
     fatal(`node_modules/${dependency} is missing: run npm ci --omit=dev in ${options.pluginDir} first`);
 }
