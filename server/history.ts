@@ -1,4 +1,5 @@
-// Reading history: the graph (with its search and filters), one commit, and two revisions compared.
+// Reading history: the graph (with its search and filters), one commit, two revisions compared, a file's history and
+// its blame (server/blame.ts).
 //
 // The graph is read as upstream reads it (`git log --date-order --decorate=full`, one commit more than asked to tell
 // whether there are more), with VS Code's Auto scope: HEAD, its upstream and the branch on a remote it was made from.
@@ -8,31 +9,46 @@
 // `tracked` follows VS Code 1.142.0's extensions/git/src/historyProvider.ts (the refs its Auto mode shows).
 // Copyright (c) Microsoft Corporation. Licensed under the MIT License: https://github.com/microsoft/vscode/blob/1.142.0/LICENSE.txt
 //
-// Still to write (registered with notImplemented): git.history.file, git.history.blame.
+// Exported for the other domains and the unit tests: parseRefs, parseLog, filterPlan, parseNameStatus, parseNumstat,
+// mergeCounts, changedFiles (server/stash.ts), parseShow, parseFileLog.
 
 import type { output as ZodOutput } from "zod";
 import { COMMIT_FILES_MAX, SEARCH_LIMIT } from "../shared/limits.ts";
-import { historyBlameRpc, historyCompareRpc, historyFileRpc, historyLogRpc, historyShowRpc, isFilterEmpty, type logFilterSchema, type LogScope, type Sync } from "../shared/rpc/history.ts";
+import {
+  historyBlameRpc,
+  historyCompareRpc,
+  historyFileRpc,
+  historyLogRpc,
+  historyShowRpc,
+  isFilterEmpty,
+  type FileCommit,
+  type FileHistory,
+  type logFilterSchema,
+  type LogScope,
+  type Sync,
+} from "../shared/rpc/history.ts";
 import type { Commit, CommitDetail, FileChange, Ref, Stats } from "../shared/schemas.ts";
+import { blame } from "./blame.ts";
 import { GitError } from "./core/errors.ts";
 import type { GitTools } from "./core/exec.ts";
-import { handle, notImplemented, type HandlerContext, type Registrar, type ServerDeps } from "./core/handler.ts";
-import { assertRevision } from "./core/validate.ts";
+import { handle, type HandlerContext, type Registrar, type ServerDeps } from "./core/handler.ts";
+import { assertInside, assertRevision } from "./core/validate.ts";
 import { baseOf } from "./repo.ts";
 
 export function register(server: Registrar, deps: ServerDeps): void {
   handle(server, deps, historyLogRpc, { kind: "read" }, (input, ctx) => log(ctx, input.scope, input.limit, input.skip, input.filter));
   handle(server, deps, historyShowRpc, { kind: "read" }, (input, ctx) => show(ctx, input.hash));
   handle(server, deps, historyCompareRpc, { kind: "read" }, (input, ctx) => compare(ctx, input.from, input.to));
-  notImplemented(server, deps, historyFileRpc);
-  notImplemented(server, deps, historyBlameRpc);
+  handle(server, deps, historyFileRpc, { kind: "read" }, (input, ctx) => fileHistory(ctx, input));
+  handle(server, deps, historyBlameRpc, { kind: "read" }, (input, ctx) => blame(ctx, input.path, input.rev));
 }
 
 // --- the graph -----------------------------------------------------------------------------------
 
 const FIELD = "\x1f";
 const RECORD = "\x1e";
-const FORMAT = ["%H", "%P", "%an", "%ae", "%at", "%D", "%s"].join("%x1f") + "%x1e";
+const FIELDS = ["%H", "%P", "%an", "%ae", "%at", "%D", "%s"];
+const FORMAT = FIELDS.join("%x1f") + "%x1e";
 const REMOTES = "refs/remotes/";
 
 /** Reads `%D` as printed under `--decorate=full`. */
@@ -284,8 +300,11 @@ export function mergeCounts(files: readonly FileChange[], counts: readonly Numst
   });
 }
 
-/** The files a diff changed, at most COMMIT_FILES_MAX of them, with their counts, and totals over every file. */
-async function changedFiles(tools: GitTools, diff: readonly string[]): Promise<{ files: FileChange[]; truncated: boolean; stats: Stats }> {
+/**
+ * The files a diff changed, at most COMMIT_FILES_MAX of them, with their counts, and totals over every file. `diff` is
+ * the command (`diff`, `show`…) and its arguments: `--name-status -z` and `--numstat -z` go in after its first word.
+ */
+export async function changedFiles(tools: GitTools, diff: readonly string[]): Promise<{ files: FileChange[]; truncated: boolean; stats: Stats }> {
   const files: FileChange[] = [];
   let truncated = false;
   const readNames = nameStatusReader((file) => {
@@ -352,4 +371,89 @@ async function compare(ctx: HandlerContext, fromRevision: string, toRevision: st
   ]);
   const [behind = "0", ahead = "0"] = counts.trim().split(/\s+/);
   return { files: changed.files, truncated: changed.truncated, ahead: Number(ahead) || 0, behind: Number(behind) || 0, from, to };
+}
+
+// --- one file's history ---------------------------------------------------------------------------------
+
+/** `git log -z --name-status --format=FILE_FORMAT`: each commit's header starts with U+001E and ends at a NUL. */
+const FILE_FORMAT = "%x1e" + FIELDS.join("%x1f");
+
+/**
+ * Reads `git log -z --name-status --format=FILE_FORMAT -- <path>`, as git lays it out: a header record, then (after a
+ * newline) the status and the path(s) of each file the commit changed, each record ending in NUL. A commit carries
+ * the path of the file in it and the status of the first file listed (with --follow there is only that one). Across
+ * a rename (R) or copy (C) the commit has the new path; the older commits carry the old one, which is where git goes
+ * on. A commit listed with no file (a merge git shows no diff for) keeps the path the newer commits led to, as M.
+ */
+export function parseFileLog(out: string, path: string): FileCommit[] {
+  const commits: FileCommit[] = [];
+  let current: FileCommit | null = null;
+  let follow = path; // the file's path in the next older commit
+  let found = false; // the current commit has its file
+  let status = "";
+  let from: string | null = null;
+  let wanted = 0; // paths still to read for the current entry
+  for (const raw of out.split("\0")) {
+    // A path is taken as it is (it may start with a newline); a header or a status follows git's newline.
+    const record = wanted > 0 ? raw : raw.replace(/^\n+/, "");
+    if (wanted === 0 && record.startsWith(RECORD)) {
+      const commit = parseCommit(record.slice(RECORD.length));
+      current = commit === null ? null : { ...commit, path: follow, status: "M" };
+      if (current !== null) commits.push(current);
+      found = false;
+      continue;
+    }
+    if (current === null) continue;
+    if (wanted === 0) {
+      if (record === "") continue;
+      status = record[0];
+      from = null;
+      wanted = status === "R" || status === "C" ? 2 : 1;
+      continue;
+    }
+    if (wanted === 2) {
+      from = record;
+      wanted = 1;
+      continue;
+    }
+    wanted = 0;
+    if (found) continue; // a folder's other files: the first one stands for the commit
+    found = true;
+    current.path = record;
+    current.status = status;
+    follow = (status === "R" || status === "C") && from !== null ? from : record;
+  }
+  return commits;
+}
+
+type FileInput = ZodOutput<typeof historyFileRpc.input>;
+
+async function fileHistory(ctx: HandlerContext, input: FileInput): Promise<FileHistory> {
+  assertInside(ctx.cwd, input.path);
+  let start: string;
+  if (input.rev !== undefined) start = await assertRevision(ctx.cwd, input.rev);
+  else {
+    start = (await ctx.read(["rev-parse", "--verify", "--quiet", "HEAD"], [1])).trim();
+    if (start === "") return { commits: [], more: false }; // no commit yet
+  }
+  // --follow takes one path, as given: --literal-pathspecs makes `:(glob)x` or `*` the file of that name. --root shows
+  // the first commit as adding the file even where log.showRoot is off.
+  const out = await ctx.read([
+    "--literal-pathspecs",
+    "log",
+    ...(input.follow ? ["--follow"] : []),
+    "--name-status",
+    "-z",
+    "--root",
+    "--decorate=full",
+    `--format=${FILE_FORMAT}`,
+    `--max-count=${input.limit + 1}`,
+    `--skip=${input.skip}`,
+    "--end-of-options",
+    start,
+    "--",
+    input.path,
+  ]);
+  const commits = parseFileLog(out, input.path);
+  return { commits: commits.slice(0, input.limit), more: commits.length > input.limit };
 }
