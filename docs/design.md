@@ -1,6 +1,6 @@
 # Design
 
-The panel is VS Code's Source Control view, release 1.142.0, inside Paseo: the same sections, the same behaviour, the same defaults and the same words. Someone who knows VS Code should find nothing to relearn. Where the panel cannot or does not follow VS Code, the difference is listed below with its reason.
+Advanced Git grew out of upstream's Source Control panel and keeps its rule: where VS Code (release 1.142.0) has a behaviour, a default or words for something, the panel takes them. What VS Code's Source Control view lacks — branches, remotes, tags, stashes, worktrees, submodules, interactive rebase, conflict resolution, blame — follows Git Graph, GitLens and Fork in layout, and git's own vocabulary in its words. The core of it is VS Code's Source Control view inside Paseo: the same sections, the same behaviour, the same defaults and the same words. Someone who knows VS Code should find nothing to relearn. Where the panel cannot or does not follow VS Code, the difference is listed below with its reason.
 
 ## Where behaviour comes from
 
@@ -30,12 +30,14 @@ The host's theme comes first: surfaces, text, borders and accents are Paseo's. W
 
 ## Fonts
 
-Text is Paseo's, in its font and smoothed as Paseo smooths it. Code in the diff is drawn as VS Code draws it by default: its lines 1.5 times the size of the font, and smoothed as the system smooths text, fuller than Paseo smooths its own. Paseo does not tell plugins the "Code font" and "Code size" set in its settings, so the diff takes Paseo's default code font, at 16 pixels.
+Text is Paseo's, in its font and smoothed as Paseo smooths it. Code in the diff is drawn as VS Code draws it by default: its lines 1.5 times the size of the font, and smoothed as the system smooths text, fuller than Paseo smooths its own. Paseo does not tell plugins the "Code font" and "Code size" set in its settings, so the diff takes Paseo's default code font, at the size chosen in the plugin's own settings (13 pixels by default).
 
 ## What the host allows
 
 - **A panel, and nothing outside it.** The plugin API offers no popover or overlay, only a modal that covers the window. Dialogs are that modal; hints, menus and cards are drawn inside the panel, over its own content.
-- **No editor.** There is no gutter to mark changes in, no merge editor, no editor to write a commit message in. The diff is a workspace tab the plugin draws itself.
+- **No editor.** There is no gutter to mark changes in, no merge editor, no editor to write a commit message in. The diff, and the conflict view that stands in for a merge editor, are drawn by the plugin in the panel's detail column.
+- **No terminal.** Git runs without one, so a password, passphrase or host-key prompt cannot be answered: the daemon's user needs an SSH agent or a credential helper.
+- **Settings per host.** Paseo 0.14 keeps plugin settings per host, so view preferences are shared by everyone on that host.
 - **No status bar and no badge.** The repository list carries the branch and its sync state that VS Code puts in the status bar.
 - **Phones.** In the compact layout rows are taller, and the repository list takes at most a quarter of the panel.
 - **Agents run in the same app.** Restarting Paseo, or disabling and enabling the plugin, interrupts them.
@@ -45,14 +47,15 @@ Text is Paseo's, in its font and smoothed as Paseo smooths it. Code in the diff 
 | Difference | Why |
 | --- | --- |
 | Changed files show as a tree of folders by default | Chosen for this panel; VS Code defaults to a list |
-| The selected repository is fetched every three minutes by default | The panel has no settings page to turn it on; VS Code's `git.autofetch` is off by default |
-| No action switches or creates branches | Branches are the agents' to manage |
+| The selected repository is fetched every three minutes by default (a setting turns it off) | Agents push from elsewhere; VS Code's `git.autofetch` is off by default |
 | The Repositories section always shows | With no status bar, it is the only place the branch and its sync state show |
-| Long lines wrap in the diff | The diff tab is often narrow |
+| Long lines wrap in the diff by default (a setting turns it off) | The detail column is often narrow |
 | A commit's card shows above the graph, not beside its row | A plugin can draw nothing outside its panel; above the graph the card leaves every commit in view |
 | While a card shows, another commit's takes its place once the pointer has rested on it for 150 milliseconds, not at once | On its way up to the card the pointer crosses other commits |
-| The diff's code is 16 pixels, whatever size is set in Paseo or in VS Code | Paseo does not tell plugins its "Code size", and VS Code's settings are never read; 16 is chosen for this panel |
-| The switch that folds unchanged lines in the diff is kept by the diff tab | VS Code keeps it as a setting, `diffEditor.hideUnchangedRegions.enabled`, and the panel never writes VS Code's settings |
+| The diff's code size is the plugin's own setting, whatever size is set in Paseo or in VS Code | Paseo does not tell plugins its "Code size", and VS Code's settings are never read |
+| The switch that folds unchanged lines in the diff is the plugin's own setting | VS Code keeps it as `diffEditor.hideUnchangedRegions.enabled`, and the panel never writes VS Code's settings |
+| Side by side needs 600 pixels, not 900 | The detail column is a share of the panel; at 900 it would almost never be side by side |
+| Destructive operations VS Code allows (force push, hard reset, deleting unmerged branches) are off until allowed per host | Agents and people share the repository; a snapshot is taken before tracked changes can be lost |
 | A folded region does not say which function or class it hides | VS Code takes those from the language's outline; a plugin has none |
 | A region opened by hand folds again once a change above it or in it moves it | VS Code carries what is open through each edit; the panel knows a region by where it is |
 | Phones have no overview ruler | A phone's diff is narrow, and a finger scrolls it |
@@ -69,8 +72,8 @@ The panel runs inside Paseo's window: running out of memory there closes every a
 
 ## Nothing lost by accident
 
-Every action that destroys work asks first, in VS Code's words. Untracked files that are discarded go to the Trash where the system has one, and the panel asks before deleting them for good where it does not.
+Every action that destroys work asks first, in VS Code's words where it has them, and lists what will be lost. Force push, hard reset, force deletion and deletion on a remote are refused by the daemon unless the host's settings allow them and the call says it was confirmed; protected branches are refused whatever the settings say. Before tracked changes can be lost the daemon records them under `refs/advanced-git/snapshots/`. Untracked files that are discarded go to the Trash where the system has one, and the panel asks before deleting them for good where it does not.
 
 ## Words
 
-The panel's text is English, and VS Code's own wherever VS Code has words for the same thing. Every button says what it does when the pointer rests on it.
+The panel's text is in English and Simplified Chinese, following Paseo's language; the English is VS Code's own wherever VS Code has words for the same thing, and the Chinese uses the standard Git terms (暂存、变基、储藏、拣选…). Every button says what it does when the pointer rests on it.
