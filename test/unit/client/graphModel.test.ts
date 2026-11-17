@@ -4,6 +4,9 @@ import { layout } from "../../../client/views/graph/lanes.ts";
 import {
   ancestry,
   badgeColour,
+  fullRef,
+  limitRefs,
+  shortRef,
   badgeLayout,
   EMPTY_SELECTION,
   isFullHash,
@@ -141,4 +144,29 @@ test("ancestry of HEAD, as far as the loaded commits tell", () => {
   assert.equal(ancestry(commits, "h", "q"), "unknown"); // not loaded, not named
   assert.equal(ancestry(commits, "zz", "b"), "unknown"); // HEAD not loaded
   assert.equal(ancestry(commits, null, "b"), "no");
+});
+
+test("a ref the graph is limited to has its full name, so a branch and a tag of one name do not mix", () => {
+  assert.equal(fullRef("branch", "main"), "refs/heads/main");
+  assert.equal(fullRef("head", "main"), "refs/heads/main");
+  assert.equal(fullRef("remote", "origin/feature/x"), "refs/remotes/origin/feature/x");
+  assert.equal(fullRef("tag", "main"), "refs/tags/main");
+  assert.equal(shortRef("refs/remotes/origin/feature/x"), "origin/feature/x");
+  assert.equal(shortRef("refs/tags/v1.0.0"), "v1.0.0");
+  assert.equal(shortRef("HEAD"), "HEAD");
+});
+
+test("show only, also show and hide change the refs the graph is limited to; none left shows every branch", () => {
+  const main = "refs/heads/main";
+  const tag = "refs/tags/v1.0.0";
+  assert.deepEqual(limitRefs(null, "only", main), [main]);
+  assert.deepEqual(limitRefs([main, tag], "only", tag), [tag]);
+  assert.deepEqual(limitRefs(null, "add", tag), [tag]);
+  assert.deepEqual(limitRefs([main], "add", tag), [main, tag]);
+  assert.deepEqual(limitRefs([main], "add", main), [main]);
+  assert.deepEqual(limitRefs([main, tag], "remove", main), [tag]);
+  assert.equal(limitRefs([main], "remove", main), null);
+  assert.equal(limitRefs(null, "remove", main), null);
+  const many = Array.from({ length: 150 }, (_, index) => `refs/heads/b${index}`);
+  assert.equal(limitRefs(many, "add", main)?.length, 100);
 });

@@ -89,6 +89,12 @@ for a merge commit, optionally without committing or recording the origin), rese
 mixed, keep, or hard — hard only when allowed, never on a protected branch, after typing the branch name, with a safety
 snapshot), start an interactive rebase from it, merge or rebase onto its branch, compare two commits, copy its hash.
 
+Pressing a branch, remote branch or tag badge opens the same menu as its row in the navigation (Git Graph's ref menus):
+check out, merge into or rebase the current branch, **pull a remote branch into the current one**, create a branch or
+tag from it, rename, delete (on a remote too, when allowed), push, set or unset the upstream, compare with the current
+branch, copy its name, and **show only it in the graph** — then add other refs to the graph, take them out again, or
+show every branch from the strip above the list.
+
 **Interactive rebase** lists the commits after the chosen base, oldest first, to pick, reword (with the new message
 written in place), edit, squash, fixup or drop, and reorder. It checks the plan as you go, warns about commits already
 pushed (and requires saying so explicitly), about merge commits in the range, and about a protected branch. A rebase

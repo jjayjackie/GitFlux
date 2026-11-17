@@ -5,20 +5,13 @@
 
 import { View } from "react-native";
 import { useT } from "../../i18n/messages.ts";
-import { DeleteBranchDialog } from "../../dialogs/refs/DeleteBranchDialog.tsx";
-import type { DeleteBranchDialogProps } from "../../dialogs/refs/DeleteBranchDialog.tsx";
-import { DeleteRemoteBranchDialog } from "../../dialogs/refs/DeleteRemoteBranchDialog.tsx";
-import type { DeleteRemoteBranchDialogProps } from "../../dialogs/refs/DeleteRemoteBranchDialog.tsx";
+import { branchMenu, remoteBranchMenu } from "../../dialogs/refs/refMenus.ts";
 import { EditRemoteUrlDialog } from "../../dialogs/refs/EditRemoteUrlDialog.tsx";
 import type { EditRemoteUrlDialogProps } from "../../dialogs/refs/EditRemoteUrlDialog.tsx";
 import { RemoveRemoteDialog } from "../../dialogs/refs/RemoveRemoteDialog.tsx";
 import type { RemoveRemoteDialogProps } from "../../dialogs/refs/RemoveRemoteDialog.tsx";
-import { RenameBranchDialog } from "../../dialogs/refs/RenameBranchDialog.tsx";
-import type { RenameBranchDialogProps } from "../../dialogs/refs/RenameBranchDialog.tsx";
 import { RenameRemoteDialog } from "../../dialogs/refs/RenameRemoteDialog.tsx";
 import type { RenameRemoteDialogProps } from "../../dialogs/refs/RenameRemoteDialog.tsx";
-import { SetUpstreamDialog } from "../../dialogs/refs/SetUpstreamDialog.tsx";
-import type { SetUpstreamDialogProps } from "../../dialogs/refs/SetUpstreamDialog.tsx";
 import { Badge } from "../../ui/Badge.tsx";
 import * as codicon from "../../ui/codicons.ts";
 import { MoreButton, separator, useContextMenu } from "../../ui/floating/Menu.tsx";
@@ -43,7 +36,6 @@ export function BranchRow({ row, env }: RowViewProps<"branch">) {
   const th = useTheme();
   const { t } = useT();
   const branch = row.branch;
-  const { cwd, dialogs, actions } = env;
   const name = branch.name;
   const isCurrent = branch.current || name === env.current;
   const elsewhere = branch.worktree !== null && !isCurrent ? branch.worktree : null;
@@ -54,52 +46,7 @@ export function BranchRow({ row, env }: RowViewProps<"branch">) {
   const press = useDoublePress(row.key, env, () => {
     if (canCheckout) checkout();
   });
-  const checkoutReason = isCurrent ? t("branch.isCurrent") : elsewhere !== null ? t("branch.otherWorktree", { path: elsewhere }) : null;
-  const deleteReason = checkoutReason ?? (branch.protected ? t("branch.protected") : null);
-
-  const items = (): MenuItem[] => [
-    { id: "checkout", label: t("branch.checkout"), icon: codicon.gitBranch, disabled: !canCheckout, reason: checkoutReason, onPress: checkout },
-    { id: "merge", label: t("branch.merge"), disabled: isCurrent, reason: isCurrent ? t("branch.isCurrent") : null, onPress: () => env.dispatch({ type: "merge", ref: name }) },
-    { id: "rebase", label: t("branch.rebase"), disabled: isCurrent, reason: isCurrent ? t("branch.isCurrent") : null, onPress: () => env.dispatch({ type: "rebase", onto: name }) },
-    separator("s1"),
-    { id: "create", label: t("branch.createFrom"), icon: codicon.add, onPress: () => env.dispatch({ type: "create-branch", startPoint: name }) },
-    { id: "rename", label: t("branch.rename"), onPress: () => dialogs.open<RenameBranchDialogProps>(RenameBranchDialog, { cwd, name }) },
-    {
-      id: "delete",
-      label: t("branch.delete"),
-      icon: "Trash2",
-      danger: true,
-      disabled: deleteReason !== null,
-      reason: deleteReason,
-      onPress: () => dialogs.open<DeleteBranchDialogProps>(DeleteBranchDialog, { cwd, name }),
-    },
-    separator("s2"),
-    { id: "setUpstream", label: t("branch.setUpstream"), onPress: () => dialogs.open<SetUpstreamDialogProps>(SetUpstreamDialog, { cwd, name, upstream: branch.upstream }) },
-    {
-      id: "unsetUpstream",
-      label: t("branch.unsetUpstream"),
-      disabled: branch.upstream === null || actions.can.branch.disabled,
-      reason: branch.upstream === null ? t("branch.noUpstream") : actions.can.branch.reason,
-      onPress: () => void actions.unsetUpstream(name),
-    },
-    {
-      id: "push",
-      label: t("branch.push"),
-      icon: codicon.repoPush,
-      disabled: actions.can.push.disabled,
-      reason: actions.can.push.reason,
-      onPress: () => (isCurrent ? void env.dispatch({ type: "push" }) : void actions.pushBranch(name, branch.upstream !== null)),
-    },
-    separator("s3"),
-    {
-      id: "compare",
-      label: t("branch.compare"),
-      disabled: isCurrent,
-      reason: isCurrent ? t("branch.isCurrent") : null,
-      onPress: () => env.setDetail({ kind: "compare", from: env.current ?? HEAD, to: name }),
-    },
-    { id: "copy", label: t("branch.copyName"), icon: codicon.copy, onPress: () => env.copy(name) },
-  ];
+  const items = (): MenuItem[] => branchMenu(t, env, branch);
   const menu = useContextMenu(items);
 
   const hint = [
@@ -220,31 +167,12 @@ export function RemoteRow({ row, env }: RowViewProps<"remote">) {
 export function RemoteBranchRow({ row, env }: RowViewProps<"remoteBranch">) {
   const th = useTheme();
   const { t } = useT();
-  const { cwd, dialogs } = env;
   const branch = row.branch;
   const selected = env.focused === row.key;
   const [hovered, hover] = useHovered();
   const checkout = () => env.dispatch({ type: "checkout", kind: "remote", ref: branch.name });
   const press = useDoublePress(row.key, env, checkout);
-  const gate = env.gate("allowRemoteDelete", branch.branch);
-  const items = (): MenuItem[] => [
-    { id: "checkout", label: t("remote.branch.checkout"), icon: codicon.gitBranch, onPress: checkout },
-    { id: "merge", label: t("branch.merge"), onPress: () => env.dispatch({ type: "merge", ref: branch.name }) },
-    { id: "rebase", label: t("branch.rebase"), onPress: () => env.dispatch({ type: "rebase", onto: branch.name }) },
-    separator("s1"),
-    {
-      id: "delete",
-      label: t("remote.branch.delete"),
-      icon: "Trash2",
-      danger: true,
-      disabled: !gate.allowed,
-      reason: gate.reason,
-      onPress: () => dialogs.open<DeleteRemoteBranchDialogProps>(DeleteRemoteBranchDialog, { cwd, remote: branch.remote, branch: branch.branch }),
-    },
-    separator("s2"),
-    { id: "compare", label: t("branch.compare"), onPress: () => env.setDetail({ kind: "compare", from: env.current ?? HEAD, to: branch.name }) },
-    { id: "copy", label: t("branch.copyName"), icon: codicon.copy, onPress: () => env.copy(branch.name) },
-  ];
+  const items = (): MenuItem[] => remoteBranchMenu(t, env, branch);
   const menu = useContextMenu(items);
   return (
     <View {...hover}>

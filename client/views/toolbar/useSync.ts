@@ -12,6 +12,7 @@
 //   <Button label={t("toolbar.fetch")} disabled={sync.disabled} reason={sync.reason} onPress={() => void sync.fetch()} />
 
 import { useToast } from "@getpaseo/plugin/client/ui";
+import { useRef } from "react";
 import { gitErrorFrom } from "../../../shared/errors.ts";
 import type { GitErrorCode } from "../../../shared/errors.ts";
 import { remoteFetchRpc, remoteListRpc, remotePullRpc, remotePushRpc, remoteSyncRpc } from "../../../shared/rpc/remote.ts";
@@ -48,6 +49,8 @@ export interface Sync {
   fetch(options?: { all?: boolean; prune?: boolean }): Promise<void>;
   /** Pulls with `mode`, which is remembered as the Pull button's; the remembered one when omitted. */
   pull(mode?: PullMode): Promise<void>;
+  /** Pulls `branch` of `remote` into the current branch (Git Graph's "Pull into current branch"), after asking. */
+  pullFrom(remote: string, branch: string): Promise<void>;
   /** Pushes; publishes a branch that has no upstream. */
   push(): Promise<void>;
   publish(): Promise<void>;
@@ -101,16 +104,19 @@ export function useSync(cwd: string): Sync {
     } else toastError(error);
   }
 
+  // The remote branch a pullFrom is pulling, for its result's words; null for a pull from the upstream.
+  const pullingFrom = useRef<string | null>(null);
   const pullWords = (result: PullResult): string | null => {
+    const from = pullingFrom.current;
     switch (result) {
       case "up-to-date":
         return t("toolbar.result.upToDate");
       case "fast-forward":
         return t("toolbar.result.fastForwarded");
       case "merged":
-        return t("toolbar.result.merged");
+        return from === null ? t("toolbar.result.merged") : t("toolbar.result.mergedFrom", { ref: from });
       case "rebased":
-        return t("toolbar.result.rebased");
+        return from === null ? t("toolbar.result.rebased") : t("toolbar.result.rebasedOnto", { ref: from });
       default:
         return null; // conflicts: said by `conflicted`, as a warning
     }
@@ -173,6 +179,29 @@ export function useSync(cwd: string): Sync {
     await pullMutation.run({ mode });
   };
 
+  const pullFrom = async (remote: string, from: string) => {
+    const ref = `${remote}/${from}`;
+    const current = status?.branch ?? null;
+    if (current === null || status?.detached) {
+      toast.error(t("toolbar.detachedReason"));
+      return;
+    }
+    const mode = pullMode === "merge" ? t("toolbar.mode.merge") : pullMode === "rebase" ? t("toolbar.mode.rebase") : t("toolbar.mode.ffOnly");
+    const yes = await dialogs.confirm({
+      title: t("toolbar.pullFrom.title", { ref, branch: current }),
+      body: t("toolbar.pullFrom.body", { ref, branch: current, mode }),
+      confirmLabel: t("toolbar.pull"),
+      testID: "ag-pull-from",
+    });
+    if (!yes) return;
+    pullingFrom.current = ref;
+    try {
+      await pullMutation.run({ mode: pullMode, remote, branch: from });
+    } finally {
+      pullingFrom.current = null;
+    }
+  };
+
   const offerPublish = async () => {
     const name = status?.branch ?? null;
     if (name === null) {
@@ -227,6 +256,7 @@ export function useSync(cwd: string): Sync {
     remotes: remoteQuery.data?.remotes ?? [],
     fetch,
     pull,
+    pullFrom,
     push,
     publish,
     forcePush,

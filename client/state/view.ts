@@ -14,6 +14,7 @@ import { useTabState } from "@getpaseo/plugin/client";
 import { createContext, createElement, useCallback, useContext, useMemo, useRef } from "react";
 import type { ReactNode } from "react";
 import { z } from "zod";
+import { LOG_REFS_MAX } from "../../shared/limits.ts";
 
 const KEY_MAX = 1_024; // characters of an id or a node key
 const LIST_MAX = 2_000; // ids kept in a list
@@ -49,8 +50,13 @@ export const viewStateSchema = z.object({
       search: z.string().max(KEY_MAX).catch(""),
       field: z.enum(["message", "author", "hash", "path", "content"]).catch("message"),
       noMerges: z.boolean().catch(false),
+      /** "Show only this branch": full ref names the graph is limited to, in the repository at `root` only. */
+      only: z
+        .object({ root: z.string().max(KEY_MAX), refs: z.array(z.string().max(KEY_MAX)).min(1).max(LOG_REFS_MAX) })
+        .nullable()
+        .catch(null),
     })
-    .catch({ scope: null, search: "", field: "message", noMerges: false }),
+    .catch({ scope: null, search: "", field: "message", noMerges: false, only: null }),
   /** Small strings a view keeps (its selected tab, a mode): use `useViewExtra`. Keys "<area>.<name>". */
   extra: z.record(z.string().max(KEY_MAX), z.string().max(KEY_MAX)).catch({}),
 });
@@ -64,7 +70,7 @@ export const DEFAULT_VIEW: ViewState = {
   navOpen: true,
   repository: null,
   includeParent: false,
-  graph: { scope: null, search: "", field: "message", noMerges: false },
+  graph: { scope: null, search: "", field: "message", noMerges: false, only: null },
   extra: {},
 };
 

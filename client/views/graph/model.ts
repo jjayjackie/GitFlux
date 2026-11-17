@@ -1,7 +1,9 @@
 // The graph's row model, pure (unit-tested in test/unit/client/graphModel.test.ts): which ref badges a row shows and
 // which fold into "+N", how a press with modifier keys changes the multi-selection, the order picked commits are
-// applied in, and whether a commit is in HEAD's history as far as the loaded commits tell.
+// applied in, whether a commit is in HEAD's history as far as the loaded commits tell, and the refs the graph is
+// limited to ("show only this branch").
 
+import { LOG_REFS_MAX } from "../../../shared/limits.ts";
 import type { Commit, Ref } from "../../../shared/schemas.ts";
 import { width } from "./lanes.ts";
 import type { Rail } from "./lanes.ts";
@@ -192,4 +194,28 @@ export function ancestry(commits: readonly Pick<Commit, "hash" | "parents">[], h
     if (commit) stack.push(...commit.parents);
   }
   return byHash.has(hash) ? "no" : "unknown";
+}
+
+// --- the refs the graph is limited to -------------------------------------------------------------------------------
+
+const REF_PREFIX = { head: "refs/heads/", branch: "refs/heads/", remote: "refs/remotes/", tag: "refs/tags/" } as const;
+
+/** The full name of a ref the graph or the navigation shows by its short name: a branch and a tag never mix. */
+export function fullRef(kind: Ref["kind"], name: string): string {
+  return `${REF_PREFIX[kind]}${name}`;
+}
+
+/** The short name of a full ref name, as the badges show it. */
+export function shortRef(full: string): string {
+  for (const prefix of ["refs/heads/", "refs/remotes/", "refs/tags/"]) if (full.startsWith(prefix)) return full.slice(prefix.length);
+  return full;
+}
+
+/** What "show only", "also show" and "hide" make of the refs shown (null: every branch), at most LOG_REFS_MAX. */
+export function limitRefs(refs: readonly string[] | null, change: "only" | "add" | "remove", ref: string): string[] | null {
+  let next: string[] | null;
+  if (change === "only") next = [ref];
+  else if (change === "add") next = refs === null ? [ref] : refs.includes(ref) ? [...refs] : [...refs, ref];
+  else next = refs === null ? null : refs.filter((other) => other !== ref);
+  return next === null || next.length === 0 ? null : next.slice(0, LOG_REFS_MAX);
 }

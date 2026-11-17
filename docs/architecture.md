@@ -89,7 +89,9 @@ client/                  app half: React Native only, no DOM outside web.ts
   views/files/           the changed-files tree used by changes, commit, stash and comparison
   views/detail/          right column: a router over diff, conflict, commit, comparison, stash, file history, blame
   views/actions/         command-bus handlers always mounted, whatever the layout shows
-  dialogs/refs/          branch, remote, tag, stash, worktree, submodule dialogs and their command handlers
+  dialogs/refs/          branch, remote, tag, stash, worktree, submodule dialogs and their command handlers;
+                         refMenus.ts: a ref's menu, shared by the navigation rows and the graph's badges
+                         (RefMenu.tsx provides it around the shell)
   dialogs/history/       reset, cherry-pick, revert, interactive rebase, safety snapshots
   commands.ts            Command Center items
   settings/              the settings screen

@@ -20,6 +20,7 @@ import { List } from "../../ui/List.tsx";
 import { SearchField } from "../../ui/SearchField.tsx";
 import { useTheme } from "../../ui/theme.ts";
 import { useNavData } from "./data.ts";
+import { useGraphOnly } from "../graph/only.ts";
 import { useCopy, useGates, useNavActions } from "./env.ts";
 import type { NavEnv } from "./env.ts";
 import { buildNavRows, NAV_SECTIONS, normalizeFilter } from "./model.ts";
@@ -85,6 +86,7 @@ export function NavView({ repositories, selected, onSelect, cwd, truncated }: Na
   const copy = useCopy();
   const gate = useGates();
   const actions = useNavActions(cwd);
+  const graph = useGraphOnly(cwd);
   const formatTime = useFormatTime();
   const env: NavEnv = {
     cwd,
@@ -100,6 +102,7 @@ export function NavView({ repositories, selected, onSelect, cwd, truncated }: Na
     copy,
     gate,
     actions,
+    graph,
     toggle: toggleKey,
     toggleSection: (section) => setView({ collapsed: toggleId(view.collapsed, sectionId(section)) }),
     retry: data.retry,
