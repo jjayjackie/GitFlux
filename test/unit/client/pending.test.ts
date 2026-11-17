@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { layout } from "../../../client/legacy/lanes.ts";
-import { withPending } from "../../../client/legacy/pending.ts";
+import { layout } from "../../../client/views/graph/lanes.ts";
+import { withPending } from "../../../client/views/graph/pending.ts";
 
-const commit = (hash: string, ...parents: string[]) => ({ hash, parents, author: "Ada", time: 0, subject: hash, refs: [] });
+const commit = (hash: string, ...parents: string[]) => ({ hash, parents, author: "Ada", email: "ada@example.com", time: 0, subject: hash, refs: [] });
 // The base B, then two commits on the branch (H1, H2) and two on its upstream (U1, U2), in the log's order.
 const commits = [commit("U2", "U1"), commit("H2", "H1"), commit("U1", "B"), commit("H1", "B"), commit("B", "R"), commit("R")];
 const names = { branch: "main", upstream: "origin/main" };

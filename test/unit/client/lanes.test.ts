@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { layout } from "../../../client/legacy/lanes.ts";
+import { layout } from "../../../client/views/graph/lanes.ts";
 
 const commit = (hash: string, ...parents: string[]) => ({ hash, parents });
 

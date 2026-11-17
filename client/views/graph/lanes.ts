@@ -1,11 +1,12 @@
-// Gives every commit a lane, the way `git log --graph` lays history out.
+// Gives every commit a lane, the way `git log --graph` lays history out. Moved from upstream's paseo-source-control: client/lanes.ts
+// unchanged but for its import. Pure: unit-tested (test/unit/client/lanes.test.ts).
 //
 // A lane is a column that waits for one commit. A commit's dot sits in the leftmost lane
 // waiting for it; the other lanes waiting for it end there. Its first parent keeps the lane
 // and every further parent takes a lane of its own, so a branch stays in one column from
 // its tip down to the commit it forked from.
 
-import type { Commit } from "../../shared/git";
+import type { Commit } from "../../../shared/schemas.ts";
 
 /** What crosses one commit's row. Lanes are numbered from the left. */
 export interface Rail {
@@ -16,7 +17,7 @@ export interface Rail {
   below: number[]; // every lane alive under the row
 }
 
-export function layout(commits: Pick<Commit, "hash" | "parents">[]): Rail[] {
+export function layout(commits: readonly Pick<Commit, "hash" | "parents">[]): Rail[] {
   const lanes: (string | null)[] = []; // lane → the commit it waits for
   const free = () => {
     const lane = lanes.indexOf(null);
@@ -41,4 +42,4 @@ export function layout(commits: Pick<Commit, "hash" | "parents">[]): Rail[] {
 }
 
 /** The lanes a row needs room for. */
-export const width = (lanes: number[]) => Math.max(-1, ...lanes) + 1;
+export const width = (lanes: readonly number[]) => Math.max(-1, ...lanes) + 1;
