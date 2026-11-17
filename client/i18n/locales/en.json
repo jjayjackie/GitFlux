@@ -1,0 +1,1567 @@
+{
+  "panel": {
+    "title": "Advanced Git",
+    "noRepository": "No Git repository in this folder.",
+    "noRepositoryHint": "Open a folder that holds a Git repository, or open the repository this folder is in.",
+    "openParent": "Open {{name}}, the repository this folder is in",
+    "workspaceUnavailable": "This workspace is unavailable.",
+    "discoveryTruncated": "Only the first {{count}} repositories are listed.",
+    "loading": "Reading the repositories…",
+    "coming": "{{area}} is being built.",
+    "selectRepository": "Select a repository"
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "close": "Close",
+    "retry": "Retry",
+    "refresh": "Refresh",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copyFailed": "Could not copy. Select the text and use Copy.",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "clearSearch": "Clear search",
+    "loading": "Loading…",
+    "loadMore": "Load more",
+    "more": "More",
+    "moreActions": "More actions",
+    "none": "None",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "back": "Back",
+    "apply": "Apply",
+    "save": "Save",
+    "delete": "Delete",
+    "rename": "Rename",
+    "create": "Create",
+    "open": "Open",
+    "edit": "Edit",
+    "add": "Add",
+    "remove": "Remove",
+    "done": "Done",
+    "continue": "Continue",
+    "abort": "Abort",
+    "skip": "Skip",
+    "select": "Select",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "expand": "Expand {{name}}",
+    "collapse": "Collapse {{name}}",
+    "on": "On",
+    "off": "Off",
+    "unavailable": "Unavailable",
+    "required": "Required",
+    "noResults": "No results",
+    "nothingHere": "Nothing here yet.",
+    "results_one": "{{count}} result",
+    "results_other": "{{count}} results",
+    "items_one": "{{count}} item",
+    "items_other": "{{count}} items",
+    "typeToConfirm": "Type {{name}} to confirm",
+    "typeToConfirmMismatch": "The text does not match {{name}}.",
+    "willBeLost": "This will be lost:",
+    "cannotUndo": "This cannot be undone.",
+    "submenuBack": "Back to the previous menu",
+    "dismiss": "Dismiss",
+    "details": "Details",
+    "hideDetails": "Hide details",
+    "selected": "Selected",
+    "checked": "Checked",
+    "unchecked": "Not checked",
+    "busy": "Working…",
+    "andMore_one": "and {{count}} more",
+    "andMore_other": "and {{count}} more",
+    "openFileFailed": "Paseo did not open {{path}}."
+  },
+  "error": {
+    "toast": "{{title}}: {{detail}}",
+    "gitSaid": "Git said",
+    "fallbackDetail": "No further detail.",
+    "GIT_NOT_FOUND": {
+      "title": "Git was not found",
+      "hint": "Install Git on the host running Paseo and make sure it is on the daemon's PATH, then restart the daemon."
+    },
+    "NOT_A_REPOSITORY": {
+      "title": "Not a Git repository",
+      "hint": "The folder is not the top level of a Git work tree. It may have been moved or deleted; refresh the repository list."
+    },
+    "INVALID_ARGUMENT": {
+      "title": "Invalid input",
+      "hint": "Check the name, path or value you entered and try again."
+    },
+    "PATH_OUTSIDE_REPOSITORY": {
+      "title": "Path outside the repository",
+      "hint": "Only files inside the repository can be used here."
+    },
+    "REPOSITORY_BUSY": {
+      "title": "The repository is busy",
+      "hint": "Another operation on this repository took too long to finish. Wait for it, then try again."
+    },
+    "INDEX_LOCKED": {
+      "title": "The index is locked",
+      "hint": "Another Git process may be running. If none is, remove the .git/index.lock file by hand; Advanced Git never deletes it."
+    },
+    "TIMEOUT": {
+      "title": "Git took too long",
+      "hint": "Git was stopped after its time limit. Check the network or the repository's size, then try again."
+    },
+    "OUTPUT_TOO_LARGE": {
+      "title": "Too much output",
+      "hint": "Git produced more output than Advanced Git reads. Narrow the request, for example with a filter."
+    },
+    "AUTH_FAILED": {
+      "title": "Authentication failed",
+      "hint": "Configure a credential helper or ssh-agent for Git on the host running Paseo. Advanced Git never asks for passwords or tokens."
+    },
+    "HOST_KEY_VERIFICATION_FAILED": {
+      "title": "Host key verification failed",
+      "hint": "The remote's SSH host key is unknown or has changed. Verify it and add it to known_hosts on the host running Paseo."
+    },
+    "NETWORK": {
+      "title": "The remote could not be reached",
+      "hint": "Check the host's network connection and the remote's URL, then try again."
+    },
+    "REMOTE_REJECTED": {
+      "title": "The remote rejected the push",
+      "hint": "A hook or a protection rule on the remote refused it. Read Git's message below for the reason."
+    },
+    "NON_FAST_FORWARD": {
+      "title": "The branch has diverged",
+      "hint": "The remote has commits you do not have. Pull (or sync) first, then push again."
+    },
+    "NO_UPSTREAM": {
+      "title": "No upstream branch",
+      "hint": "This branch does not follow a remote branch. Publish it, or set its upstream."
+    },
+    "NO_REMOTE": {
+      "title": "No remote",
+      "hint": "The repository has no remote of that name. Add a remote first."
+    },
+    "MERGE_CONFLICT": {
+      "title": "Conflicts",
+      "hint": "The operation stopped on conflicts. Resolve them in the Changes view, then continue or abort."
+    },
+    "WOULD_OVERWRITE_CHANGES": {
+      "title": "Local changes are in the way",
+      "hint": "Commit or stash your changes first, or choose to stash them automatically."
+    },
+    "UNMERGED_BRANCH": {
+      "title": "The branch is not merged",
+      "hint": "Deleting it would lose commits. Merge it first, or force the delete if the safety settings allow it."
+    },
+    "REF_EXISTS": {
+      "title": "The name is already used",
+      "hint": "A branch, tag, remote or worktree of that name exists. Choose another name."
+    },
+    "REF_NOT_FOUND": {
+      "title": "Not found",
+      "hint": "The branch, tag, remote, stash or revision is no longer there. Refresh and try again."
+    },
+    "NOTHING_TO_COMMIT": {
+      "title": "Nothing to commit",
+      "hint": "Stage some changes first, or commit all changes."
+    },
+    "IDENTITY_MISSING": {
+      "title": "Your Git identity is not set",
+      "hint": "Set user.name and user.email in Git's configuration on the host running Paseo."
+    },
+    "OPERATION_IN_PROGRESS": {
+      "title": "An operation is in progress",
+      "hint": "A merge, rebase, cherry-pick, revert or bisect is under way. Continue or abort it first."
+    },
+    "NO_OPERATION": {
+      "title": "No operation in progress",
+      "hint": "There is nothing to continue, skip or abort. Refresh the repository."
+    },
+    "FORBIDDEN_BY_POLICY": {
+      "title": "Not allowed by the safety settings",
+      "hint": "Turn on “{{setting}}” in Advanced Git's safety settings for this host to allow it."
+    },
+    "PROTECTED_BRANCH": {
+      "title": "Protected branch",
+      "hint": "The branch matches a protected-branch pattern in the safety settings, so this operation is refused."
+    },
+    "CONFIRMATION_REQUIRED": {
+      "title": "Confirmation required",
+      "hint": "This operation can lose work and must be confirmed. Try again and confirm it."
+    },
+    "STALE_STATE": {
+      "title": "The repository changed",
+      "hint": "Something changed since it was read. It has been read again; check and try again."
+    },
+    "HOOK_FAILED": {
+      "title": "A Git hook failed",
+      "hint": "A hook in the repository refused the operation. Read its message below and fix what it reports."
+    },
+    "UNKNOWN": {
+      "title": "Git failed",
+      "hint": "Read Git's message below. If it does not explain the problem, try the same command in a terminal."
+    }
+  },
+  "host": {
+    "offline": "{{host}} is offline. Actions are disabled until it reconnects.",
+    "reconnecting": "Reconnecting to {{host}}…",
+    "reconnected": "Reconnected to {{host}}.",
+    "outcomeUnknown": "The connection was lost before {{host}} answered. The operation may or may not have finished; the repository is being read again.",
+    "offlineAction": "{{host}} is offline: this action is unavailable.",
+    "busy": "{{label}}",
+    "busyOther": "Wait for the running operation to finish."
+  },
+  "shell": {
+    "changes": "Changes",
+    "graph": "Graph",
+    "branches": "Branches",
+    "repositories": "Repositories",
+    "navigation": "Navigation",
+    "detail": "Details",
+    "toolbar": "Toolbar",
+    "showNavigation": "Show navigation",
+    "hideNavigation": "Hide navigation",
+    "resizeNavigation": "Resize navigation",
+    "resizeDetail": "Resize details",
+    "resizeChanges": "Resize changes and graph",
+    "resetSize": "Drag to resize, double-click to reset",
+    "back": "Back",
+    "closeDetail": "Close details",
+    "viewSwitcher": "View",
+    "nothingSelected": "Select a file or a commit to see it here."
+  },
+  "toolbar": {
+    "fetch": "Fetch",
+    "fetchHint": "Fetch from the remote",
+    "pull": "Pull",
+    "pullHint": "Pull into the current branch",
+    "push": "Push",
+    "pushHint": "Push the current branch",
+    "sync": "Sync",
+    "syncHint": "Pull, then push",
+    "publish": "Publish Branch",
+    "publishHint": "Push the branch and make it its upstream",
+    "ahead_one": "{{count}} commit to push",
+    "ahead_other": "{{count}} commits to push",
+    "behind_one": "{{count}} commit to pull",
+    "behind_other": "{{count}} commits to pull",
+    "detached": "Detached at {{hash}}",
+    "noCommits": "No commits yet",
+    "repository": "Repository",
+    "branch": "Branch",
+    "busy": {
+      "working": "Working…",
+      "fetching": "Fetching…",
+      "pulling": "Pulling…",
+      "pushing": "Pushing…",
+      "syncing": "Syncing…",
+      "committing": "Committing…",
+      "switching": "Switching…",
+      "merging": "Merging…",
+      "rebasing": "Rebasing…",
+      "resetting": "Resetting…",
+      "stashing": "Stashing…",
+      "staging": "Staging…",
+      "unstaging": "Unstaging…",
+      "discarding": "Discarding…",
+      "reverting": "Reverting…",
+      "cherryPicking": "Cherry-picking…",
+      "deleting": "Deleting…",
+      "tagging": "Tagging…",
+      "resolving": "Resolving…",
+      "updatingSubmodules": "Updating submodules…",
+      "restoring": "Restoring…"
+    },
+    "more": "More Git actions",
+    "moreOptions": "More ways to {{action}}",
+    "switchBranchHint": "Switch to another branch",
+    "switchBranchLabel": "Branch {{branch}}: switch to another branch",
+    "detachedReason": "HEAD is not on a branch. Switch to a branch first.",
+    "upstreamGone": "The upstream {{upstream}} no longer exists on the remote.",
+    "noUpstream": "This branch is not published yet.",
+    "mode": {
+      "merge": "merge",
+      "rebase": "rebase",
+      "ffOnly": "fast-forward only"
+    },
+    "pullWith": "Pull ({{mode}})",
+    "syncWith": "Sync ({{mode}})",
+    "pullModeHint": "Pull into the current branch ({{mode}})",
+    "syncModeHint": "Pull ({{mode}}), then push",
+    "fetchAllPrune": "Fetch From All Remotes and Prune",
+    "stash": "Stash Changes…",
+    "createBranch": "Create Branch…",
+    "shortcuts": "Keyboard Shortcuts",
+    "publishPick": "Pick a remote to publish the branch \"{{branch}}\" to:",
+    "publishOffer": "The branch \"{{branch}}\" has no remote branch. Would you like to publish this branch?",
+    "publishDetached": "HEAD is not on a branch: there is no branch to publish.",
+    "noRemotes": "Your repository has no remotes configured to publish to.",
+    "pullFirst": {
+      "title": "Can't push refs to remote. Pull first?",
+      "body": "The remote has commits that the branch does not have. Pull them first to integrate your changes, then push again."
+    },
+    "forcePush": {
+      "label": "Force Push (With Lease)…",
+      "title": "Force push to {{target}}?",
+      "body": "{{target}} on the remote will be replaced by your local {{branch}}, as long as nobody has pushed to it since your last fetch (--force-with-lease).",
+      "lost_one": "{{count}} commit only on {{target}}",
+      "lost_other": "{{count}} commits only on {{target}}",
+      "confirm": "Force Push",
+      "noUpstream": "The branch has no upstream to force push to."
+    },
+    "result": {
+      "fetched": "Fetched.",
+      "upToDate": "Already up to date.",
+      "fastForwarded": "Fast-forwarded.",
+      "merged": "Merged the upstream's changes.",
+      "rebased": "Rebased onto the upstream.",
+      "pulled": "Pulled.",
+      "pushed": "Pushed.",
+      "pulledAndPushed": "Pulled and pushed.",
+      "conflicts": "Stopped on conflicts. Resolve them in the Conflicts section of Changes."
+    },
+    "guidance": "{{title}}. {{hint}}",
+    "guidanceDetail": "{{title}}. {{hint}} Git said: {{detail}}",
+    "autoFetchFailed": "Auto fetch failed: {{reason}}"
+  },
+  "settings": {
+    "title": "Advanced Git",
+    "loading": "Loading settings…",
+    "loadFailed": "The settings could not be read.",
+    "invalid": "The stored settings are not valid. They are kept as they are until you reset them.",
+    "reloadLabel": "Read the settings again",
+    "reload": "Reload",
+    "resetLabel": "Restore the default settings",
+    "reset": "Reset",
+    "saveFailed": "The settings were not saved.",
+    "safety": {
+      "title": "Safety",
+      "info": "These settings belong to this host. Advanced Git's daemon reads them before every destructive operation; they are all off by default.",
+      "allowForcePush": {
+        "label": "Allow force push",
+        "hint": "Push with --force-with-lease (never a bare --force) after a confirmation.",
+        "warning": "On: a force push can replace commits other people have pulled."
+      },
+      "allowHardReset": {
+        "label": "Allow hard reset",
+        "hint": "Reset a branch with --hard after a confirmation.",
+        "warning": "On: a hard reset discards uncommitted changes in the work tree and the index."
+      },
+      "allowForceDelete": {
+        "label": "Allow force delete",
+        "hint": "Delete unmerged branches, remove worktrees with local changes, and clear all stashes.",
+        "warning": "On: commits only reachable from a deleted branch, and dropped stashes, can be lost."
+      },
+      "allowRemoteDelete": {
+        "label": "Allow deleting on remotes",
+        "hint": "Delete branches and tags on a remote.",
+        "warning": "On: deleting on a remote affects everyone who uses it."
+      },
+      "protectedBranches": {
+        "label": "Protected branches",
+        "hint": "Branch patterns that are never force-pushed, deleted or hard-reset, whatever the switches above say. Separate them with commas; * matches within a segment, ** across segments.",
+        "placeholder": "main, master, develop, release/*",
+        "saveLabel": "Save the protected branches",
+        "save": "Save",
+        "tooMany": "At most {{count}} patterns.",
+        "saved": "Protected branches saved."
+      },
+      "safetySnapshots": {
+        "label": "Safety snapshots",
+        "hint": "Before an operation that can discard tracked changes, record them under refs/advanced-git/snapshots so they can be restored."
+      }
+    },
+    "view": {
+      "title": "View",
+      "info": "These settings belong to this host: they apply to everyone using Advanced Git on it.",
+      "diffMode": {
+        "label": "Diff layout",
+        "hint": "Show diffs side by side or in one column.",
+        "split": "Side by side",
+        "unified": "Inline"
+      },
+      "diffWrap": {
+        "label": "Wrap long lines",
+        "hint": "Wrap lines in diffs instead of scrolling sideways."
+      },
+      "diffHideUnchanged": {
+        "label": "Collapse unchanged regions",
+        "hint": "Fold long stretches of unchanged lines in diffs."
+      },
+      "diffWhitespace": {
+        "label": "Whitespace",
+        "hint": "Whether changes in leading and trailing whitespace count as changes.",
+        "ignoreTrim": "Ignore leading and trailing whitespace",
+        "show": "Show all whitespace changes"
+      },
+      "syntaxHighlight": {
+        "label": "Syntax highlighting",
+        "hint": "Colour code in diffs by its language."
+      },
+      "codeFontSize": {
+        "label": "Code font size",
+        "hint": "The size of code in diffs and blame.",
+        "value": "{{size}} px"
+      },
+      "graphScope": {
+        "label": "Graph shows",
+        "hint": "Which branches the commit graph shows by default.",
+        "current": "The current branch",
+        "all": "All branches"
+      },
+      "autoFetch": {
+        "label": "Fetch automatically",
+        "hint": "Fetch the selected repository in the background."
+      },
+      "autoFetchMinutes": {
+        "label": "Fetch every",
+        "hint": "How often the selected repository is fetched in the background.",
+        "value_one": "{{count}} minute",
+        "value_other": "{{count}} minutes"
+      },
+      "confirmDiscard": {
+        "label": "Confirm before discarding",
+        "hint": "Ask before discarding changes to files."
+      },
+      "dateStyle": {
+        "label": "Dates",
+        "hint": "Show commit dates as relative times or as dates.",
+        "relative": "Relative (3 hours ago)",
+        "absolute": "Absolute (2026-01-31 14:05)"
+      }
+    },
+    "gate": {
+      "disabled": "Turned off by “{{setting}}” in the safety settings.",
+      "protected": "{{branch}} is a protected branch.",
+      "loading": "Reading the safety settings…"
+    }
+  },
+  "commands": {
+    "open": "Advanced Git: Open",
+    "fetch": "Advanced Git: Fetch",
+    "pull": "Advanced Git: Pull",
+    "push": "Advanced Git: Push",
+    "sync": "Advanced Git: Sync",
+    "commit": "Advanced Git: Commit",
+    "createBranch": "Advanced Git: Create Branch…",
+    "switchBranch": "Advanced Git: Switch Branch…",
+    "stash": "Advanced Git: Stash Changes…",
+    "refresh": "Advanced Git: Refresh"
+  },
+  "shortcuts": {
+    "title": "Keyboard shortcuts",
+    "intro": "Shortcuts work while Advanced Git has focus.",
+    "nativeLimit": "Keyboard shortcuts are available in the browser and the desktop app only.",
+    "commit": "Commit",
+    "fetch": "Fetch",
+    "pull": "Pull",
+    "push": "Push",
+    "sync": "Sync",
+    "refresh": "Refresh",
+    "createBranch": "Create a branch",
+    "switchBranch": "Switch branch",
+    "stash": "Stash changes",
+    "focusSearch": "Search the graph",
+    "focusFilter": "Filter the navigation",
+    "showShortcuts": "Show keyboard shortcuts",
+    "closeDetail": "Close details",
+    "toggleNavigation": "Show or hide the navigation",
+    "showChanges": "Show changes",
+    "showGraph": "Show the graph",
+    "showBranches": "Show branches",
+    "nextChange": "Next change in the diff",
+    "previousChange": "Previous change in the diff"
+  },
+  "time": {
+    "now": "now",
+    "ago": "{{span}} ago",
+    "in": "in {{span}}",
+    "absolute": "{{date}} {{time}}",
+    "unit": {
+      "second_one": "{{count}} second",
+      "second_other": "{{count}} seconds",
+      "minute_one": "{{count}} minute",
+      "minute_other": "{{count}} minutes",
+      "hour_one": "{{count}} hour",
+      "hour_other": "{{count}} hours",
+      "day_one": "{{count}} day",
+      "day_other": "{{count}} days",
+      "week_one": "{{count}} week",
+      "week_other": "{{count}} weeks",
+      "month_one": "{{count}} month",
+      "month_other": "{{count}} months",
+      "year_one": "{{count}} year",
+      "year_other": "{{count}} years"
+    }
+  },
+  "nav": {
+    "title": "Navigation",
+    "filter": "Filter",
+    "filterLabel": "Filter repositories, branches, remotes, tags, stashes, worktrees and submodules",
+    "repositories": "Repositories",
+    "loading": "Loading…",
+    "truncated": "The list was cut: only the first entries are shown.",
+    "discoveryTruncated_one": "Only the first {{count}} repository is listed.",
+    "discoveryTruncated_other": "Only the first {{count}} repositories are listed.",
+    "copyFailed": "Could not copy {{text}}.",
+    "repo": {
+      "repository": "Repository",
+      "submodule": "Submodule",
+      "worktree": "Worktree",
+      "detached": "Detached at {{hash}}",
+      "noCommits": "No commits yet",
+      "changed": "Changed files",
+      "staged": "Staged changes",
+      "conflicted": "Conflicts",
+      "operation": {
+        "merge": "Merging",
+        "rebase": "Rebasing",
+        "cherry-pick": "Cherry-picking",
+        "revert": "Reverting",
+        "bisect": "Bisecting",
+        "am": "Applying patches"
+      },
+      "failed": "Git could not read this repository: {{error}}",
+      "uninitialized": "Not initialised",
+      "initialize": "Initialise",
+      "initializeHint": "Initialise this submodule and check it out",
+      "initialized": "Initialised {{name}}.",
+      "show": "Show",
+      "copyPath": "Copy Path"
+    }
+  },
+  "changes": {
+    "title": "Changes",
+    "tree": {
+      "file": "{{path}}, {{status}}",
+      "folder_one": "Folder {{path}}, {{count}} changed file",
+      "folder_other": "Folder {{path}}, {{count}} changed files",
+      "renamedHint": "{{from}} → {{path}}"
+    },
+    "status": {
+      "modified": "Modified",
+      "added": "Added",
+      "deleted": "Deleted",
+      "renamed": "Renamed",
+      "copied": "Copied",
+      "typeChanged": "Type changed",
+      "conflict": "Conflict",
+      "untracked": "Untracked"
+    },
+    "filter": "Filter changes",
+    "filterLabel": "Filter files by path",
+    "viewAsList": "View as List",
+    "viewAsTree": "View as Tree",
+    "noMatch": "No file matches the filter.",
+    "staged": "Staged Changes",
+    "changes": "Changes",
+    "stage": "Stage Changes",
+    "stageNamed": "Stage {{path}}",
+    "stageAll": "Stage All Changes",
+    "unstage": "Unstage Changes",
+    "unstageNamed": "Unstage {{path}}",
+    "unstageAll": "Unstage All Changes",
+    "discardNamed": "Discard changes in {{path}}",
+    "discardAll": "Discard All Changes",
+    "openChanges": "Open Changes",
+    "openFile": "Open File",
+    "openFileNamed": "Open {{path}}",
+    "fileHistory": "Open File History",
+    "blame": "Blame",
+    "copyPath": "Copy Path",
+    "copyRelativePath": "Copy Relative Path",
+    "addToGitignore": "Add to .gitignore",
+    "ignored": "Added to .gitignore.",
+    "tooMany": {
+      "toast": "The git repository at \"{{path}}\" has too many active changes, only a subset of Git features will be enabled.",
+      "title": "Too many changes",
+      "text_one": "Too many changes were detected. Only the first {{count}} change will be shown below.",
+      "text_other": "Too many changes were detected. Only the first {{count}} changes will be shown below.",
+      "ignore": "Add \"{{folder}}\" to .gitignore",
+      "ignoreHint": "Add \"{{folder}}\" to the .gitignore at the repository's root"
+    },
+    "discard": {
+      "action": "Discard Changes",
+      "menu": "Discard Changes…",
+      "trackedOne": "Are you sure you want to discard changes in '{{name}}'?",
+      "trackedMany_one": "Are you sure you want to discard ALL changes in {{count}} file?",
+      "trackedMany_other": "Are you sure you want to discard ALL changes in {{count}} files?",
+      "restoreOne": "Are you sure you want to restore '{{name}}'?",
+      "restoreMany_one": "Are you sure you want to restore ALL {{count}} file?",
+      "restoreMany_other": "Are you sure you want to restore ALL {{count}} files?",
+      "untrackedOne": "Are you sure you want to DELETE the following untracked file: '{{name}}'?",
+      "untrackedMany_one": "Are you sure you want to DELETE the {{count}} untracked file?",
+      "untrackedMany_other": "Are you sure you want to DELETE the {{count}} untracked files?",
+      "irreversible": "This is IRREVERSIBLE! Your current working set will be FOREVER LOST if you proceed.",
+      "trashOne": "You can restore this file from the Trash.",
+      "trashMany": "You can restore these files from the Trash.",
+      "mixed": "The changes in {{tracked}} tracked files are lost for good; {{untracked}} untracked files are moved to the Trash, where you can restore them.",
+      "includeUntracked_one": "Also move the {{count}} untracked file to the Trash",
+      "includeUntracked_other": "Also move the {{count}} untracked files to the Trash",
+      "discardFile": "Discard File",
+      "discardAll_one": "Discard All {{count}} File",
+      "discardAll_other": "Discard All {{count}} Files",
+      "discardTracked_one": "Discard {{count}} Tracked File",
+      "discardTracked_other": "Discard {{count}} Tracked Files",
+      "restoreFile": "Restore File",
+      "restoreAll_one": "Restore All {{count}} File",
+      "restoreAll_other": "Restore All {{count}} Files",
+      "moveToTrash": "Move to Trash",
+      "permanentTitle": "Failed to delete using the Trash. Do you want to permanently delete instead?",
+      "deleteFile": "Delete File",
+      "deleteAll_one": "Delete All {{count}} File",
+      "deleteAll_other": "Delete All {{count}} Files"
+    },
+    "conflicts": {
+      "title": "Merge Changes",
+      "open": "Open Conflict",
+      "acceptOurs": "Accept Current (Ours)",
+      "acceptOursNamed": "Accept the current side of {{path}}",
+      "acceptTheirs": "Accept Incoming (Theirs)",
+      "acceptTheirsNamed": "Accept the incoming side of {{path}}",
+      "markResolved": "Mark Resolved",
+      "markResolvedNamed": "Mark {{path}} resolved",
+      "markAllResolved": "Mark All Resolved",
+      "stillMarked_one": "{{count}} file still holds conflict markers. Mark it resolved anyway?",
+      "stillMarked_other": "{{count}} files still hold conflict markers. Mark them resolved anyway?",
+      "stillMarkedBody": "The markers will be committed as they are unless you remove them first.",
+      "deleteFile": "Delete File…",
+      "deleteOne": "Delete {{path}}?",
+      "deleteMany_one": "Delete {{count}} file in conflict?",
+      "deleteMany_other": "Delete {{count}} files in conflict?",
+      "delete": "Delete"
+    },
+    "clean": {
+      "title": "No changes to commit",
+      "upToDate": "The branch is up to date with {{upstream}}.",
+      "ahead_one": "{{count}} commit is waiting to be pushed.",
+      "ahead_other": "{{count}} commits are waiting to be pushed.",
+      "behind_one": "{{count}} commit is waiting to be pulled.",
+      "behind_other": "{{count}} commits are waiting to be pulled.",
+      "diverged": "{{ahead}} commits to push and {{behind}} to pull.",
+      "unpublished": "The branch is not published yet.",
+      "detached": "HEAD is not on a branch."
+    }
+  },
+  "commit": {
+    "title": "Commit",
+    "message": "Commit message",
+    "moreActions": "More commit actions",
+    "commit": "Commit",
+    "commitSignedOff": "Commit (Signed Off)",
+    "commitStaged": "Commit Staged",
+    "commitAll": "Commit All",
+    "amend": "Commit (Amend)",
+    "commitPush": "Commit & Push",
+    "commitSync": "Commit & Sync",
+    "signoff": "Sign Off",
+    "commitHint": "Commit Changes",
+    "commitHintBranch": "Commit Changes on \"{{branch}}\"",
+    "continueHint": "Continue the operation in progress",
+    "continue": {
+      "merge": "Continue Merge",
+      "rebase": "Continue Rebase",
+      "cherryPick": "Continue Cherry-Pick",
+      "revert": "Continue Revert",
+      "bisect": "Continue Bisect",
+      "am": "Continue Applying Patches"
+    },
+    "placeholder": {
+      "chordOnBranch": "Message ({{chord}} to commit on \"{{branch}}\")",
+      "chord": "Message ({{chord}} to commit)",
+      "onBranch": "Message (commit on \"{{branch}}\")",
+      "plain": "Message"
+    },
+    "subjectLong": "The subject line is {{length}} characters; {{limit}} or fewer reads best.",
+    "subjectTooLong": "The subject line is {{length}} characters, more than {{limit}}.",
+    "blocked": {
+      "noMessage": "Write a commit message first.",
+      "nothingToCommit": "There are no changes to commit.",
+      "nothingStaged": "There are no staged changes to commit.",
+      "noCommits": "There is no commit to amend yet.",
+      "conflicts": "Resolve the files in conflict first.",
+      "operation": "Not possible while this operation is in progress: continue or abort it first."
+    },
+    "stageAll": {
+      "title": "There are no staged changes to commit.",
+      "body": "Would you like to stage all your changes and commit them directly?",
+      "confirm": "Yes"
+    },
+    "amendPushed": {
+      "title": "Amend a pushed commit?",
+      "body": "The last commit is already on {{upstream}}. Amending replaces it here, and the branch can then only be pushed by force.",
+      "lost": "{{hash}} as published on {{upstream}}",
+      "confirm": "Amend"
+    }
+  },
+  "graph": {
+    "title": "Graph",
+    "search": "Search commits",
+    "searchIn": "Search {{field}}",
+    "field": {
+      "label": "Search in",
+      "message": "Message",
+      "author": "Author",
+      "hash": "Hash",
+      "path": "Path",
+      "content": "Content"
+    },
+    "scope": {
+      "showAll": "Show All Branches",
+      "showCurrent": "Show the Current Branch Only"
+    },
+    "noMerges": "Hide Merge Commits",
+    "snapshots": "Safety Snapshots…",
+    "filtered": "Search results are listed without the graph's lanes.",
+    "clearFilter": "Clear Search",
+    "searchCapped": "Only the first {{count}} matches are shown. Refine the search to see the others.",
+    "capped": "Only the first {{count}} commits are loaded.",
+    "lanesCut": "More than {{count}} branches run side by side; the lanes beyond them are not drawn.",
+    "empty": "No commits yet.",
+    "noMatches": "No commits match the search.",
+    "incoming": "Incoming Changes",
+    "outgoing": "Outgoing Changes",
+    "row": "{{subject}}, {{author}}, {{time}}",
+    "headRow": "{{subject}}, {{author}}, {{time}}, checked out",
+    "pendingRow": "{{subject}}, {{name}}",
+    "selected_one": "{{count}} commit selected",
+    "selected_other": "{{count}} commits selected",
+    "clearSelection": "Clear Selection",
+    "copiedHash": "Commit hash copied",
+    "copiedSubject": "Subject copied",
+    "card": {
+      "when": "{{relative}} ({{absolute}})"
+    },
+    "stats": {
+      "files_one": "{{count}} file changed",
+      "files_other": "{{count}} files changed",
+      "insertions_one": "{{count}} insertion(+)",
+      "insertions_other": "{{count}} insertions(+)",
+      "deletions_one": "{{count}} deletion(-)",
+      "deletions_other": "{{count}} deletions(-)",
+      "filesShort_one": "{{count}} file",
+      "filesShort_other": "{{count}} files",
+      "added": "+{{count}}",
+      "removed": "−{{count}}"
+    },
+    "ref": {
+      "head": "Current branch {{name}}",
+      "branch": "Branch {{name}}",
+      "remote": "Remote branch {{name}}",
+      "tag": "Tag {{name}}",
+      "overflow": "+{{count}}",
+      "more": "Also: {{names}}",
+      "checkout": "Checkout {{name}}"
+    },
+    "menu": {
+      "checkout": "Checkout (Detached)",
+      "alreadyCheckedOut": "Already checked out",
+      "createBranch": "Create Branch Here…",
+      "createTag": "Create Tag Here…",
+      "cherryPick": "Cherry-Pick",
+      "cherryPickMany_one": "Cherry-Pick {{count}} Commit",
+      "cherryPickMany_other": "Cherry-Pick {{count}} Commits",
+      "revert": "Revert",
+      "revertMany_one": "Revert {{count}} Commit",
+      "revertMany_other": "Revert {{count}} Commits",
+      "reset": "Reset Current Branch to Here…",
+      "interactiveRebase": "Interactive Rebase from Here…",
+      "interactiveRebaseReason": "Only for a commit in the current branch's history",
+      "noHead": "No commit is checked out",
+      "merge": "Merge {{name}} into Current Branch",
+      "mergeInto": "Merge into Current Branch",
+      "rebase": "Rebase Current Branch onto {{name}}",
+      "rebaseOnto": "Rebase Current Branch onto",
+      "compareHead": "Compare with HEAD",
+      "compareSelected": "Compare Selected Commits",
+      "select": "Select",
+      "deselect": "Deselect",
+      "copyHash": "Copy Commit Hash",
+      "copySubject": "Copy Commit Subject"
+    }
+  },
+  "detail": {
+    "title": "Details",
+    "compare": "Comparison",
+    "header": {
+      "commit": "Commit",
+      "fileHistory": "File History",
+      "blame": "Blame",
+      "compare": "Comparison",
+      "stash": "Stash",
+      "conflict": "Merge Conflict"
+    },
+    "source": {
+      "workingTree": "Working Tree",
+      "staged": "Staged",
+      "untracked": "Untracked",
+      "deleted": "Deleted",
+      "incoming": "Incoming Changes",
+      "outgoing": "Outgoing Changes",
+      "stash": "Stash",
+      "compare": "{{from}} ↔ {{to}}"
+    },
+    "commitPane": {
+      "author": "Author",
+      "committer": "Committer",
+      "person": "{{name}} <{{email}}>",
+      "when": "{{relative}} ({{absolute}})",
+      "hash": "Commit",
+      "parent": "Parent",
+      "parents": "Parents",
+      "root": "None: this is a root commit",
+      "openParent": "Open parent commit {{hash}}",
+      "signedBy": "{{status}}, signed by {{signer}}",
+      "signature": {
+        "good": "Good signature",
+        "untrusted": "Good signature of unknown validity",
+        "bad": "Bad signature",
+        "expired": "Expired signature",
+        "expiredKey": "Signature made by an expired key",
+        "revoked": "Signature made by a revoked key",
+        "unverifiable": "Signature cannot be checked: the key is missing"
+      },
+      "filesTruncated": "Only the first {{count}} files are listed.",
+      "noFiles": "This commit changes no files.",
+      "selectFile": "Select a file to see its changes.",
+      "resizeInfo": "Resize the commit's message",
+      "resizeFiles": "Resize the file list",
+      "fileHistory": "Open File History",
+      "blame": "Blame",
+      "blameAt": "Blame at This Commit",
+      "deleted": "The file was deleted",
+      "openFile": "Open File",
+      "copyPath": "Copy Path",
+      "pathCopied": "Path copied"
+    },
+    "comparePane": {
+      "swap": "Swap Sides",
+      "counts": "{{ahead}}, {{behind}}",
+      "ahead_one": "{{count}} commit only in {{name}}",
+      "ahead_other": "{{count}} commits only in {{name}}",
+      "behind_one": "{{count}} commit only in {{name}}",
+      "behind_other": "{{count}} commits only in {{name}}",
+      "truncated": "Only the first {{count}} files are listed.",
+      "noDifference": "No differences.",
+      "selectFile": "Select a file to see how it differs."
+    }
+  },
+  "diff": {
+    "title": "Diff",
+    "layout": "Diff layout",
+    "split": "Split",
+    "splitHint": "Show the two versions side by side",
+    "splitTooNarrow": "Too narrow to show the versions side by side",
+    "unified": "Inline",
+    "unifiedHint": "Show the removed lines above the added ones",
+    "wrap": "Toggle Word Wrap",
+    "collapseUnchanged": "Toggle Collapse Unchanged Regions",
+    "whitespaceIgnored": "Show Leading/Trailing Whitespace Differences",
+    "whitespaceShown": "Hide Leading/Trailing Whitespace Differences",
+    "whitespaceHint": "Whether changes in whitespace at the start and end of lines count as changes",
+    "previousChange": "Previous Change",
+    "nextChange": "Next Change",
+    "position": "{{current}} of {{total}}",
+    "changeCount_one": "{{count}} change",
+    "changeCount_other": "{{count}} changes",
+    "openFile": "Open File",
+    "openFileUnavailable": "Files can be opened from the panel on the web and the desktop only",
+    "fileHistory": "Open File History",
+    "blame": "Show Blame",
+    "copyPath": "Copy Relative Path",
+    "syntaxColours": "Syntax Colours",
+    "stageFile": "Stage Changes",
+    "unstageFile": "Unstage Changes",
+    "discardFile": {
+      "action": "Discard Changes…",
+      "title": "Discard changes in {{name}}?",
+      "body": "Your changes in {{name}} will be discarded.",
+      "untracked": "{{name}} is untracked: it will be moved to the Trash.",
+      "confirm": "Discard File",
+      "confirmUntracked": "Move to Trash"
+    },
+    "trashFailed": "{{path}} could not be moved to the Trash and was left as it was.",
+    "binary": "The file is not displayed in the text editor because it is either binary or uses an unsupported text encoding.",
+    "binarySize": "Size: {{size}}",
+    "tooLarge": "The file is too large to compare ({{size}}).",
+    "tooLargeHint": "Open it to read it in full.",
+    "truncated": "The file is long: only its first lines are compared.",
+    "hitTimeout": "The diff stopped after five seconds, as VS Code's does: more may be marked as changed than was.",
+    "fontUnmeasured": "The code font could not be measured: {{detail}}",
+    "ruler": "Overview of the changes",
+    "showUnchanged": "Show Unchanged Region",
+    "doubleClickToUnfold": "Double click to unfold",
+    "hiddenLines_one": "{{count}} hidden line",
+    "hiddenLines_other": "{{count}} hidden lines",
+    "showMoreAbove": "Click or drag to show more above",
+    "showMoreBelow": "Click or drag to show more below",
+    "foldUnchanged": "Fold Unchanged Region",
+    "noLongerChanged": "This file has no changes in the working tree any more.",
+    "noLongerStaged": "This file has no staged changes any more.",
+    "noLongerChangedHint": "It was committed, staged, unstaged or discarded since it was opened.",
+    "showStaged": "Show Staged Changes",
+    "showChanges": "Show Working Tree Changes",
+    "size": {
+      "bytes_one": "{{count}} byte",
+      "bytes_other": "{{count}} bytes",
+      "kilobytes": "{{size}} KB",
+      "megabytes": "{{size}} MB"
+    },
+    "hunks": {
+      "mode": "Hunks",
+      "modeHint": "Stage, unstage or discard hunks and lines",
+      "selectHint": "Choose lines to stage them, or use a hunk's buttons.",
+      "selected_one": "{{count}} line chosen",
+      "selected_other": "{{count}} lines chosen",
+      "selectFirst": "Choose lines first",
+      "clear": "Clear",
+      "stageLines": "Stage Selected Lines",
+      "unstageLines": "Unstage Selected Lines",
+      "discardLines": "Discard Selected Lines…",
+      "stageHunk": "Stage Hunk",
+      "unstageHunk": "Unstage Hunk",
+      "discardHunk": "Discard Hunk…",
+      "selectHunk": "Choose every changed line of this hunk",
+      "selectLine": "Choose this line",
+      "lineLabel": "{{sign}} {{text}}",
+      "discardTitle": "Discard changes in {{name}}?",
+      "discardBody_one": "{{count}} changed line will be discarded from the working tree.",
+      "discardBody_other": "{{count}} changed lines will be discarded from the working tree.",
+      "discardConfirm": "Discard",
+      "stale": "The file changed since its hunks were read. They have been read again: choose again.",
+      "binary": "Hunks are not available for a binary file.",
+      "none": "No hunks to show.",
+      "truncated_one": "Only the first {{count}} hunk is listed.",
+      "truncated_other": "Only the first {{count}} hunks are listed."
+    }
+  },
+  "history": {
+    "title": "File History",
+    "file": {
+      "empty": "No commits changed this file.",
+      "capped": "Only the first {{count}} commits are loaded.",
+      "wasPath": "was {{path}}",
+      "openCommit": "Open Commit",
+      "selectCommit": "Select a commit to see what it changed in the file.",
+      "resize": "Resize the commit list"
+    },
+    "reset": {
+      "title": "Reset {{branch}} to {{hash}}",
+      "detached": "HEAD",
+      "intro": "Move {{branch}} to {{hash}} “{{subject}}”.",
+      "introNoSubject": "Move {{branch}} to {{hash}}.",
+      "leaving_one": "{{count}} commit will leave the branch.",
+      "leaving_other": "{{count}} commits will leave the branch.",
+      "leavingNone": "No commits leave the branch.",
+      "uncommitted_one": "{{count}} tracked file has uncommitted changes.",
+      "uncommitted_other": "{{count}} tracked files have uncommitted changes.",
+      "clean": "No uncommitted changes to tracked files.",
+      "modeLabel": "Mode",
+      "soft": {
+        "label": "Soft",
+        "hint": "Keep staged and unstaged changes; the changes of the commits that leave the branch become staged."
+      },
+      "mixed": {
+        "label": "Mixed",
+        "hint": "Keep every change in the work tree, unstaged, the changes of the commits that leave the branch included."
+      },
+      "keep": {
+        "label": "Keep",
+        "hint": "Keep your uncommitted changes; stop if the reset would overwrite any of them."
+      },
+      "hard": {
+        "label": "Hard",
+        "hint": "Discard staged and unstaged changes to tracked files. Untracked files are kept."
+      },
+      "submit": "Reset",
+      "hardNext": "Reset Hard…",
+      "hardTitle": "Hard reset {{branch}}?",
+      "hardBody": "The branch moves to {{hash}} and every uncommitted change to a tracked file is discarded.",
+      "hardConfirm": "Reset Hard",
+      "lostCommits_one": "{{count}} commit leaves the branch",
+      "lostCommits_other": "{{count}} commits leave the branch",
+      "done": "Reset to {{hash}}.",
+      "doneSnapshot": "Reset to {{hash}}. Your changes were saved as a safety snapshot ({{ref}})."
+    },
+    "pick": {
+      "noCommit": "Do not commit: leave the result staged",
+      "mainline": "Parent to compare the merge with",
+      "mainlineIntro": "{{hash}} is a merge commit. Choose the parent whose side it keeps:",
+      "parent": "Parent {{number}}: {{hash}}",
+      "firstParent": "The branch it was merged into",
+      "otherParent": "A branch merged in",
+      "conflicted": "Stopped on conflicts. Resolve them in the Conflicts section, then continue or abort."
+    },
+    "cherryPick": {
+      "title_one": "Cherry-Pick a Commit",
+      "title_other": "Cherry-Pick {{count}} Commits",
+      "body": "Apply these commits onto the current branch, oldest first:",
+      "noCommitHint": "git cherry-pick --no-commit",
+      "recordOrigin": "Record the original commit in the message",
+      "recordOriginHint": "Adds “(cherry picked from commit …)”, as git cherry-pick -x does.",
+      "submit": "Cherry-Pick",
+      "done_one": "Commit cherry-picked.",
+      "done_other": "{{count}} commits cherry-picked."
+    },
+    "revert": {
+      "title_one": "Revert a Commit",
+      "title_other": "Revert {{count}} Commits",
+      "body": "Make commits that undo these, newest first:",
+      "noCommitHint": "git revert --no-commit",
+      "submit": "Revert",
+      "done_one": "Commit reverted.",
+      "done_other": "{{count}} commits reverted."
+    }
+  },
+  "blame": {
+    "title": "Blame",
+    "workTree": "Working tree",
+    "at": "At {{rev}}",
+    "truncated": "Only the first {{count}} lines are shown.",
+    "empty": "The file is empty.",
+    "uncommitted": "Not committed yet",
+    "uncommittedLine": "Line {{line}}, not committed yet",
+    "lineLabel": "Line {{line}}, {{hash}} by {{author}}",
+    "gutter": "{{hash}} {{author}}, {{time}}",
+    "card": "{{author}} <{{email}}>, {{when}}",
+    "openCommit": "Open Commit",
+    "before": "Blame Before This Change"
+  },
+  "conflict": {
+    "title": "Conflicts",
+    "current": "Current",
+    "incoming": "Incoming",
+    "acceptCurrent": "Accept Current",
+    "acceptCurrentHint": "Take the current side's version of the whole file, and stage it",
+    "acceptIncoming": "Accept Incoming",
+    "acceptIncomingHint": "Take the incoming side's version of the whole file, and stage it",
+    "acceptDeletes": "That side deleted the file: accepting it deletes the file",
+    "markResolved": "Mark as Resolved",
+    "markersLeft": "The file still has conflict markers.",
+    "saveFirst": "Save the result first",
+    "deleteAction": "Delete File…",
+    "deleteTitle": "Delete {{path}}?",
+    "deleteBody": "The file will be removed from the working tree and the index, which resolves its conflict.",
+    "delete": "Delete File",
+    "openFile": "Open File",
+    "binary": "This file is binary: its sides cannot be compared or merged here.",
+    "binaryHint": "Accept the current or the incoming version, or delete the file.",
+    "truncatedNotice": "The file is too large to be read in full: blocks cannot be resolved here. Accept a side or edit the file by hand.",
+    "truncated": "The file was not read in full",
+    "tabs": "Conflict views",
+    "tabResult": "Result",
+    "tabSides": "Current vs Incoming",
+    "tabBase": "Base",
+    "noBase": "No common ancestor",
+    "noWorkTreeFile": "The file is not in the working tree.",
+    "draftHint": "Choose a side for each conflict, then save the result.",
+    "draftEdited": "The result has unsaved changes.",
+    "editAsText": "Edit as Text",
+    "showBlocks": "Show Conflicts",
+    "discardDraft": "Discard Edits",
+    "saveResult": "Save Result",
+    "nothingToSave": "Nothing has been changed yet",
+    "resolveAllFirst": "Resolve every conflict first",
+    "tooLongToSave": "The result is too large to save from here",
+    "resultText": "Result",
+    "blockOf": "Conflict {{current}} of {{total}}",
+    "useCurrent": "Use Current",
+    "useIncoming": "Use Incoming",
+    "useBoth": "Use Both",
+    "deletedInCurrent": "The current side deleted this file; the incoming side's version is shown.",
+    "deletedInIncoming": "The incoming side deleted this file; the current side's version is shown.",
+    "tooFarApart": "The two sides differ too much to compare here; they are shown side by side.",
+    "resolved": "This conflict is resolved.",
+    "resolvedHint": "The file is no longer in conflict."
+  },
+  "operation": {
+    "title": "Operation in progress",
+    "kind": {
+      "merge": "Merge in progress",
+      "rebase": "Rebase in progress",
+      "cherryPick": "Cherry-pick in progress",
+      "revert": "Revert in progress",
+      "bisect": "Bisect in progress",
+      "am": "Applying patches"
+    },
+    "step": "Step {{step}} of {{total}}",
+    "onto": "Replaying {{branch}} onto {{onto}}",
+    "detachedHead": "a detached HEAD",
+    "applying": "Applying {{commit}}: {{subject}}",
+    "applyingHash": "Applying {{commit}}",
+    "stoppedForEdit": "Stopped for an edit: amend the commit if you wish, then continue.",
+    "conflicts_one": "{{count}} file is in conflict: resolve it, then continue.",
+    "conflicts_other": "{{count}} files are in conflict: resolve them, then continue.",
+    "readyToContinue": "No file is in conflict: continue when ready.",
+    "continueHint": "Continue with the resolved files",
+    "skipHint": "Leave out the commit being applied",
+    "abortButton": "Abort…",
+    "abortHint": "Go back to where the operation started",
+    "result": {
+      "conflicted": "Stopped on conflicts again. Resolve them, then continue.",
+      "done": "Finished."
+    },
+    "abort": {
+      "merge": {
+        "title": "Abort the merge?",
+        "body": "The merge's result and every conflict resolution in the work tree and the index are discarded; the branch goes back to where it was before the merge.",
+        "confirm": "Abort Merge"
+      },
+      "rebase": {
+        "title": "Abort the rebase?",
+        "body": "The commits replayed so far and every conflict resolution are discarded; the branch goes back to where it was before the rebase.",
+        "confirm": "Abort Rebase"
+      },
+      "cherryPick": {
+        "title": "Abort the cherry-pick?",
+        "body": "The commits picked so far and every conflict resolution are discarded; HEAD goes back to where it was before the cherry-pick.",
+        "confirm": "Abort Cherry-Pick"
+      },
+      "revert": {
+        "title": "Abort the revert?",
+        "body": "The reverts made so far and every conflict resolution are discarded; HEAD goes back to where it was before the revert.",
+        "confirm": "Abort Revert"
+      },
+      "bisect": {
+        "title": "End the bisect?",
+        "body": "The commits marked good and bad are forgotten, and HEAD goes back to where it was before the bisect.",
+        "confirm": "End Bisect"
+      },
+      "am": {
+        "title": "Abort applying the patches?",
+        "body": "The patches applied so far and every conflict resolution are discarded; the branch goes back to where it was before.",
+        "confirm": "Abort"
+      }
+    }
+  },
+  "dialog": {
+    "title": "Advanced Git"
+  },
+  "branch": {
+    "title": "Branches",
+    "empty": "No local branches.",
+    "current": "Current branch",
+    "tracks": "Tracks {{upstream}}",
+    "upstreamGone": "Its upstream {{upstream}} no longer exists",
+    "noUpstream": "No upstream",
+    "protected": "Protected branch",
+    "otherWorktree": "Checked out in another worktree: {{path}}",
+    "checkout": "Checkout",
+    "checkoutHint": "Switch to {{name}}",
+    "merge": "Merge into Current Branch…",
+    "rebase": "Rebase Current Branch onto This…",
+    "createFrom": "Create Branch from Here…",
+    "rename": "Rename…",
+    "delete": "Delete…",
+    "setUpstream": "Set Upstream…",
+    "unsetUpstream": "Unset Upstream",
+    "push": "Push…",
+    "compare": "Compare with Current",
+    "copyName": "Copy Name",
+    "create": "Create Branch…",
+    "isCurrent": "This is the current branch.",
+    "upstreamUnset": "{{name}} no longer has an upstream.",
+    "pushed": "Pushed {{name}}.",
+    "invalid": {
+      "empty": "Enter a name.",
+      "tooLong": "The name is too long.",
+      "leadingDash": "A name cannot start with “-”.",
+      "characters": "A name cannot hold spaces, control characters or any of ~ ^ : ? * [ \\",
+      "form": "Not a valid name: no “..”, “@{” or “//”, no “/” or “.” at either end, no part starting with “.”, and no “.lock” at the end.",
+      "taken": "{{name}} is already used."
+    },
+    "createDialog": {
+      "title": "Create a branch",
+      "name": "Branch name",
+      "startPoint": "Start point",
+      "startPointHint": "A branch, tag or commit. Leave it empty to start at the current HEAD.",
+      "switch": "Switch to the new branch",
+      "submit": "Create Branch",
+      "created": "Created {{name}}."
+    },
+    "switcher": {
+      "title": "Switch branch",
+      "filter": "Filter branches",
+      "empty": "No branch matches.",
+      "local": "Local branch",
+      "remote": "Remote branch",
+      "hint": "Press Enter to switch to the first branch listed."
+    },
+    "checkoutDialog": {
+      "switched": "Switched to {{ref}}.",
+      "dirtyTitle": "Local changes are in the way",
+      "dirtyBody": "Switching to {{ref}} would overwrite local changes. Advanced Git can stash them, switch, and apply them again.",
+      "stashSwitch": "Stash, Switch and Re-apply",
+      "stashConflict": "Switched to {{ref}}, but applying your changes again conflicted. The stash is kept: resolve the conflicts in Changes.",
+      "detachedTitle": "Check out {{ref}}?",
+      "detachedBody": "This checks out {{ref}} without a branch (a detached HEAD). Commits made there belong to no branch until you create one.",
+      "detachedConfirm": "Check Out",
+      "remoteTitle": "Check out {{ref}}",
+      "remoteBody": "Creates a local branch that tracks {{ref}} and switches to it. If a local branch of that name already tracks it, switches to that one.",
+      "localName": "Local branch name",
+      "remoteSubmit": "Check Out"
+    },
+    "mergeDialog": {
+      "title": "Merge {{ref}}",
+      "body": "Merges {{ref}} into {{current}}.",
+      "mode": "How to merge",
+      "ff": "Fast-forward when possible",
+      "ffHint": "Git's default: moves the branch forward when it can, and creates a merge commit otherwise.",
+      "noFf": "Always create a merge commit",
+      "noFfHint": "Records the merge even when a fast-forward is possible.",
+      "ffOnly": "Fast-forward only",
+      "ffOnlyHint": "Fails when a merge commit would be needed.",
+      "squash": "Squash",
+      "squashHint": "Stages the combined changes for a commit of your own; no merge is recorded.",
+      "message": "Merge commit message (optional)",
+      "submit": "Merge",
+      "merged": "Merged {{ref}} into {{current}}.",
+      "fastForward": "Fast-forwarded {{current}} to {{ref}}.",
+      "upToDate": "{{current}} is already up to date with {{ref}}.",
+      "squashed": "Squashed {{ref}}: the changes are staged. Commit them to finish.",
+      "conflict": "Merging {{ref}} stopped on conflicts. Resolve them in Changes, then commit or abort the merge."
+    },
+    "rebaseDialog": {
+      "title": "Rebase onto {{onto}}",
+      "body": "Replays the commits of {{current}} that are not on {{onto}} on top of it. Those commits are rewritten: they get new hashes.",
+      "autostash": "Stash local changes first and apply them again afterwards",
+      "publishedTitle": "These commits are already pushed",
+      "publishedBody": "Some of the commits being rewritten are on the upstream of {{current}}. Everyone who has them will have to reconcile, and pushing afterwards needs a force push.",
+      "publishedConfirm": "Rewrite commits that are already pushed",
+      "submit": "Rebase",
+      "done": "Rebased {{current}} onto {{onto}}.",
+      "conflict": "The rebase stopped on conflicts. Resolve them in Changes, then continue or abort it."
+    },
+    "renameDialog": {
+      "title": "Rename {{name}}",
+      "newName": "New name",
+      "submit": "Rename",
+      "renamed": "Renamed {{name}} to {{newName}}."
+    },
+    "deleteDialog": {
+      "title": "Delete branch {{name}}?",
+      "body": "Deletes the local branch {{name}}. Its commits stay on every other branch that holds them.",
+      "unmergedBody": "{{name}} is not merged: some of its commits are on no other branch. Force deleting it makes them unreachable.",
+      "lostBranch": "Branch {{name}}",
+      "lostCommits": "The commits only {{name}} holds (they become unreachable)",
+      "submit": "Delete Branch",
+      "force": "Force Delete",
+      "deleted": "Deleted {{name}}."
+    },
+    "upstreamDialog": {
+      "title": "Set the upstream of {{name}}",
+      "filter": "Filter remote branches",
+      "empty": "No remote branch matches. Fetch or add a remote first.",
+      "chosen": "Upstream: {{upstream}}",
+      "submit": "Set Upstream",
+      "set": "{{name}} now tracks {{upstream}}."
+    }
+  },
+  "remote": {
+    "title": "Remotes",
+    "empty": "No remotes.",
+    "add": "Add Remote…",
+    "fetch": "Fetch",
+    "fetchHint": "Fetch {{name}}",
+    "fetched": "Fetched {{name}}.",
+    "editUrl": "Edit URL…",
+    "rename": "Rename…",
+    "remove": "Remove…",
+    "copyUrl": "Copy URL",
+    "urls": "Fetch: {{fetch}} · Push: {{push}}",
+    "default": "The default branch of {{remote}}",
+    "picker": "Remote",
+    "none": "This repository has no remote.",
+    "invalidUrl": "Not a usable URL: no spaces, no password or token, and no command transports such as ext::.",
+    "branch": {
+      "checkout": "Check Out as Local Branch…",
+      "delete": "Delete on Remote…"
+    },
+    "addDialog": {
+      "title": "Add a remote",
+      "name": "Name",
+      "url": "URL",
+      "urlHint": "No password or token in the URL: Git signs in with the host's credential helper or SSH keys.",
+      "fetch": "Fetch it after adding it",
+      "submit": "Add Remote",
+      "added": "Added {{name}}."
+    },
+    "urlDialog": {
+      "title": "Edit the URL of {{name}}",
+      "url": "URL",
+      "push": "Set the push URL rather than the fetch URL",
+      "submit": "Save",
+      "saved": "Saved the URL of {{name}}."
+    },
+    "renameDialog": {
+      "title": "Rename remote {{name}}",
+      "newName": "New name",
+      "submit": "Rename",
+      "renamed": "Renamed {{name}} to {{newName}}."
+    },
+    "removeDialog": {
+      "title": "Remove remote {{name}}?",
+      "body": "Removes {{name}} from this repository's configuration, with its remote-tracking branches and the upstream settings that name it. Nothing changes on the remote itself.",
+      "lostRemote": "Remote {{name}} ({{url}})",
+      "lostBranches_one": "{{count}} remote-tracking branch",
+      "lostBranches_other": "{{count}} remote-tracking branches",
+      "submit": "Remove Remote",
+      "removed": "Removed {{name}}."
+    },
+    "deleteBranchDialog": {
+      "title": "Delete {{branch}} on {{remote}}?",
+      "body": "Deletes the branch on the remote, for everyone who uses it. Local branches are kept.",
+      "lost": "Branch {{branch}} on {{remote}}",
+      "submit": "Delete on Remote",
+      "deleted": "Deleted {{branch}} on {{remote}}."
+    }
+  },
+  "tag": {
+    "title": "Tags",
+    "empty": "No tags.",
+    "create": "Create Tag…",
+    "annotated": "Annotated tag",
+    "lightweight": "Lightweight tag",
+    "checkout": "Check Out (Detached)…",
+    "createBranch": "Create Branch from Here…",
+    "push": "Push to Remote…",
+    "delete": "Delete…",
+    "deleteRemote": "Delete on Remote…",
+    "copyName": "Copy Name",
+    "createDialog": {
+      "title": "Create a tag",
+      "name": "Tag name",
+      "target": "Target",
+      "targetHint": "A branch, tag or commit. Leave it empty to tag the current HEAD.",
+      "message": "Message (optional)",
+      "messageHint": "With a message the tag is annotated; without one it is lightweight.",
+      "submit": "Create Tag",
+      "created": "Created tag {{name}}."
+    },
+    "pushDialog": {
+      "title": "Push tag {{name}}",
+      "submit": "Push Tag",
+      "pushed": "Pushed {{name}} to {{remote}}."
+    },
+    "deleteDialog": {
+      "title": "Delete tag {{name}}?",
+      "body": "Deletes the tag in this repository. Copies of it on remotes are kept.",
+      "lost": "Tag {{name}}",
+      "submit": "Delete Tag",
+      "deleted": "Deleted tag {{name}}."
+    },
+    "deleteRemoteDialog": {
+      "title": "Delete tag {{name}} on a remote?",
+      "body": "Deletes the tag on the chosen remote, for everyone who uses it. The local tag is kept.",
+      "lost": "Tag {{name}} on {{remote}}",
+      "submit": "Delete on Remote",
+      "deleted": "Deleted {{name}} on {{remote}}."
+    }
+  },
+  "stash": {
+    "title": "Stashes",
+    "empty": "No stashes.",
+    "save": "Stash Changes…",
+    "clear": "Clear All…",
+    "apply": "Apply",
+    "applyHint": "Apply this stash and keep it",
+    "pop": "Pop",
+    "popHint": "Apply this stash and drop it",
+    "drop": "Drop…",
+    "show": "Show Changes",
+    "onBranch": "On {{branch}}",
+    "detachedHead": "On a detached HEAD",
+    "applied": "Applied {{ref}}.",
+    "popped": "Popped {{ref}}.",
+    "conflicted": "{{ref}} was applied with conflicts. Resolve them in Changes; the stash is kept.",
+    "saveDialog": {
+      "title": "Stash changes",
+      "message": "Message (optional)",
+      "untracked": "Include untracked files",
+      "keepIndex": "Keep staged changes in the index",
+      "submit": "Stash",
+      "saved": "Changes stashed.",
+      "nothing": "There were no local changes to stash."
+    },
+    "dropDialog": {
+      "title": "Drop {{ref}}?",
+      "body": "Deletes this stash and the changes it holds.",
+      "submit": "Drop Stash",
+      "dropped": "Dropped {{ref}}."
+    },
+    "clearDialog": {
+      "title": "Clear every stash?",
+      "body": "Deletes every stash of this repository and the changes they hold.",
+      "submit": "Clear All Stashes",
+      "cleared": "Cleared every stash."
+    },
+    "detail": {
+      "files_one": "{{count}} file",
+      "files_other": "{{count}} files",
+      "noFiles": "This stash changes no files.",
+      "truncated": "Only the first {{count}} files are listed.",
+      "gone": "This stash no longer exists.",
+      "selectFile": "Select a file to see its changes.",
+      "resize": "Resize the file list"
+    }
+  },
+  "worktree": {
+    "title": "Worktrees",
+    "empty": "No worktrees.",
+    "add": "Add Worktree…",
+    "prune": "Prune",
+    "pruneHint": "Forget the worktrees whose folders are gone",
+    "pruned": "Pruned the records of missing worktrees.",
+    "main": "Main worktree",
+    "current": "This worktree",
+    "locked": "Locked",
+    "prunable": "Its folder is gone",
+    "bare": "Bare repository",
+    "detached": "Detached at {{hash}}",
+    "open": "Open",
+    "openHint": "Show this worktree",
+    "remove": "Remove…",
+    "copyPath": "Copy Path",
+    "addDialog": {
+      "title": "Add a worktree",
+      "path": "Folder",
+      "pathHint": "An absolute path on the host. The folder must not exist, or must be empty.",
+      "pathInvalid": "Enter an absolute path.",
+      "mode": "Check out",
+      "existing": "An existing branch",
+      "newBranch": "A new branch",
+      "detached": "A detached HEAD",
+      "branch": "Branch",
+      "branchHint": "A local branch that no other worktree has checked out.",
+      "newName": "New branch name",
+      "startPoint": "Start point",
+      "startPointHint": "A branch, tag or commit. Leave it empty to start at the current HEAD.",
+      "submit": "Add Worktree",
+      "added": "Added a worktree at {{path}}."
+    },
+    "removeDialog": {
+      "title": "Remove the worktree at {{path}}?",
+      "body": "Deletes the worktree's folder and its record. Its branch and commits are kept.",
+      "force": "Remove it even if it has local changes or untracked files",
+      "lostFolder": "The folder {{path}}",
+      "lostChanges": "Uncommitted changes and untracked files in it",
+      "submit": "Remove Worktree",
+      "removed": "Removed the worktree at {{path}}."
+    }
+  },
+  "submodule": {
+    "title": "Submodules",
+    "empty": "No submodules.",
+    "state": {
+      "uninitialized": "Not initialised",
+      "clean": "Clean",
+      "modified": "Modified",
+      "ahead": "Moved",
+      "conflict": "Conflict"
+    },
+    "stateHint": {
+      "uninitialized": "Not initialised: it has no work tree yet.",
+      "clean": "At the commit its parent records.",
+      "modified": "It has local changes.",
+      "ahead": "Checked out at a commit other than the one its parent records.",
+      "conflict": "In conflict in its parent."
+    },
+    "recorded": "Recorded in the parent: {{hash}}",
+    "open": "Open",
+    "openHint": "Show this submodule",
+    "update": "Update",
+    "init": "Initialise and Update",
+    "updateRecursive": "Update Recursively",
+    "sync": "Sync URL",
+    "copyPath": "Copy Path",
+    "updateAll": "Update All…",
+    "updated": "Updated {{path}}.",
+    "updatedAll": "Updated the submodules.",
+    "synced": "Synced the URL of {{path}}.",
+    "updateDialog": {
+      "title": "Update submodules",
+      "body": "Checks out in each submodule the commit its parent records. Local changes in a submodule make the update fail rather than be lost.",
+      "init": "Initialise those not yet initialised",
+      "recursive": "Update nested submodules too",
+      "remote": "Move to the tip of the tracked branch instead",
+      "submit": "Update"
+    }
+  },
+  "rebase": {
+    "title": "Interactive Rebase",
+    "loading": "Reading the commits to rewrite…",
+    "empty": "There are no commits after this one in the current branch.",
+    "intro_one": "Rewrite the commit after {{base}}. Commits are listed oldest first.",
+    "intro_other": "Rewrite the {{count}} commits after {{base}}. Commits are listed oldest first.",
+    "action": {
+      "pick": "Pick",
+      "reword": "Reword",
+      "edit": "Edit",
+      "squash": "Squash",
+      "fixup": "Fixup",
+      "drop": "Drop"
+    },
+    "actionHint": {
+      "pick": "Use the commit",
+      "reword": "Use the commit with a new message",
+      "edit": "Stop at the commit to amend it",
+      "squash": "Fold into the commit before, keeping both messages",
+      "fixup": "Fold into the commit before, keeping only its message",
+      "drop": "Leave the commit out"
+    },
+    "actionLabel": "Action for “{{subject}}”",
+    "by": "{{author}}, {{time}}",
+    "moveUp": "Move Up",
+    "moveDown": "Move Down",
+    "message": "New message",
+    "summary": {
+      "separator": ", ",
+      "pick_one": "{{count}} picked",
+      "pick_other": "{{count}} picked",
+      "reword_one": "{{count}} reworded",
+      "reword_other": "{{count}} reworded",
+      "edit_one": "{{count}} to edit",
+      "edit_other": "{{count}} to edit",
+      "squash_one": "{{count}} squashed",
+      "squash_other": "{{count}} squashed",
+      "fixup_one": "{{count}} fixed up",
+      "fixup_other": "{{count}} fixed up",
+      "drop_one": "{{count}} dropped",
+      "drop_other": "{{count}} dropped"
+    },
+    "problem": {
+      "noneKept": "Keep at least one commit.",
+      "firstFolds": "The first kept commit cannot be squashed or fixed up: there is no commit before it to fold into.",
+      "emptyMessage": "A reworded commit needs a message.",
+      "messageTooLong": "A message is too long.",
+      "unchanged": "The plan changes nothing yet."
+    },
+    "pushed": "Some of these commits are already on the upstream. Rewriting them rewrites published history: everyone who pulled them will have to recover.",
+    "pushedAck": "I understand that this rewrites published history",
+    "pushedBadge": "Pushed",
+    "pushedHint": "The upstream already has this commit",
+    "merges": "The range holds merge commits. A rebase leaves them out and flattens the history.",
+    "truncated": "More than {{count}} commits: too many to rebase here.",
+    "autostash": "Stash local changes first",
+    "autostashHint": "Restores them when the rebase ends (git rebase --autostash).",
+    "start": "Start Rebase",
+    "stale": "The branch changed since the commits were read. They have been read again: check the plan and start again.",
+    "done": "Rebase finished.",
+    "conflict": "The rebase stopped on conflicts. Resolve them, then continue or abort.",
+    "stopped": "The rebase stopped at a commit to edit. Amend it, then continue."
+  },
+  "safety": {
+    "title": "Safety",
+    "snapshots": {
+      "title": "Safety Snapshots",
+      "intro": "Before an operation that can discard changes to tracked files, Advanced Git records them here. Restoring applies a snapshot's changes to the work tree and keeps the snapshot.",
+      "off": "Safety snapshots are turned off in the safety settings: no new ones are taken.",
+      "empty": "No safety snapshots yet.",
+      "detail": "{{reason}} · {{branch}}",
+      "detached": "detached HEAD",
+      "restore": "Restore",
+      "restoreHint": "Apply this snapshot's changes to the work tree",
+      "restored": "Snapshot restored.",
+      "restoredConflicts": "Snapshot restored with conflicts. Resolve them in the Conflicts section."
+    }
+  }
+}

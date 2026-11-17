@@ -1,12 +1,21 @@
 {
-  "name": "paseo-source-control",
+  "name": "paseo-advanced-git",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "A full Git client beside every Paseo workspace: branches, remotes, tags, stashes, worktrees, submodules, history and conflicts",
+  "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
   "files": [
     "paseo-plugin.json",
     "OVERVIEW.md",
     "OVERVIEW.*.md",
+    "README*.md",
+    "LICENSE",
+    "media/",
+    "tsconfig.json",
     "index.client.tsx",
     "index.server.ts",
     "client/",
@@ -14,26 +23,43 @@
     "shared/"
   ],
   "scripts": {
-    "typecheck": "tsc --noEmit && tsc --noEmit -p preview",
-    "test": "node --test test/*.test.ts",
-    "preview": "node preview/build.mjs && node preview/serve.mjs"
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p preview && tsc --noEmit -p e2e && tsc --noEmit -p scripts",
+    "lint": "eslint .",
+    "check:i18n": "node scripts/check-i18n.mjs",
+    "test:unit": "node scripts/run-tests.mjs unit",
+    "test:integration": "node scripts/run-tests.mjs integration",
+    "test": "node scripts/run-tests.mjs all",
+    "preview:build": "node preview/build.mjs",
+    "preview": "node preview/build.mjs && node preview/serve.mjs",
+    "e2e": "playwright test",
+    "plugin-load": "node scripts/plugin-load.mjs",
+    "package": "node scripts/package.mjs"
+  },
+  "dependencies": {
+    "prismjs": "^1.30.0",
+    "strip-json-comments": "^5.0.3",
+    "vscode-diff": "^3.0.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@getpaseo/plugin": "0.14.0",
+    "@playwright/test": "^1.65.1",
     "@tanstack/react-query": "^5.90.11",
     "@types/node": "^24.0.0",
     "@types/react": "~19.2.0",
     "@types/react-dom": "~19.2.0",
     "esbuild": "^0.25.12",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
+    "lucide-react": "^1.73.0",
     "react": "19.1.0",
-    "react-dom": "^19.1.0",
+    "react-dom": "19.1.0",
     "react-native": "0.81.5",
     "react-native-web": "^0.21.4",
-    "typescript": "^5.9.3",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.72.2",
     "zod": "^4.4.3"
-  },
-  "dependencies": {
-    "strip-json-comments": "^5.0.3",
-    "vscode-diff": "^3.0.1"
   }
 }

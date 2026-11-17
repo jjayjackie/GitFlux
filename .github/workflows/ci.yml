@@ -1,0 +1,326 @@
+# Every check of architecture §10, on GitHub-hosted runners. Nothing is built, installed or tested on a developer
+# machine: this workflow is where the plugin is type-checked, linted, tested, loaded by a real Paseo daemon, driven in
+# a browser and packaged. `ci-ok` is the single status to require in branch protection.
+#
+# The lockfile job keeps package-lock.json in sync with package.json (developers cannot regenerate it locally). On a
+# push to a branch of this repository it commits the regenerated lock and every later job tests that commit; pushes
+# made with GITHUB_TOKEN start no new run, so the later jobs check out the SHA the lockfile job reports.
+
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+    outputs:
+      sha:
+        description: The commit that was tested (the lockfile job's commit when it pushed one)
+        value: ${{ jobs.lockfile.outputs.sha }}
+      version:
+        description: package.json version of the tested commit
+        value: ${{ jobs.package.outputs.version }}
+      artifact:
+        description: Name of the uploaded package artifact
+        value: ${{ jobs.package.outputs.artifact }}
+
+concurrency:
+  # A caller (release.yml) has its own group, so a called run never waits on itself.
+  group: ci-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: "24"
+  FORCE_COLOR: "1"
+
+jobs:
+  lockfile:
+    name: lockfile
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write # only to push the regenerated lock to the branch that was pushed
+    outputs:
+      sha: ${{ steps.result.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Regenerate package-lock.json from package.json
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Commit it, or fail where it cannot be committed
+        id: result
+        shell: bash
+        env:
+          EVENT: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- package-lock.json; then
+            echo "package-lock.json is in sync with package.json."
+            echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git --no-pager diff --stat -- package-lock.json
+          if [ "$EVENT" != "push" ] || [ "$REF_TYPE" != "branch" ]; then
+            echo "::error title=package-lock.json is stale::package-lock.json does not match package.json. Push the change to a branch of this repository and CI commits the regenerated lock; a ${EVENT} run on a ${REF_TYPE} cannot."
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          git commit -m "chore(deps): sync package-lock.json"
+          if ! git push origin "HEAD:refs/heads/${BRANCH}"; then
+            echo "::error title=Could not push package-lock.json::The branch moved while CI ran; the run for the newer push regenerates the lock."
+            exit 1
+          fi
+          echo "::notice title=package-lock.json synced::Committed $(git rev-parse --short HEAD) to ${BRANCH}; the jobs below test that commit."
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          {
+            echo "### package-lock.json"
+            echo ""
+            echo "Regenerated and committed as $(git rev-parse --short HEAD) on \`${BRANCH}\`."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  typecheck:
+    name: typecheck
+    needs: lockfile
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.lockfile.outputs.sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run typecheck
+
+  lint:
+    name: lint
+    needs: lockfile
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.lockfile.outputs.sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: ESLint (correctness, boundaries, erasable TypeScript, no literal UI text)
+        run: npm run lint
+      - name: Translations (parity, placeholders, keys named by code)
+        run: npm run check:i18n
+
+  unit:
+    name: unit
+    needs: lockfile
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.lockfile.outputs.sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: git --version
+      - name: node --test on test/unit (counts go to the job summary)
+        run: npm run test:unit
+      - name: Keep the TAP output
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: unit-tap-${{ github.run_attempt }}
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  integration:
+    name: integration (${{ matrix.os }})
+    needs: lockfile
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        # No macOS runner: GitHub's macOS capacity is scarce and its jobs were left queued or cancelled. The daemon half
+        # is covered on Linux and Windows; macOS behaviour (case-insensitive paths, the Trash) is not verified in CI.
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.lockfile.outputs.sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Git version
+        run: git --version
+      - name: node --test on test/integration (real git; counts go to the job summary)
+        run: npm run test:integration
+      - name: Keep the TAP output
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: integration-tap-${{ matrix.os }}-${{ github.run_attempt }}
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  plugin-load:
+    name: plugin-load (Paseo ${{ matrix.paseo }}, ${{ matrix.hosts }} host(s))
+    needs: lockfile
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - paseo: "0.14.0"
+            hosts: 1
+          - paseo: latest
+            hosts: 1
+          - paseo: latest
+            hosts: 2
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.lockfile.outputs.sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - name: Install production dependencies, as the manifest's build step does
+        run: npm ci --omit=dev --no-audit --no-fund
+      - name: A headless Paseo daemon compiles and runs the plugin
+        run: node scripts/plugin-load.mjs --paseo-version "${{ matrix.paseo }}" --hosts "${{ matrix.hosts }}"
+
+  e2e:
+    name: e2e
+    needs: lockfile
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.lockfile.outputs.sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: git --version
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Playwright against the preview
+        run: npm run e2e
+      - name: Summary
+        if: always()
+        shell: bash
+        run: |
+          results=e2e/.artifacts/results.json
+          if [ ! -f "$results" ]; then
+            echo "### e2e: no results (the run did not get as far as the tests)" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          node -e '
+            const stats = JSON.parse(require("node:fs").readFileSync(process.argv[1], "utf8")).stats ?? {};
+            const row = [stats.expected ?? 0, stats.unexpected ?? 0, stats.flaky ?? 0, stats.skipped ?? 0, ((stats.duration ?? 0) / 1000).toFixed(1) + " s"];
+            console.log(["### e2e (Playwright, Chromium)", "", "| Passed | Failed | Flaky | Skipped | Duration |", "| ---: | ---: | ---: | ---: | ---: |", "| " + row.join(" | ") + " |", ""].join("\n"));
+            if ((stats.skipped ?? 0) > 0) { console.error("Skipped tests are not allowed"); process.exitCode = 1; }
+          ' "$results" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload screenshots, report and traces
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-artifacts-${{ github.run_attempt }}
+          path: e2e/.artifacts/
+          include-hidden-files: true # the folder's own name starts with a dot
+          if-no-files-found: error
+          retention-days: 14
+
+  package:
+    name: package
+    needs: [lockfile, typecheck, lint, unit, integration, plugin-load, e2e]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      artifact: ${{ steps.meta.outputs.artifact }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.lockfile.outputs.sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - name: Build the archives and checksums
+        run: npm run package
+      - name: Name the artifact
+        id: meta
+        shell: bash
+        env:
+          SHA: ${{ needs.lockfile.outputs.sha }}
+        run: |
+          set -euo pipefail
+          version="$(node -p 'require("./package.json").version')"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "artifact=paseo-advanced-git-${version}-${SHA:0:7}" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Package ${version}"
+            echo ""
+            echo '```'
+            cat dist/SHA256SUMS
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ steps.meta.outputs.artifact }}
+          path: |
+            dist/*.tgz
+            dist/SHA256SUMS
+          if-no-files-found: error
+          retention-days: 30
+
+  ci-ok:
+    name: ci-ok
+    if: always()
+    needs: [lockfile, typecheck, lint, unit, integration, plugin-load, e2e, package]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Every job succeeded
+        shell: bash
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          set -euo pipefail
+          echo "$RESULTS" | node -e '
+            let text = "";
+            process.stdin.on("data", (chunk) => (text += chunk));
+            process.stdin.on("end", () => {
+              const needs = JSON.parse(text);
+              const failed = Object.entries(needs).filter(([, job]) => job.result !== "success");
+              for (const [name, job] of Object.entries(needs)) console.log(`${job.result === "success" ? "ok  " : "FAIL"} ${name}: ${job.result}`);
+              if (failed.length > 0) {
+                console.log(`::error title=CI failed::${failed.map(([name, job]) => `${name} (${job.result})`).join(", ")}`);
+                process.exit(1);
+              }
+            });
+          '

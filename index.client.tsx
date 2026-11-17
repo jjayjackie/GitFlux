@@ -1,18 +1,35 @@
+// The app half's entry (architecture §3): registers the panel, the settings screen and the Command Center items, and
+// returns the cleanup that forgets everything kept in memory. Nothing else lives at the root.
+
 import type { PluginClientContext } from "@getpaseo/plugin/client";
-import { DiffPanel } from "./client/Diff";
-import { bindDiffTab } from "./client/diffTab";
-import { Panel } from "./client/Panel";
+import { registerCommands } from "./client/commands.ts";
+import { messages } from "./client/i18n/messages.ts";
+import { Panel } from "./client/layout/Panel.tsx";
+import { SettingsScreen } from "./client/settings/SettingsScreen.tsx";
+import { clearBusy } from "./client/state/busyStore.ts";
+import { clearAll } from "./client/state/selectionStore.ts";
 
 export default function contribute(client: PluginClientContext) {
-  client.addWorkspacePanel({
-    id: "source-control",
-    title: "Source Control",
-    icon: "GitGraph",
-    locations: ["explorer", "workspace"],
-    Component: Panel,
-  });
-  // Opened from the panel above, with the file it should show.
-  // A plugin's tab keeps the title it was registered with: the file and what it is compared with are named inside it.
-  client.addWorkspacePanel({ id: "diff", title: "Git Diff", icon: "FileDiff", Component: DiffPanel });
-  return bindDiffTab((workspaceId) => client.openPanel("diff", { workspaceId, location: "workspace" }));
+  const removers = [
+    client.addWorkspacePanel({
+      id: "advanced-git",
+      title: messages.message("panel.title"),
+      icon: "GitBranch",
+      locations: ["workspace", "explorer"],
+      Component: Panel,
+    }),
+    client.addSettingsScreen({
+      id: "advanced-git",
+      title: messages.message("settings.title"),
+      icon: "Settings",
+      Component: SettingsScreen,
+    }),
+  ];
+  const removeCommands = registerCommands(client);
+  return () => {
+    removeCommands();
+    for (const remove of removers) void remove();
+    clearAll();
+    clearBusy();
+  };
 }

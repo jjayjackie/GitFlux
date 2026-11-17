@@ -1,0 +1,1506 @@
+{
+  "panel": {
+    "title": "高级 Git",
+    "noRepository": "此文件夹中没有 Git 仓库。",
+    "noRepositoryHint": "打开包含 Git 仓库的文件夹，或打开此文件夹所在的仓库。",
+    "openParent": "打开此文件夹所在的仓库 {{name}}",
+    "workspaceUnavailable": "此工作区不可用。",
+    "discoveryTruncated": "只列出了前 {{count}} 个仓库。",
+    "loading": "正在读取仓库…",
+    "coming": "{{area}}正在开发中。",
+    "selectRepository": "选择仓库"
+  },
+  "common": {
+    "ok": "确定",
+    "cancel": "取消",
+    "close": "关闭",
+    "retry": "重试",
+    "refresh": "刷新",
+    "copy": "复制",
+    "copied": "已复制",
+    "copyFailed": "无法复制。请选中文本后使用“复制”。",
+    "search": "搜索",
+    "filter": "筛选",
+    "clear": "清除",
+    "clearSearch": "清除搜索",
+    "loading": "正在加载…",
+    "loadMore": "加载更多",
+    "more": "更多",
+    "moreActions": "更多操作",
+    "none": "无",
+    "yes": "是",
+    "no": "否",
+    "confirm": "确认",
+    "back": "返回",
+    "apply": "应用",
+    "save": "保存",
+    "delete": "删除",
+    "rename": "重命名",
+    "create": "创建",
+    "open": "打开",
+    "edit": "编辑",
+    "add": "添加",
+    "remove": "移除",
+    "done": "完成",
+    "continue": "继续",
+    "abort": "中止",
+    "skip": "跳过",
+    "select": "选择",
+    "showMore": "显示更多",
+    "showLess": "收起",
+    "expand": "展开 {{name}}",
+    "collapse": "折叠 {{name}}",
+    "on": "开",
+    "off": "关",
+    "unavailable": "不可用",
+    "required": "必填",
+    "noResults": "没有结果",
+    "nothingHere": "这里还没有内容。",
+    "results_other": "{{count}} 个结果",
+    "items_other": "{{count}} 项",
+    "typeToConfirm": "输入 {{name}} 以确认",
+    "typeToConfirmMismatch": "输入的内容与 {{name}} 不一致。",
+    "willBeLost": "以下内容将会丢失：",
+    "cannotUndo": "此操作无法撤销。",
+    "submenuBack": "返回上一级菜单",
+    "dismiss": "关闭",
+    "details": "详细信息",
+    "hideDetails": "隐藏详细信息",
+    "selected": "已选中",
+    "checked": "已勾选",
+    "unchecked": "未勾选",
+    "busy": "正在处理…",
+    "andMore_other": "还有 {{count}} 项",
+    "openFileFailed": "Paseo 未能打开 {{path}}。"
+  },
+  "error": {
+    "toast": "{{title}}：{{detail}}",
+    "gitSaid": "Git 的输出",
+    "fallbackDetail": "没有更多信息。",
+    "GIT_NOT_FOUND": {
+      "title": "找不到 Git",
+      "hint": "请在运行 Paseo 的主机上安装 Git，并确保它在守护进程的 PATH 中，然后重启守护进程。"
+    },
+    "NOT_A_REPOSITORY": {
+      "title": "不是 Git 仓库",
+      "hint": "该文件夹不是 Git 工作树的顶层目录，可能已被移动或删除。请刷新仓库列表。"
+    },
+    "INVALID_ARGUMENT": {
+      "title": "输入无效",
+      "hint": "请检查输入的名称、路径或值，然后重试。"
+    },
+    "PATH_OUTSIDE_REPOSITORY": {
+      "title": "路径不在仓库内",
+      "hint": "此处只能使用仓库内的文件。"
+    },
+    "REPOSITORY_BUSY": {
+      "title": "仓库正忙",
+      "hint": "此仓库上的另一个操作耗时过长。请等待其完成后重试。"
+    },
+    "INDEX_LOCKED": {
+      "title": "索引已被锁定",
+      "hint": "可能有另一个 Git 进程正在运行。如果没有，请手动删除 .git/index.lock 文件；高级 Git 不会自动删除它。"
+    },
+    "TIMEOUT": {
+      "title": "Git 执行超时",
+      "hint": "Git 超过时间限制后已被停止。请检查网络或仓库大小，然后重试。"
+    },
+    "OUTPUT_TOO_LARGE": {
+      "title": "输出过多",
+      "hint": "Git 的输出超出了高级 Git 的读取上限。请缩小请求范围，例如使用筛选。"
+    },
+    "AUTH_FAILED": {
+      "title": "身份验证失败",
+      "hint": "请在运行 Paseo 的主机上为 Git 配置凭据助手（credential helper）或 ssh-agent。高级 Git 从不索取密码或令牌。"
+    },
+    "HOST_KEY_VERIFICATION_FAILED": {
+      "title": "主机密钥验证失败",
+      "hint": "远程的 SSH 主机密钥未知或已更改。请核实后将其加入运行 Paseo 的主机上的 known_hosts。"
+    },
+    "NETWORK": {
+      "title": "无法连接到远程",
+      "hint": "请检查主机的网络连接和远程的 URL，然后重试。"
+    },
+    "REMOTE_REJECTED": {
+      "title": "远程拒绝了推送",
+      "hint": "远程上的钩子或保护规则拒绝了此次推送。原因见下方 Git 的输出。"
+    },
+    "NON_FAST_FORWARD": {
+      "title": "分支已分叉",
+      "hint": "远程有你本地没有的提交。请先拉取（或同步），然后再推送。"
+    },
+    "NO_UPSTREAM": {
+      "title": "没有上游分支",
+      "hint": "此分支没有跟踪远程分支。请发布此分支，或为其设置上游。"
+    },
+    "NO_REMOTE": {
+      "title": "没有远程",
+      "hint": "仓库中没有该名称的远程。请先添加远程。"
+    },
+    "MERGE_CONFLICT": {
+      "title": "存在冲突",
+      "hint": "操作因冲突而停止。请在“更改”视图中解决冲突，然后继续或中止。"
+    },
+    "WOULD_OVERWRITE_CHANGES": {
+      "title": "本地更改会被覆盖",
+      "hint": "请先提交或储藏你的更改，或选择自动储藏。"
+    },
+    "UNMERGED_BRANCH": {
+      "title": "分支尚未合并",
+      "hint": "删除它会丢失提交。请先合并；如果安全设置允许，也可以强制删除。"
+    },
+    "REF_EXISTS": {
+      "title": "名称已被使用",
+      "hint": "已存在同名的分支、标签、远程或工作树。请换一个名称。"
+    },
+    "REF_NOT_FOUND": {
+      "title": "未找到",
+      "hint": "该分支、标签、远程、储藏或修订已不存在。请刷新后重试。"
+    },
+    "NOTHING_TO_COMMIT": {
+      "title": "没有可提交的内容",
+      "hint": "请先暂存一些更改，或提交所有更改。"
+    },
+    "IDENTITY_MISSING": {
+      "title": "未设置 Git 身份",
+      "hint": "请在运行 Paseo 的主机上的 Git 配置中设置 user.name 和 user.email。"
+    },
+    "OPERATION_IN_PROGRESS": {
+      "title": "有操作正在进行",
+      "hint": "合并、变基、拣选、还原或二分查找正在进行中。请先继续或中止它。"
+    },
+    "NO_OPERATION": {
+      "title": "没有正在进行的操作",
+      "hint": "没有可继续、跳过或中止的操作。请刷新仓库。"
+    },
+    "FORBIDDEN_BY_POLICY": {
+      "title": "安全设置不允许此操作",
+      "hint": "在此主机的高级 Git 安全设置中开启“{{setting}}”即可允许此操作。"
+    },
+    "PROTECTED_BRANCH": {
+      "title": "受保护的分支",
+      "hint": "该分支匹配安全设置中的受保护分支规则，因此此操作被拒绝。"
+    },
+    "CONFIRMATION_REQUIRED": {
+      "title": "需要确认",
+      "hint": "此操作可能丢失工作内容，必须经过确认。请重试并确认。"
+    },
+    "STALE_STATE": {
+      "title": "仓库已发生变化",
+      "hint": "读取之后仓库发生了变化，已重新读取。请检查后重试。"
+    },
+    "HOOK_FAILED": {
+      "title": "Git 钩子执行失败",
+      "hint": "仓库中的钩子拒绝了此操作。请阅读下方的输出并修复其中报告的问题。"
+    },
+    "UNKNOWN": {
+      "title": "Git 执行失败",
+      "hint": "请阅读下方 Git 的输出。如果仍无法确定原因，可在终端中运行相同的命令。"
+    }
+  },
+  "host": {
+    "offline": "{{host}} 已离线。重新连接前所有操作均不可用。",
+    "reconnecting": "正在重新连接到 {{host}}…",
+    "reconnected": "已重新连接到 {{host}}。",
+    "outcomeUnknown": "在 {{host}} 响应之前连接已断开。操作可能已完成，也可能没有；正在重新读取仓库。",
+    "offlineAction": "{{host}} 已离线，此操作不可用。",
+    "busy": "{{label}}",
+    "busyOther": "请等待正在运行的操作完成。"
+  },
+  "shell": {
+    "changes": "更改",
+    "graph": "提交图",
+    "branches": "分支",
+    "repositories": "仓库",
+    "navigation": "导航",
+    "detail": "详细信息",
+    "toolbar": "工具栏",
+    "showNavigation": "显示导航",
+    "hideNavigation": "隐藏导航",
+    "resizeNavigation": "调整导航宽度",
+    "resizeDetail": "调整详细信息宽度",
+    "resizeChanges": "调整更改与提交图的高度",
+    "resetSize": "拖动以调整大小，双击以重置",
+    "back": "返回",
+    "closeDetail": "关闭详细信息",
+    "viewSwitcher": "视图",
+    "nothingSelected": "选择一个文件或提交即可在此查看。"
+  },
+  "toolbar": {
+    "fetch": "获取",
+    "fetchHint": "从远程获取",
+    "pull": "拉取",
+    "pullHint": "拉取到当前分支",
+    "push": "推送",
+    "pushHint": "推送当前分支",
+    "sync": "同步",
+    "syncHint": "先拉取，再推送",
+    "publish": "发布分支",
+    "publishHint": "推送此分支并将其设为上游",
+    "ahead_other": "{{count}} 个提交待推送",
+    "behind_other": "{{count}} 个提交待拉取",
+    "detached": "游离于 {{hash}}",
+    "noCommits": "尚无提交",
+    "repository": "仓库",
+    "branch": "分支",
+    "busy": {
+      "working": "正在处理…",
+      "fetching": "正在获取…",
+      "pulling": "正在拉取…",
+      "pushing": "正在推送…",
+      "syncing": "正在同步…",
+      "committing": "正在提交…",
+      "switching": "正在切换…",
+      "merging": "正在合并…",
+      "rebasing": "正在变基…",
+      "resetting": "正在重置…",
+      "stashing": "正在储藏…",
+      "staging": "正在暂存…",
+      "unstaging": "正在取消暂存…",
+      "discarding": "正在放弃更改…",
+      "reverting": "正在还原…",
+      "cherryPicking": "正在拣选…",
+      "deleting": "正在删除…",
+      "tagging": "正在创建标签…",
+      "resolving": "正在解决冲突…",
+      "updatingSubmodules": "正在更新子模块…",
+      "restoring": "正在恢复…"
+    },
+    "more": "更多 Git 操作",
+    "moreOptions": "{{action}}的更多方式",
+    "switchBranchHint": "切换到其他分支",
+    "switchBranchLabel": "分支 {{branch}}：切换到其他分支",
+    "detachedReason": "HEAD 不在任何分支上。请先切换到一个分支。",
+    "upstreamGone": "上游 {{upstream}} 在远程上已不存在。",
+    "noUpstream": "此分支尚未发布。",
+    "mode": {
+      "merge": "合并",
+      "rebase": "变基",
+      "ffOnly": "仅快进"
+    },
+    "pullWith": "拉取（{{mode}}）",
+    "syncWith": "同步（{{mode}}）",
+    "pullModeHint": "拉取到当前分支（{{mode}}）",
+    "syncModeHint": "拉取（{{mode}}），然后推送",
+    "fetchAllPrune": "从所有远程获取并清理",
+    "stash": "储藏更改…",
+    "createBranch": "创建分支…",
+    "shortcuts": "键盘快捷键",
+    "publishPick": "选择要将分支“{{branch}}”发布到的远程：",
+    "publishOffer": "分支“{{branch}}”没有远程分支。是否要发布此分支？",
+    "publishDetached": "HEAD 不在任何分支上：没有可发布的分支。",
+    "noRemotes": "此仓库未配置可发布到的远程。",
+    "pullFirst": {
+      "title": "无法将引用推送到远程。先拉取吗？",
+      "body": "远程有此分支没有的提交。请先拉取以整合你的更改，然后再推送。"
+    },
+    "forcePush": {
+      "label": "强制推送（带租约）…",
+      "title": "强制推送到 {{target}}？",
+      "body": "只要自你上次获取以来没有人推送过，远程上的 {{target}} 将被你本地的 {{branch}} 替换（--force-with-lease）。",
+      "lost_other": "{{count}} 个仅在 {{target}} 上的提交",
+      "confirm": "强制推送",
+      "noUpstream": "此分支没有可强制推送到的上游。"
+    },
+    "result": {
+      "fetched": "已获取。",
+      "upToDate": "已是最新。",
+      "fastForwarded": "已快进。",
+      "merged": "已合并上游的更改。",
+      "rebased": "已变基到上游。",
+      "pulled": "已拉取。",
+      "pushed": "已推送。",
+      "pulledAndPushed": "已拉取并推送。",
+      "conflicts": "因冲突而停止。请在“更改”的“冲突”部分中解决。"
+    },
+    "guidance": "{{title}}。{{hint}}",
+    "guidanceDetail": "{{title}}。{{hint}} Git 输出：{{detail}}",
+    "autoFetchFailed": "自动获取失败：{{reason}}"
+  },
+  "settings": {
+    "title": "高级 Git",
+    "loading": "正在加载设置…",
+    "loadFailed": "无法读取设置。",
+    "invalid": "已保存的设置无效。在你重置之前，它们会保持原样。",
+    "reloadLabel": "重新读取设置",
+    "reload": "重新加载",
+    "resetLabel": "恢复默认设置",
+    "reset": "重置",
+    "saveFailed": "设置未保存。",
+    "safety": {
+      "title": "安全",
+      "info": "这些设置属于此主机。高级 Git 的守护进程会在每次破坏性操作前读取它们；默认全部关闭。",
+      "allowForcePush": {
+        "label": "允许强制推送",
+        "hint": "确认后使用 --force-with-lease 推送（从不使用单独的 --force）。",
+        "warning": "已开启：强制推送可能覆盖他人已经拉取的提交。"
+      },
+      "allowHardReset": {
+        "label": "允许硬重置",
+        "hint": "确认后使用 --hard 重置分支。",
+        "warning": "已开启：硬重置会丢弃工作树和索引中未提交的更改。"
+      },
+      "allowForceDelete": {
+        "label": "允许强制删除",
+        "hint": "删除未合并的分支、移除有本地更改的工作树，以及清空所有储藏。",
+        "warning": "已开启：只能从被删除分支访问到的提交以及被丢弃的储藏可能会丢失。"
+      },
+      "allowRemoteDelete": {
+        "label": "允许删除远程上的内容",
+        "hint": "删除远程上的分支和标签。",
+        "warning": "已开启：在远程上删除会影响所有使用该远程的人。"
+      },
+      "protectedBranches": {
+        "label": "受保护的分支",
+        "hint": "匹配这些规则的分支永远不会被强制推送、删除或硬重置，无论上面的开关如何设置。用逗号分隔；* 匹配单个路径段，** 可跨越多个路径段。",
+        "placeholder": "main, master, develop, release/*",
+        "saveLabel": "保存受保护的分支",
+        "save": "保存",
+        "tooMany": "最多 {{count}} 条规则。",
+        "saved": "已保存受保护的分支。"
+      },
+      "safetySnapshots": {
+        "label": "安全快照",
+        "hint": "在可能丢弃已跟踪更改的操作之前，将这些更改记录到 refs/advanced-git/snapshots 下，以便恢复。"
+      }
+    },
+    "view": {
+      "title": "视图",
+      "info": "这些设置属于此主机：对在此主机上使用高级 Git 的所有人生效。",
+      "diffMode": {
+        "label": "差异布局",
+        "hint": "并排显示差异，或在单列中显示。",
+        "split": "并排",
+        "unified": "内联"
+      },
+      "diffWrap": {
+        "label": "自动换行",
+        "hint": "在差异中自动换行，而不是横向滚动。"
+      },
+      "diffHideUnchanged": {
+        "label": "折叠未更改的区域",
+        "hint": "在差异中折叠大段未更改的行。"
+      },
+      "diffWhitespace": {
+        "label": "空白字符",
+        "hint": "行首和行尾空白字符的变化是否算作更改。",
+        "ignoreTrim": "忽略行首和行尾的空白字符",
+        "show": "显示所有空白字符的变化"
+      },
+      "syntaxHighlight": {
+        "label": "语法高亮",
+        "hint": "按语言为差异中的代码着色。"
+      },
+      "codeFontSize": {
+        "label": "代码字号",
+        "hint": "差异和追溯（blame）中代码的字号。",
+        "value": "{{size}} 像素"
+      },
+      "graphScope": {
+        "label": "提交图显示",
+        "hint": "提交图默认显示哪些分支。",
+        "current": "当前分支",
+        "all": "所有分支"
+      },
+      "autoFetch": {
+        "label": "自动获取",
+        "hint": "在后台获取所选仓库。"
+      },
+      "autoFetchMinutes": {
+        "label": "获取间隔",
+        "hint": "在后台获取所选仓库的频率。",
+        "value_other": "{{count}} 分钟"
+      },
+      "confirmDiscard": {
+        "label": "放弃更改前确认",
+        "hint": "放弃文件的更改之前先询问。"
+      },
+      "dateStyle": {
+        "label": "日期",
+        "hint": "以相对时间或具体日期显示提交日期。",
+        "relative": "相对时间（3 小时前）",
+        "absolute": "具体日期（2026-01-31 14:05）"
+      }
+    },
+    "gate": {
+      "disabled": "已被安全设置中的“{{setting}}”关闭。",
+      "protected": "{{branch}} 是受保护的分支。",
+      "loading": "正在读取安全设置…"
+    }
+  },
+  "commands": {
+    "open": "高级 Git：打开",
+    "fetch": "高级 Git：获取",
+    "pull": "高级 Git：拉取",
+    "push": "高级 Git：推送",
+    "sync": "高级 Git：同步",
+    "commit": "高级 Git：提交",
+    "createBranch": "高级 Git：创建分支…",
+    "switchBranch": "高级 Git：切换分支…",
+    "stash": "高级 Git：储藏更改…",
+    "refresh": "高级 Git：刷新"
+  },
+  "shortcuts": {
+    "title": "键盘快捷键",
+    "intro": "快捷键在高级 Git 获得焦点时可用。",
+    "nativeLimit": "键盘快捷键仅在浏览器和桌面应用中可用。",
+    "commit": "提交",
+    "fetch": "获取",
+    "pull": "拉取",
+    "push": "推送",
+    "sync": "同步",
+    "refresh": "刷新",
+    "createBranch": "创建分支",
+    "switchBranch": "切换分支",
+    "stash": "储藏更改",
+    "focusSearch": "搜索提交图",
+    "focusFilter": "筛选导航",
+    "showShortcuts": "显示键盘快捷键",
+    "closeDetail": "关闭详细信息",
+    "toggleNavigation": "显示或隐藏导航",
+    "showChanges": "显示更改",
+    "showGraph": "显示提交图",
+    "showBranches": "显示分支",
+    "nextChange": "差异中的下一处更改",
+    "previousChange": "差异中的上一处更改"
+  },
+  "time": {
+    "now": "刚刚",
+    "ago": "{{span}}前",
+    "in": "{{span}}后",
+    "absolute": "{{date}} {{time}}",
+    "unit": {
+      "second_other": "{{count}} 秒",
+      "minute_other": "{{count}} 分钟",
+      "hour_other": "{{count}} 小时",
+      "day_other": "{{count}} 天",
+      "week_other": "{{count}} 周",
+      "month_other": "{{count}} 个月",
+      "year_other": "{{count}} 年"
+    }
+  },
+  "nav": {
+    "title": "导航",
+    "filter": "筛选",
+    "filterLabel": "筛选仓库、分支、远程、标签、储藏、工作树和子模块",
+    "repositories": "仓库",
+    "loading": "正在加载…",
+    "truncated": "列表已截断：只显示前面的条目。",
+    "discoveryTruncated_other": "只列出前 {{count}} 个仓库。",
+    "copyFailed": "无法复制 {{text}}。",
+    "repo": {
+      "repository": "仓库",
+      "submodule": "子模块",
+      "worktree": "工作树",
+      "detached": "分离于 {{hash}}",
+      "noCommits": "尚无提交",
+      "changed": "有已更改的文件",
+      "staged": "有已暂存的更改",
+      "conflicted": "有冲突",
+      "operation": {
+        "merge": "正在合并",
+        "rebase": "正在变基",
+        "cherry-pick": "正在拣选",
+        "revert": "正在还原",
+        "bisect": "正在二分查找",
+        "am": "正在应用补丁"
+      },
+      "failed": "Git 无法读取此仓库：{{error}}",
+      "uninitialized": "未初始化",
+      "initialize": "初始化",
+      "initializeHint": "初始化此子模块并检出",
+      "initialized": "已初始化 {{name}}。",
+      "show": "显示",
+      "copyPath": "复制路径"
+    }
+  },
+  "changes": {
+    "title": "更改",
+    "tree": {
+      "file": "{{path}}，{{status}}",
+      "folder_other": "文件夹 {{path}}，{{count}} 个已更改的文件",
+      "renamedHint": "{{from}} → {{path}}"
+    },
+    "status": {
+      "modified": "已修改",
+      "added": "已添加",
+      "deleted": "已删除",
+      "renamed": "已重命名",
+      "copied": "已复制",
+      "typeChanged": "类型已更改",
+      "conflict": "冲突",
+      "untracked": "未跟踪"
+    },
+    "filter": "筛选更改",
+    "filterLabel": "按路径筛选文件",
+    "viewAsList": "以列表形式查看",
+    "viewAsTree": "以树形式查看",
+    "noMatch": "没有与筛选条件匹配的文件。",
+    "staged": "暂存的更改",
+    "changes": "更改",
+    "stage": "暂存更改",
+    "stageNamed": "暂存 {{path}}",
+    "stageAll": "暂存所有更改",
+    "unstage": "取消暂存更改",
+    "unstageNamed": "取消暂存 {{path}}",
+    "unstageAll": "取消暂存所有更改",
+    "discardNamed": "放弃 {{path}} 中的更改",
+    "discardAll": "放弃所有更改",
+    "openChanges": "打开更改",
+    "openFile": "打开文件",
+    "openFileNamed": "打开 {{path}}",
+    "fileHistory": "打开文件历史记录",
+    "blame": "追溯（Blame）",
+    "copyPath": "复制路径",
+    "copyRelativePath": "复制相对路径",
+    "addToGitignore": "添加到 .gitignore",
+    "ignored": "已添加到 .gitignore。",
+    "tooMany": {
+      "toast": "位于“{{path}}”的 Git 仓库中存在太多活动更改，将仅启用部分 Git 功能。",
+      "title": "更改太多",
+      "text_other": "检测到太多更改。下面仅显示前 {{count}} 个更改。",
+      "ignore": "将“{{folder}}”添加到 .gitignore",
+      "ignoreHint": "将“{{folder}}”添加到仓库根目录的 .gitignore"
+    },
+    "discard": {
+      "action": "放弃更改",
+      "menu": "放弃更改…",
+      "trackedOne": "确定要放弃“{{name}}”中的更改吗？",
+      "trackedMany_other": "确定要放弃 {{count}} 个文件中的所有更改吗？",
+      "restoreOne": "确定要还原“{{name}}”吗？",
+      "restoreMany_other": "确定要还原全部 {{count}} 个文件吗？",
+      "untrackedOne": "确定要删除以下未跟踪的文件吗：“{{name}}”？",
+      "untrackedMany_other": "确定要删除这 {{count}} 个未跟踪的文件吗？",
+      "irreversible": "此操作不可撤销！如果继续，你当前的工作集将永久丢失。",
+      "trashOne": "你可以从废纸篓中恢复此文件。",
+      "trashMany": "你可以从废纸篓中恢复这些文件。",
+      "mixed": "{{tracked}} 个已跟踪文件中的更改将永久丢失；{{untracked}} 个未跟踪的文件将被移到废纸篓，可以从中恢复。",
+      "includeUntracked_other": "同时将 {{count}} 个未跟踪的文件移到废纸篓",
+      "discardFile": "放弃文件",
+      "discardAll_other": "放弃全部 {{count}} 个文件",
+      "discardTracked_other": "放弃 {{count}} 个已跟踪的文件",
+      "restoreFile": "还原文件",
+      "restoreAll_other": "还原全部 {{count}} 个文件",
+      "moveToTrash": "移到废纸篓",
+      "permanentTitle": "无法使用废纸篓删除。是否要改为永久删除？",
+      "deleteFile": "删除文件",
+      "deleteAll_other": "删除全部 {{count}} 个文件"
+    },
+    "conflicts": {
+      "title": "合并更改",
+      "open": "打开冲突",
+      "acceptOurs": "接受当前（我方）",
+      "acceptOursNamed": "接受 {{path}} 的当前一方",
+      "acceptTheirs": "接受传入（对方）",
+      "acceptTheirsNamed": "接受 {{path}} 的传入一方",
+      "markResolved": "标记为已解决",
+      "markResolvedNamed": "将 {{path}} 标记为已解决",
+      "markAllResolved": "全部标记为已解决",
+      "stillMarked_other": "{{count}} 个文件中仍有冲突标记。仍要标记为已解决吗？",
+      "stillMarkedBody": "除非先删除这些标记，否则它们将被原样提交。",
+      "deleteFile": "删除文件…",
+      "deleteOne": "删除 {{path}}？",
+      "deleteMany_other": "删除 {{count}} 个冲突中的文件？",
+      "delete": "删除"
+    },
+    "clean": {
+      "title": "没有要提交的更改",
+      "upToDate": "分支已与 {{upstream}} 同步。",
+      "ahead_other": "{{count}} 个提交等待推送。",
+      "behind_other": "{{count}} 个提交等待拉取。",
+      "diverged": "{{ahead}} 个提交待推送，{{behind}} 个提交待拉取。",
+      "unpublished": "此分支尚未发布。",
+      "detached": "HEAD 不在任何分支上。"
+    }
+  },
+  "commit": {
+    "title": "提交",
+    "message": "提交信息",
+    "moreActions": "更多提交操作",
+    "commit": "提交",
+    "commitSignedOff": "提交（签名）",
+    "commitStaged": "提交已暂存的更改",
+    "commitAll": "全部提交",
+    "amend": "提交（修正）",
+    "commitPush": "提交并推送",
+    "commitSync": "提交并同步",
+    "signoff": "签名（Sign Off）",
+    "commitHint": "提交更改",
+    "commitHintBranch": "在“{{branch}}”上提交更改",
+    "continueHint": "继续进行中的操作",
+    "continue": {
+      "merge": "继续合并",
+      "rebase": "继续变基",
+      "cherryPick": "继续拣选",
+      "revert": "继续还原",
+      "bisect": "继续二分查找",
+      "am": "继续应用补丁"
+    },
+    "placeholder": {
+      "chordOnBranch": "消息（按 {{chord}} 在“{{branch}}”上提交）",
+      "chord": "消息（按 {{chord}} 提交）",
+      "onBranch": "消息（在“{{branch}}”上提交）",
+      "plain": "消息"
+    },
+    "subjectLong": "标题行有 {{length}} 个字符；不超过 {{limit}} 个更易读。",
+    "subjectTooLong": "标题行有 {{length}} 个字符，超过了 {{limit}} 个。",
+    "blocked": {
+      "noMessage": "请先填写提交信息。",
+      "nothingToCommit": "没有可提交的更改。",
+      "nothingStaged": "没有可提交的暂存更改。",
+      "noCommits": "还没有可修正的提交。",
+      "conflicts": "请先解决冲突中的文件。",
+      "operation": "此操作进行中时无法执行：请先继续或中止它。"
+    },
+    "stageAll": {
+      "title": "没有可提交的暂存更改。",
+      "body": "是否要暂存所有更改并直接提交？",
+      "confirm": "是"
+    },
+    "amendPushed": {
+      "title": "修正已推送的提交？",
+      "body": "最后一个提交已在 {{upstream}} 上。修正会在本地替换它，之后此分支只能强制推送。",
+      "lost": "已发布到 {{upstream}} 的 {{hash}}",
+      "confirm": "修正"
+    }
+  },
+  "graph": {
+    "title": "提交图",
+    "search": "搜索提交",
+    "searchIn": "搜索{{field}}",
+    "field": {
+      "label": "搜索范围",
+      "message": "提交信息",
+      "author": "作者",
+      "hash": "哈希",
+      "path": "路径",
+      "content": "内容"
+    },
+    "scope": {
+      "showAll": "显示所有分支",
+      "showCurrent": "仅显示当前分支"
+    },
+    "noMerges": "隐藏合并提交",
+    "snapshots": "安全快照…",
+    "filtered": "搜索结果以列表显示，不绘制提交图的分支线。",
+    "clearFilter": "清除搜索",
+    "searchCapped": "仅显示前 {{count}} 个匹配项。请细化搜索以查看其他结果。",
+    "capped": "仅加载了前 {{count}} 个提交。",
+    "lanesCut": "并行的分支超过 {{count}} 条，超出部分的分支线未绘制。",
+    "empty": "尚无提交。",
+    "noMatches": "没有与搜索匹配的提交。",
+    "incoming": "传入的更改",
+    "outgoing": "传出的更改",
+    "row": "{{subject}}，{{author}}，{{time}}",
+    "headRow": "{{subject}}，{{author}}，{{time}}，已检出",
+    "pendingRow": "{{subject}}，{{name}}",
+    "selected_other": "已选择 {{count}} 个提交",
+    "clearSelection": "清除选择",
+    "copiedHash": "已复制提交哈希",
+    "copiedSubject": "已复制提交标题",
+    "card": {
+      "when": "{{relative}}（{{absolute}}）"
+    },
+    "stats": {
+      "files_other": "{{count}} 个文件已更改",
+      "insertions_other": "{{count}} 处插入(+)",
+      "deletions_other": "{{count}} 处删除(-)",
+      "filesShort_other": "{{count}} 个文件",
+      "added": "+{{count}}",
+      "removed": "−{{count}}"
+    },
+    "ref": {
+      "head": "当前分支 {{name}}",
+      "branch": "分支 {{name}}",
+      "remote": "远程分支 {{name}}",
+      "tag": "标签 {{name}}",
+      "overflow": "+{{count}}",
+      "more": "另有：{{names}}",
+      "checkout": "检出 {{name}}"
+    },
+    "menu": {
+      "checkout": "检出（分离头指针）",
+      "alreadyCheckedOut": "已检出",
+      "createBranch": "在此处创建分支…",
+      "createTag": "在此处创建标签…",
+      "cherryPick": "拣选",
+      "cherryPickMany_other": "拣选 {{count}} 个提交",
+      "revert": "还原",
+      "revertMany_other": "还原 {{count}} 个提交",
+      "reset": "将当前分支重置到此处…",
+      "interactiveRebase": "从此处开始交互式变基…",
+      "interactiveRebaseReason": "仅适用于当前分支历史中的提交",
+      "noHead": "未检出任何提交",
+      "merge": "将 {{name}} 合并到当前分支",
+      "mergeInto": "合并到当前分支",
+      "rebase": "将当前分支变基到 {{name}}",
+      "rebaseOnto": "将当前分支变基到",
+      "compareHead": "与 HEAD 比较",
+      "compareSelected": "比较所选提交",
+      "select": "选择",
+      "deselect": "取消选择",
+      "copyHash": "复制提交哈希",
+      "copySubject": "复制提交标题"
+    }
+  },
+  "detail": {
+    "title": "详细信息",
+    "compare": "比较",
+    "header": {
+      "commit": "提交",
+      "fileHistory": "文件历史记录",
+      "blame": "追溯 (Blame)",
+      "compare": "比较",
+      "stash": "储藏",
+      "conflict": "合并冲突"
+    },
+    "source": {
+      "workingTree": "工作树",
+      "staged": "已暂存",
+      "untracked": "未跟踪",
+      "deleted": "已删除",
+      "incoming": "传入的更改",
+      "outgoing": "传出的更改",
+      "stash": "储藏",
+      "compare": "{{from}} ↔ {{to}}"
+    },
+    "commitPane": {
+      "author": "作者",
+      "committer": "提交者",
+      "person": "{{name}} <{{email}}>",
+      "when": "{{relative}}（{{absolute}}）",
+      "hash": "提交",
+      "parent": "父提交",
+      "parents": "父提交",
+      "root": "无：这是根提交",
+      "openParent": "打开父提交 {{hash}}",
+      "signedBy": "{{status}}，签名者 {{signer}}",
+      "signature": {
+        "good": "签名有效",
+        "untrusted": "签名有效，但可信度未知",
+        "bad": "签名无效",
+        "expired": "签名已过期",
+        "expiredKey": "签名所用密钥已过期",
+        "revoked": "签名所用密钥已吊销",
+        "unverifiable": "无法验证签名：缺少密钥"
+      },
+      "filesTruncated": "仅列出前 {{count}} 个文件。",
+      "noFiles": "此提交未更改任何文件。",
+      "selectFile": "选择一个文件以查看其更改。",
+      "resizeInfo": "调整提交信息区域的大小",
+      "resizeFiles": "调整文件列表的大小",
+      "fileHistory": "打开文件历史",
+      "blame": "追溯",
+      "blameAt": "在此提交处追溯",
+      "deleted": "文件已被删除",
+      "openFile": "打开文件",
+      "copyPath": "复制路径",
+      "pathCopied": "已复制路径"
+    },
+    "comparePane": {
+      "swap": "交换两侧",
+      "counts": "{{ahead}}，{{behind}}",
+      "ahead_other": "{{count}} 个提交仅在 {{name}} 中",
+      "behind_other": "{{count}} 个提交仅在 {{name}} 中",
+      "truncated": "仅列出前 {{count}} 个文件。",
+      "noDifference": "没有差异。",
+      "selectFile": "选择一个文件以查看其差异。"
+    }
+  },
+  "diff": {
+    "title": "差异",
+    "layout": "差异布局",
+    "split": "并排",
+    "splitHint": "并排显示两个版本",
+    "splitTooNarrow": "宽度不足，无法并排显示两个版本",
+    "unified": "内联",
+    "unifiedHint": "将删除的行显示在新增的行上方",
+    "wrap": "切换自动换行",
+    "collapseUnchanged": "切换折叠未更改的区域",
+    "whitespaceIgnored": "显示行首/行尾空白差异",
+    "whitespaceShown": "隐藏行首/行尾空白差异",
+    "whitespaceHint": "行首和行尾空白的变化是否算作更改",
+    "previousChange": "上一个更改",
+    "nextChange": "下一个更改",
+    "position": "第 {{current}} 个，共 {{total}} 个",
+    "changeCount_other": "{{count}} 处更改",
+    "openFile": "打开文件",
+    "openFileUnavailable": "只有在网页版和桌面版中才能从面板打开文件",
+    "fileHistory": "打开文件历史记录",
+    "blame": "显示追溯 (Blame)",
+    "copyPath": "复制相对路径",
+    "syntaxColours": "语法着色",
+    "stageFile": "暂存更改",
+    "unstageFile": "取消暂存更改",
+    "discardFile": {
+      "action": "放弃更改…",
+      "title": "要放弃 {{name}} 中的更改吗？",
+      "body": "{{name}} 中的更改将被放弃。",
+      "untracked": "{{name}} 未被跟踪：它将被移到废纸篓。",
+      "confirm": "放弃文件",
+      "confirmUntracked": "移到废纸篓"
+    },
+    "trashFailed": "无法将 {{path}} 移到废纸篓，已保持原样。",
+    "binary": "此文件是二进制文件或使用了不受支持的文本编码，因此无法在文本编辑器中显示。",
+    "binarySize": "大小：{{size}}",
+    "tooLarge": "文件过大，无法比较（{{size}}）。",
+    "tooLargeHint": "打开文件以查看全部内容。",
+    "truncated": "文件较长：只比较了前面的行。",
+    "hitTimeout": "与 VS Code 一样，差异计算在五秒后停止：标记为更改的内容可能多于实际更改。",
+    "fontUnmeasured": "无法测量代码字体：{{detail}}",
+    "ruler": "更改概览",
+    "showUnchanged": "显示未更改的区域",
+    "doubleClickToUnfold": "双击以展开",
+    "hiddenLines_other": "{{count}} 行已隐藏",
+    "showMoreAbove": "单击或拖动以显示上方更多内容",
+    "showMoreBelow": "单击或拖动以显示下方更多内容",
+    "foldUnchanged": "折叠未更改的区域",
+    "noLongerChanged": "此文件在工作树中已没有更改。",
+    "noLongerStaged": "此文件已没有暂存的更改。",
+    "noLongerChangedHint": "自打开以来，它已被提交、暂存、取消暂存或放弃。",
+    "showStaged": "显示暂存的更改",
+    "showChanges": "显示工作树中的更改",
+    "size": {
+      "bytes_other": "{{count}} 字节",
+      "kilobytes": "{{size}} KB",
+      "megabytes": "{{size}} MB"
+    },
+    "hunks": {
+      "mode": "代码块",
+      "modeHint": "暂存、取消暂存或放弃代码块和行",
+      "selectHint": "选择要暂存的行，或使用代码块上的按钮。",
+      "selected_other": "已选择 {{count}} 行",
+      "selectFirst": "请先选择行",
+      "clear": "清除",
+      "stageLines": "暂存所选行",
+      "unstageLines": "取消暂存所选行",
+      "discardLines": "放弃所选行…",
+      "stageHunk": "暂存代码块",
+      "unstageHunk": "取消暂存代码块",
+      "discardHunk": "放弃代码块…",
+      "selectHunk": "选择此代码块中所有更改的行",
+      "selectLine": "选择此行",
+      "lineLabel": "{{sign}} {{text}}",
+      "discardTitle": "要放弃 {{name}} 中的更改吗？",
+      "discardBody_other": "将从工作树中放弃 {{count}} 行更改。",
+      "discardConfirm": "放弃",
+      "stale": "读取代码块后文件已发生变化。已重新读取，请重新选择。",
+      "binary": "二进制文件没有可用的代码块。",
+      "none": "没有可显示的代码块。",
+      "truncated_other": "只列出了前 {{count}} 个代码块。"
+    }
+  },
+  "history": {
+    "title": "文件历史",
+    "file": {
+      "empty": "没有提交更改过此文件。",
+      "capped": "仅加载了前 {{count}} 个提交。",
+      "wasPath": "原为 {{path}}",
+      "openCommit": "打开提交",
+      "selectCommit": "选择一个提交以查看它对此文件的更改。",
+      "resize": "调整提交列表的大小"
+    },
+    "reset": {
+      "title": "将 {{branch}} 重置到 {{hash}}",
+      "detached": "HEAD",
+      "intro": "将 {{branch}} 移动到 {{hash}}“{{subject}}”。",
+      "introNoSubject": "将 {{branch}} 移动到 {{hash}}。",
+      "leaving_other": "{{count}} 个提交将离开该分支。",
+      "leavingNone": "没有提交离开该分支。",
+      "uncommitted_other": "{{count}} 个已跟踪文件有未提交的更改。",
+      "clean": "已跟踪文件没有未提交的更改。",
+      "modeLabel": "模式",
+      "soft": {
+        "label": "软重置（Soft）",
+        "hint": "保留已暂存和未暂存的更改；离开分支的提交中的更改变为已暂存。"
+      },
+      "mixed": {
+        "label": "混合重置（Mixed）",
+        "hint": "保留工作树中的所有更改并取消暂存，包括离开分支的提交中的更改。"
+      },
+      "keep": {
+        "label": "保留重置（Keep）",
+        "hint": "保留未提交的更改；如果重置会覆盖其中任何更改则停止。"
+      },
+      "hard": {
+        "label": "硬重置（Hard）",
+        "hint": "放弃已跟踪文件的已暂存和未暂存更改。未跟踪的文件会保留。"
+      },
+      "submit": "重置",
+      "hardNext": "硬重置…",
+      "hardTitle": "硬重置 {{branch}}？",
+      "hardBody": "分支将移动到 {{hash}}，已跟踪文件的所有未提交更改都将被放弃。",
+      "hardConfirm": "硬重置",
+      "lostCommits_other": "{{count}} 个提交离开该分支",
+      "done": "已重置到 {{hash}}。",
+      "doneSnapshot": "已重置到 {{hash}}。你的更改已保存为安全快照（{{ref}}）。"
+    },
+    "pick": {
+      "noCommit": "不提交：将结果保留为已暂存",
+      "mainline": "与合并提交比较的父提交",
+      "mainlineIntro": "{{hash}} 是合并提交。请选择它保留的那一侧父提交：",
+      "parent": "父提交 {{number}}：{{hash}}",
+      "firstParent": "被合并进入的分支",
+      "otherParent": "被合并进来的分支",
+      "conflicted": "因冲突而停止。请在“冲突”部分解决冲突，然后继续或中止。"
+    },
+    "cherryPick": {
+      "title_other": "拣选 {{count}} 个提交",
+      "body": "将这些提交应用到当前分支，从最早的开始：",
+      "noCommitHint": "git cherry-pick --no-commit",
+      "recordOrigin": "在提交信息中记录原始提交",
+      "recordOriginHint": "添加“(cherry picked from commit …)”，与 git cherry-pick -x 相同。",
+      "submit": "拣选",
+      "done_other": "已拣选 {{count}} 个提交。"
+    },
+    "revert": {
+      "title_other": "还原 {{count}} 个提交",
+      "body": "创建撤销这些提交的新提交，从最新的开始：",
+      "noCommitHint": "git revert --no-commit",
+      "submit": "还原",
+      "done_other": "已还原 {{count}} 个提交。"
+    }
+  },
+  "blame": {
+    "title": "追溯",
+    "workTree": "工作树",
+    "at": "位于 {{rev}}",
+    "truncated": "仅显示前 {{count}} 行。",
+    "empty": "文件为空。",
+    "uncommitted": "尚未提交",
+    "uncommittedLine": "第 {{line}} 行，尚未提交",
+    "lineLabel": "第 {{line}} 行，{{hash}}，作者 {{author}}",
+    "gutter": "{{hash}} {{author}}，{{time}}",
+    "card": "{{author}} <{{email}}>，{{when}}",
+    "openCommit": "打开提交",
+    "before": "追溯此更改之前的版本"
+  },
+  "conflict": {
+    "title": "冲突",
+    "current": "当前",
+    "incoming": "传入",
+    "acceptCurrent": "采用当前",
+    "acceptCurrentHint": "采用当前一方的整个文件版本并暂存",
+    "acceptIncoming": "采用传入",
+    "acceptIncomingHint": "采用传入一方的整个文件版本并暂存",
+    "acceptDeletes": "该方删除了此文件：采用它将删除此文件",
+    "markResolved": "标记为已解决",
+    "markersLeft": "文件中仍有冲突标记。",
+    "saveFirst": "请先保存结果",
+    "deleteAction": "删除文件…",
+    "deleteTitle": "要删除 {{path}} 吗？",
+    "deleteBody": "此文件将从工作树和索引中移除，从而解决其冲突。",
+    "delete": "删除文件",
+    "openFile": "打开文件",
+    "binary": "这是二进制文件：无法在此比较或合并其两方。",
+    "binaryHint": "采用当前或传入的版本，或删除此文件。",
+    "truncatedNotice": "文件过大，无法完整读取：无法在此解决冲突块。请采用一方，或手动编辑文件。",
+    "truncated": "文件未被完整读取",
+    "tabs": "冲突视图",
+    "tabResult": "结果",
+    "tabSides": "当前与传入",
+    "tabBase": "共同祖先",
+    "noBase": "没有共同祖先",
+    "noWorkTreeFile": "此文件不在工作树中。",
+    "draftHint": "为每个冲突选择一方，然后保存结果。",
+    "draftEdited": "结果有未保存的更改。",
+    "editAsText": "以文本编辑",
+    "showBlocks": "显示冲突",
+    "discardDraft": "放弃编辑",
+    "saveResult": "保存结果",
+    "nothingToSave": "尚未做任何更改",
+    "resolveAllFirst": "请先解决所有冲突",
+    "tooLongToSave": "结果过大，无法在此保存",
+    "resultText": "结果",
+    "blockOf": "冲突 {{current}} / {{total}}",
+    "useCurrent": "使用当前",
+    "useIncoming": "使用传入",
+    "useBoth": "两者都用",
+    "deletedInCurrent": "当前一方删除了此文件；显示的是传入一方的版本。",
+    "deletedInIncoming": "传入一方删除了此文件；显示的是当前一方的版本。",
+    "tooFarApart": "两方差异过大，无法在此比较；改为并排显示。",
+    "resolved": "此冲突已解决。",
+    "resolvedHint": "此文件已不再处于冲突状态。"
+  },
+  "operation": {
+    "title": "操作进行中",
+    "kind": {
+      "merge": "合并进行中",
+      "rebase": "变基进行中",
+      "cherryPick": "拣选进行中",
+      "revert": "还原进行中",
+      "bisect": "二分查找进行中",
+      "am": "正在应用补丁"
+    },
+    "step": "第 {{step}} 步，共 {{total}} 步",
+    "onto": "正在将 {{branch}} 重放到 {{onto}} 上",
+    "detachedHead": "游离的 HEAD",
+    "applying": "正在应用 {{commit}}：{{subject}}",
+    "applyingHash": "正在应用 {{commit}}",
+    "stoppedForEdit": "因编辑而停止：如有需要请修正提交，然后继续。",
+    "conflicts_other": "{{count}} 个文件存在冲突：解决后继续。",
+    "readyToContinue": "没有文件存在冲突：准备好后继续。",
+    "continueHint": "使用已解决的文件继续",
+    "skipHint": "跳过正在应用的提交",
+    "abortButton": "中止…",
+    "abortHint": "回到操作开始之前的状态",
+    "result": {
+      "conflicted": "再次因冲突而停止。请解决后继续。",
+      "done": "已完成。"
+    },
+    "abort": {
+      "merge": {
+        "title": "中止合并？",
+        "body": "合并结果以及工作树和暂存区中的所有冲突解决都将被丢弃；分支将回到合并之前的位置。",
+        "confirm": "中止合并"
+      },
+      "rebase": {
+        "title": "中止变基？",
+        "body": "已重放的提交以及所有冲突解决都将被丢弃；分支将回到变基之前的位置。",
+        "confirm": "中止变基"
+      },
+      "cherryPick": {
+        "title": "中止拣选？",
+        "body": "已拣选的提交以及所有冲突解决都将被丢弃；HEAD 将回到拣选之前的位置。",
+        "confirm": "中止拣选"
+      },
+      "revert": {
+        "title": "中止还原？",
+        "body": "已进行的还原以及所有冲突解决都将被丢弃；HEAD 将回到还原之前的位置。",
+        "confirm": "中止还原"
+      },
+      "bisect": {
+        "title": "结束二分查找？",
+        "body": "标记为好和坏的提交将被遗忘，HEAD 将回到二分查找之前的位置。",
+        "confirm": "结束二分查找"
+      },
+      "am": {
+        "title": "中止应用补丁？",
+        "body": "已应用的补丁以及所有冲突解决都将被丢弃；分支将回到之前的位置。",
+        "confirm": "中止"
+      }
+    }
+  },
+  "dialog": {
+    "title": "高级 Git"
+  },
+  "branch": {
+    "title": "分支",
+    "empty": "没有本地分支。",
+    "current": "当前分支",
+    "tracks": "跟踪 {{upstream}}",
+    "upstreamGone": "其上游 {{upstream}} 已不存在",
+    "noUpstream": "没有上游",
+    "protected": "受保护的分支",
+    "otherWorktree": "已在另一个工作树中检出：{{path}}",
+    "checkout": "检出",
+    "checkoutHint": "切换到 {{name}}",
+    "merge": "合并到当前分支…",
+    "rebase": "将当前分支变基到此处…",
+    "createFrom": "从此处创建分支…",
+    "rename": "重命名…",
+    "delete": "删除…",
+    "setUpstream": "设置上游…",
+    "unsetUpstream": "取消上游",
+    "push": "推送…",
+    "compare": "与当前分支比较",
+    "copyName": "复制名称",
+    "create": "创建分支…",
+    "isCurrent": "这是当前分支。",
+    "upstreamUnset": "{{name}} 已不再有上游。",
+    "pushed": "已推送 {{name}}。",
+    "invalid": {
+      "empty": "请输入名称。",
+      "tooLong": "名称过长。",
+      "leadingDash": "名称不能以“-”开头。",
+      "characters": "名称不能包含空格、控制字符或 ~ ^ : ? * [ \\ 中的任何一个",
+      "form": "名称无效：不能包含“..”、“@{”或“//”，两端不能是“/”或“.”，任何一段不能以“.”开头，也不能以“.lock”结尾。",
+      "taken": "{{name}} 已被使用。"
+    },
+    "createDialog": {
+      "title": "创建分支",
+      "name": "分支名称",
+      "startPoint": "起点",
+      "startPointHint": "分支、标签或提交。留空则从当前 HEAD 开始。",
+      "switch": "切换到新分支",
+      "submit": "创建分支",
+      "created": "已创建 {{name}}。"
+    },
+    "switcher": {
+      "title": "切换分支",
+      "filter": "筛选分支",
+      "empty": "没有匹配的分支。",
+      "local": "本地分支",
+      "remote": "远程分支",
+      "hint": "按 Enter 切换到列出的第一个分支。"
+    },
+    "checkoutDialog": {
+      "switched": "已切换到 {{ref}}。",
+      "dirtyTitle": "本地更改会受到影响",
+      "dirtyBody": "切换到 {{ref}} 会覆盖本地更改。高级 Git 可以先储藏这些更改，切换后再重新应用。",
+      "stashSwitch": "储藏、切换并重新应用",
+      "stashConflict": "已切换到 {{ref}}，但重新应用更改时发生冲突。储藏已保留：请在“更改”中解决冲突。",
+      "detachedTitle": "检出 {{ref}}？",
+      "detachedBody": "这会在没有分支的情况下检出 {{ref}}（分离的 HEAD）。在此处所做的提交不属于任何分支，直到你创建一个分支。",
+      "detachedConfirm": "检出",
+      "remoteTitle": "检出 {{ref}}",
+      "remoteBody": "创建一个跟踪 {{ref}} 的本地分支并切换到该分支。如果已有同名本地分支跟踪它，则切换到那个分支。",
+      "localName": "本地分支名称",
+      "remoteSubmit": "检出"
+    },
+    "mergeDialog": {
+      "title": "合并 {{ref}}",
+      "body": "将 {{ref}} 合并到 {{current}}。",
+      "mode": "合并方式",
+      "ff": "尽可能快进",
+      "ffHint": "Git 的默认方式：能快进时移动分支，否则创建合并提交。",
+      "noFf": "始终创建合并提交",
+      "noFfHint": "即使可以快进，也记录这次合并。",
+      "ffOnly": "仅快进",
+      "ffOnlyHint": "需要合并提交时失败。",
+      "squash": "压缩",
+      "squashHint": "将合并后的更改暂存，由你自己提交；不记录合并。",
+      "message": "合并提交信息（可选）",
+      "submit": "合并",
+      "merged": "已将 {{ref}} 合并到 {{current}}。",
+      "fastForward": "已将 {{current}} 快进到 {{ref}}。",
+      "upToDate": "{{current}} 已包含 {{ref}} 的全部提交。",
+      "squashed": "已压缩 {{ref}}：更改已暂存，提交它们即可完成。",
+      "conflict": "合并 {{ref}} 时出现冲突而停止。请在“更改”中解决冲突，然后提交或中止合并。"
+    },
+    "rebaseDialog": {
+      "title": "变基到 {{onto}}",
+      "body": "将 {{current}} 上不在 {{onto}} 中的提交重新应用到它之上。这些提交会被改写：它们会得到新的哈希。",
+      "autostash": "先储藏本地更改，完成后再重新应用",
+      "publishedTitle": "这些提交已经推送",
+      "publishedBody": "要改写的部分提交已在 {{current}} 的上游中。拥有这些提交的每个人都需要进行协调，之后推送需要强制推送。",
+      "publishedConfirm": "改写已经推送的提交",
+      "submit": "变基",
+      "done": "已将 {{current}} 变基到 {{onto}}。",
+      "conflict": "变基因冲突而停止。请在“更改”中解决冲突，然后继续或中止。"
+    },
+    "renameDialog": {
+      "title": "重命名 {{name}}",
+      "newName": "新名称",
+      "submit": "重命名",
+      "renamed": "已将 {{name}} 重命名为 {{newName}}。"
+    },
+    "deleteDialog": {
+      "title": "删除分支 {{name}}？",
+      "body": "删除本地分支 {{name}}。它的提交仍保留在包含它们的其他分支上。",
+      "unmergedBody": "{{name}} 尚未合并：它的部分提交不在任何其他分支上。强制删除会使这些提交无法访问。",
+      "lostBranch": "分支 {{name}}",
+      "lostCommits": "仅由 {{name}} 持有的提交（将无法访问）",
+      "submit": "删除分支",
+      "force": "强制删除",
+      "deleted": "已删除 {{name}}。"
+    },
+    "upstreamDialog": {
+      "title": "设置 {{name}} 的上游",
+      "filter": "筛选远程分支",
+      "empty": "没有匹配的远程分支。请先获取或添加远程。",
+      "chosen": "上游：{{upstream}}",
+      "submit": "设置上游",
+      "set": "{{name}} 现在跟踪 {{upstream}}。"
+    }
+  },
+  "remote": {
+    "title": "远程",
+    "empty": "没有远程。",
+    "add": "添加远程…",
+    "fetch": "获取",
+    "fetchHint": "获取 {{name}}",
+    "fetched": "已获取 {{name}}。",
+    "editUrl": "编辑 URL…",
+    "rename": "重命名…",
+    "remove": "移除…",
+    "copyUrl": "复制 URL",
+    "urls": "获取：{{fetch}} · 推送：{{push}}",
+    "default": "{{remote}} 的默认分支",
+    "picker": "远程",
+    "none": "此仓库没有远程。",
+    "invalidUrl": "此 URL 不可用：不能包含空格、密码或令牌，也不能使用 ext:: 等会执行命令的传输方式。",
+    "branch": {
+      "checkout": "检出为本地分支…",
+      "delete": "在远程删除…"
+    },
+    "addDialog": {
+      "title": "添加远程",
+      "name": "名称",
+      "url": "URL",
+      "urlHint": "URL 中不要包含密码或令牌：Git 会使用主机的凭据助手或 SSH 密钥登录。",
+      "fetch": "添加后立即获取",
+      "submit": "添加远程",
+      "added": "已添加 {{name}}。"
+    },
+    "urlDialog": {
+      "title": "编辑 {{name}} 的 URL",
+      "url": "URL",
+      "push": "设置推送 URL 而不是获取 URL",
+      "submit": "保存",
+      "saved": "已保存 {{name}} 的 URL。"
+    },
+    "renameDialog": {
+      "title": "重命名远程 {{name}}",
+      "newName": "新名称",
+      "submit": "重命名",
+      "renamed": "已将 {{name}} 重命名为 {{newName}}。"
+    },
+    "removeDialog": {
+      "title": "移除远程 {{name}}？",
+      "body": "从此仓库的配置中移除 {{name}}，连同它的远程跟踪分支和引用它的上游设置。远程本身不会有任何改变。",
+      "lostRemote": "远程 {{name}}（{{url}}）",
+      "lostBranches_other": "{{count}} 个远程跟踪分支",
+      "submit": "移除远程",
+      "removed": "已移除 {{name}}。"
+    },
+    "deleteBranchDialog": {
+      "title": "在 {{remote}} 上删除 {{branch}}？",
+      "body": "在远程上删除该分支，这会影响所有使用该远程的人。本地分支会保留。",
+      "lost": "{{remote}} 上的分支 {{branch}}",
+      "submit": "在远程删除",
+      "deleted": "已在 {{remote}} 上删除 {{branch}}。"
+    }
+  },
+  "tag": {
+    "title": "标签",
+    "empty": "没有标签。",
+    "create": "创建标签…",
+    "annotated": "附注标签",
+    "lightweight": "轻量标签",
+    "checkout": "检出（分离）…",
+    "createBranch": "从此处创建分支…",
+    "push": "推送到远程…",
+    "delete": "删除…",
+    "deleteRemote": "在远程删除…",
+    "copyName": "复制名称",
+    "createDialog": {
+      "title": "创建标签",
+      "name": "标签名称",
+      "target": "目标",
+      "targetHint": "分支、标签或提交。留空则标记当前 HEAD。",
+      "message": "信息（可选）",
+      "messageHint": "填写信息时创建附注标签；不填写则创建轻量标签。",
+      "submit": "创建标签",
+      "created": "已创建标签 {{name}}。"
+    },
+    "pushDialog": {
+      "title": "推送标签 {{name}}",
+      "submit": "推送标签",
+      "pushed": "已将 {{name}} 推送到 {{remote}}。"
+    },
+    "deleteDialog": {
+      "title": "删除标签 {{name}}？",
+      "body": "在此仓库中删除该标签。远程上的副本会保留。",
+      "lost": "标签 {{name}}",
+      "submit": "删除标签",
+      "deleted": "已删除标签 {{name}}。"
+    },
+    "deleteRemoteDialog": {
+      "title": "在远程删除标签 {{name}}？",
+      "body": "在所选远程上删除该标签，这会影响所有使用该远程的人。本地标签会保留。",
+      "lost": "{{remote}} 上的标签 {{name}}",
+      "submit": "在远程删除",
+      "deleted": "已在 {{remote}} 上删除 {{name}}。"
+    }
+  },
+  "stash": {
+    "title": "储藏",
+    "empty": "没有储藏。",
+    "save": "储藏更改…",
+    "clear": "全部清除…",
+    "apply": "应用",
+    "applyHint": "应用此储藏并保留它",
+    "pop": "弹出",
+    "popHint": "应用此储藏并删除它",
+    "drop": "删除…",
+    "show": "显示更改",
+    "onBranch": "位于 {{branch}}",
+    "detachedHead": "位于分离的 HEAD",
+    "applied": "已应用 {{ref}}。",
+    "popped": "已弹出 {{ref}}。",
+    "conflicted": "应用 {{ref}} 时出现冲突。请在“更改”中解决冲突；储藏已保留。",
+    "saveDialog": {
+      "title": "储藏更改",
+      "message": "信息（可选）",
+      "untracked": "包括未跟踪的文件",
+      "keepIndex": "保留暂存区中的更改",
+      "submit": "储藏",
+      "saved": "已储藏更改。",
+      "nothing": "没有可储藏的本地更改。"
+    },
+    "dropDialog": {
+      "title": "删除 {{ref}}？",
+      "body": "删除此储藏及其中保存的更改。",
+      "submit": "删除储藏",
+      "dropped": "已删除 {{ref}}。"
+    },
+    "clearDialog": {
+      "title": "清除所有储藏？",
+      "body": "删除此仓库的所有储藏及其中保存的更改。",
+      "submit": "清除所有储藏",
+      "cleared": "已清除所有储藏。"
+    },
+    "detail": {
+      "files_other": "{{count}} 个文件",
+      "noFiles": "此储藏没有更改任何文件。",
+      "truncated": "只列出前 {{count}} 个文件。",
+      "gone": "此储藏已不存在。",
+      "selectFile": "选择一个文件以查看其更改。",
+      "resize": "调整文件列表大小"
+    }
+  },
+  "worktree": {
+    "title": "工作树",
+    "empty": "没有工作树。",
+    "add": "添加工作树…",
+    "prune": "清理",
+    "pruneHint": "忘记文件夹已不存在的工作树",
+    "pruned": "已清理缺失工作树的记录。",
+    "main": "主工作树",
+    "current": "此工作树",
+    "locked": "已锁定",
+    "prunable": "其文件夹已不存在",
+    "bare": "裸仓库",
+    "detached": "分离于 {{hash}}",
+    "open": "打开",
+    "openHint": "显示此工作树",
+    "remove": "移除…",
+    "copyPath": "复制路径",
+    "addDialog": {
+      "title": "添加工作树",
+      "path": "文件夹",
+      "pathHint": "主机上的绝对路径。该文件夹必须不存在或为空。",
+      "pathInvalid": "请输入绝对路径。",
+      "mode": "检出",
+      "existing": "现有分支",
+      "newBranch": "新分支",
+      "detached": "分离的 HEAD",
+      "branch": "分支",
+      "branchHint": "未在其他工作树中检出的本地分支。",
+      "newName": "新分支名称",
+      "startPoint": "起点",
+      "startPointHint": "分支、标签或提交。留空则从当前 HEAD 开始。",
+      "submit": "添加工作树",
+      "added": "已在 {{path}} 添加工作树。"
+    },
+    "removeDialog": {
+      "title": "移除位于 {{path}} 的工作树？",
+      "body": "删除该工作树的文件夹及其记录。它的分支和提交会保留。",
+      "force": "即使有本地更改或未跟踪的文件也移除",
+      "lostFolder": "文件夹 {{path}}",
+      "lostChanges": "其中未提交的更改和未跟踪的文件",
+      "submit": "移除工作树",
+      "removed": "已移除位于 {{path}} 的工作树。"
+    }
+  },
+  "submodule": {
+    "title": "子模块",
+    "empty": "没有子模块。",
+    "state": {
+      "uninitialized": "未初始化",
+      "clean": "干净",
+      "modified": "已修改",
+      "ahead": "已移动",
+      "conflict": "冲突"
+    },
+    "stateHint": {
+      "uninitialized": "未初始化：它还没有工作树。",
+      "clean": "位于父仓库记录的提交。",
+      "modified": "它有本地更改。",
+      "ahead": "检出的提交与父仓库记录的不同。",
+      "conflict": "在父仓库中处于冲突状态。"
+    },
+    "recorded": "父仓库记录的提交：{{hash}}",
+    "open": "打开",
+    "openHint": "显示此子模块",
+    "update": "更新",
+    "init": "初始化并更新",
+    "updateRecursive": "递归更新",
+    "sync": "同步 URL",
+    "copyPath": "复制路径",
+    "updateAll": "全部更新…",
+    "updated": "已更新 {{path}}。",
+    "updatedAll": "已更新子模块。",
+    "synced": "已同步 {{path}} 的 URL。",
+    "updateDialog": {
+      "title": "更新子模块",
+      "body": "在每个子模块中检出父仓库记录的提交。子模块中的本地更改会使更新失败，而不会丢失。",
+      "init": "初始化尚未初始化的子模块",
+      "recursive": "同时更新嵌套的子模块",
+      "remote": "改为移动到所跟踪分支的最新提交",
+      "submit": "更新"
+    }
+  },
+  "rebase": {
+    "title": "交互式变基",
+    "loading": "正在读取要改写的提交…",
+    "empty": "当前分支中此提交之后没有提交。",
+    "intro_other": "改写 {{base}} 之后的 {{count}} 个提交。提交按从早到晚的顺序列出。",
+    "action": {
+      "pick": "保留（pick）",
+      "reword": "改写信息（reword）",
+      "edit": "编辑（edit）",
+      "squash": "压缩（squash）",
+      "fixup": "修正（fixup）",
+      "drop": "丢弃（drop）"
+    },
+    "actionHint": {
+      "pick": "使用该提交",
+      "reword": "使用该提交，但修改提交信息",
+      "edit": "在该提交处停下以修改它",
+      "squash": "并入前一个提交，保留两者的提交信息",
+      "fixup": "并入前一个提交，只保留前一个提交的信息",
+      "drop": "舍弃该提交"
+    },
+    "actionLabel": "“{{subject}}”的操作",
+    "by": "{{author}}，{{time}}",
+    "moveUp": "上移",
+    "moveDown": "下移",
+    "message": "新的提交信息",
+    "summary": {
+      "separator": "，",
+      "pick_other": "保留 {{count}} 个",
+      "reword_other": "改写信息 {{count}} 个",
+      "edit_other": "编辑 {{count}} 个",
+      "squash_other": "压缩 {{count}} 个",
+      "fixup_other": "修正 {{count}} 个",
+      "drop_other": "丢弃 {{count}} 个"
+    },
+    "problem": {
+      "noneKept": "至少保留一个提交。",
+      "firstFolds": "第一个保留的提交不能压缩或修正：它之前没有可并入的提交。",
+      "emptyMessage": "改写信息的提交需要提交信息。",
+      "messageTooLong": "提交信息过长。",
+      "unchanged": "此计划尚未做任何更改。"
+    },
+    "pushed": "其中一些提交已在上游。改写它们会改写已发布的历史：所有拉取过这些提交的人都需要进行恢复。",
+    "pushedAck": "我了解这会改写已发布的历史",
+    "pushedBadge": "已推送",
+    "pushedHint": "上游已包含此提交",
+    "merges": "该范围包含合并提交。变基会舍弃它们并将历史拉平。",
+    "truncated": "提交超过 {{count}} 个：太多，无法在此变基。",
+    "autostash": "先储藏本地更改",
+    "autostashHint": "变基结束后恢复它们（git rebase --autostash）。",
+    "start": "开始变基",
+    "stale": "读取提交后分支已发生变化。已重新读取：请检查计划后再次开始。",
+    "done": "变基已完成。",
+    "conflict": "变基因冲突而停止。请解决冲突，然后继续或中止。",
+    "stopped": "变基在需要编辑的提交处停止。请修改它，然后继续。"
+  },
+  "safety": {
+    "title": "安全",
+    "snapshots": {
+      "title": "安全快照",
+      "intro": "在可能放弃已跟踪文件更改的操作之前，Advanced Git 会在此记录这些更改。恢复会将快照中的更改应用到工作树，并保留快照。",
+      "off": "安全快照已在安全设置中关闭：不会再创建新的快照。",
+      "empty": "尚无安全快照。",
+      "detail": "{{reason}} · {{branch}}",
+      "detached": "分离头指针",
+      "restore": "恢复",
+      "restoreHint": "将此快照的更改应用到工作树",
+      "restored": "快照已恢复。",
+      "restoredConflicts": "快照已恢复，但存在冲突。请在“冲突”部分解决它们。"
+    }
+  }
+}

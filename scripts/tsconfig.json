@@ -1,0 +1,18 @@
+{
+  // The CI helper scripts are plain Node ES modules. They are checked loosely: calls into Node's API and obvious
+  // mistakes, without demanding annotations on every parameter.
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2023"],
+    "types": ["node"],
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "skipLibCheck": true
+  },
+  "include": ["./*.mjs", "../preview/*.mjs", "../e2e/*.mjs"]
+}
