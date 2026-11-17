@@ -24,7 +24,7 @@ gh run watch            # or: gh run view --log-failed
 | typecheck | `tsc --noEmit` over the plugin and its tests, then over `preview/`, `e2e/` and `scripts/` |
 | lint | ESLint (no literal UI text, import boundaries, no `enum`/`namespace`), and that every translation key exists with the same keys and placeholders in `en.json` and `zh-CN.json` |
 | unit | `node --test` over `test/unit/**` (parsers, models, layout maths, safety rules) |
-| integration | `node --test` over `test/integration/**` on Ubuntu, macOS and Windows: every RPC against throwaway repositories, with local bare repositories as remotes |
+| integration | `node --test` over `test/integration/**` on Ubuntu and Windows (not macOS: GitHub's macOS runners are too scarce): every RPC against throwaway repositories, with local bare repositories as remotes |
 | plugin-load | a real headless Paseo daemon (0.14.0 and latest) installs, compiles and runs the plugin; with two daemons, that installation and state are per host |
 | e2e | Playwright drives the real panel in the browser preview against a fixture repository: layout widths, themes, both languages, the fallback language, offline host, and the flows; screenshots are uploaded as an artifact |
 | package | builds the two release archives and `SHA256SUMS` (artifact `paseo-advanced-git-<version>-<sha>`) |

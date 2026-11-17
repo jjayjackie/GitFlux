@@ -280,7 +280,7 @@ Everything below runs on GitHub-hosted runners, on push and pull request.
 | `typecheck` | `tsc --noEmit` for the plugin and the preview |
 | `lint` | ESLint, i18n parity, no literal UI text, boundary rules |
 | `unit` | `node --test` on `test/unit` |
-| `integration` | `node --test` on `test/integration`: real git, throwaway repositories, local bare repositories as remotes; multi-repository, submodule, worktree, conflict, rebase, safety, concurrency, timeout and redaction scenarios; Linux, macOS and Windows |
+| `integration` | `node --test` on `test/integration`: real git, throwaway repositories, local bare repositories as remotes; multi-repository, submodule, worktree, conflict, rebase, safety, concurrency, timeout and redaction scenarios; Linux and Windows (macOS is not run: GitHub's macOS runners are too scarce) |
 | `plugin-load` | a headless Paseo daemon compiles and loads the plugin from this checkout; two daemons prove per-host installation |
 | `e2e` | Playwright against the preview: core flows in English and 简体中文, dark and light, wide and narrow; screenshots uploaded |
 | `package` | the installable archive, uploaded as an artifact |

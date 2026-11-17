@@ -111,14 +111,16 @@ on one repository are serialised, and every Git command has a deadline.
 
 ### Not verified in CI
 
-CI runs the daemon half against throwaway repositories on Linux, macOS and Windows, loads the plugin into real headless
+CI runs the daemon half against throwaway repositories on Linux and Windows, loads the plugin into real headless
 Paseo daemons (0.14.0 and the latest release, one and two hosts), and drives the panel in a browser. It cannot check:
 
 - fetch, pull and push against a real forge over SSH or HTTPS with real credentials (CI uses local bare repositories);
 - a remote host reached through Paseo's relay or over a real network, and reconnection after a real network loss
   (CI simulates the host going offline in the browser preview);
 - rendering in the iOS and Android apps (CI renders through React Native Web only);
-- the Paseo desktop app's own window, menus and file tab.
+- the Paseo desktop app's own window, menus and file tab;
+- the daemon half on macOS (no macOS runner is used: GitHub's macOS capacity is too scarce), including case-insensitive
+  paths and moving discarded untracked files to the macOS Trash.
 
 ## Development
 
