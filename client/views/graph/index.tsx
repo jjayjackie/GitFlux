@@ -16,7 +16,7 @@ import { View } from "react-native";
 import type { GestureResponderEvent, TextInput as NativeTextInput } from "react-native";
 import { LOG_PAGE, LOG_PAGE_MAX } from "../../../shared/limits.ts";
 import { historyLogRpc, isFilterEmpty } from "../../../shared/rpc/history.ts";
-import type { LogFilter } from "../../../shared/rpc/history.ts";
+import type { LogFilter, LogScope } from "../../../shared/rpc/history.ts";
 import type { Commit } from "../../../shared/schemas.ts";
 import { SnapshotsDialog } from "../../dialogs/history/SnapshotsDialog.tsx";
 import { useT } from "../../i18n/messages.ts";
@@ -49,6 +49,7 @@ import { ancestry, EMPTY_SELECTION, newestFirst, oldestFirst, pressMode, pruneSe
 import type { Followed, GraphSelection } from "./model.ts";
 import { withPending } from "./pending.ts";
 import type { Row } from "./pending.ts";
+import { useGraphOnly, shortRef } from "./only.ts";
 import { MOST_LANES } from "./Rails.tsx";
 
 export interface GraphViewProps {
@@ -111,6 +112,10 @@ function Graph({ cwd, searchRef, focusToken }: { cwd: string; searchRef: RefObje
 
   const graph = view.graph;
   const scope = graph.scope ?? prefs.graphScope;
+  // "Show only this branch" (a ref's menu): the history of the refs chosen in this repository, instead of the scope.
+  const only = useGraphOnly(cwd);
+  const logScope = useMemo<LogScope>(() => (only.refs === null ? scope : { refs: [...only.refs] }), [only.refs, scope]);
+  const scopeKey = only.refs === null ? scope : only.refs.join("\u0000");
   const text = graph.search.trim();
   const filter = useMemo<LogFilter | undefined>(() => {
     if (text === "" && !graph.noMerges) return undefined;
@@ -121,12 +126,12 @@ function Graph({ cwd, searchRef, focusToken }: { cwd: string; searchRef: RefObje
 
   // A new scope or search starts from the first page again.
   const [limit, setLimit] = useState(LOG_PAGE);
-  useEffect(() => setLimit(LOG_PAGE), [scope, filterKey]);
+  useEffect(() => setLimit(LOG_PAGE), [scopeKey, filterKey]);
 
   const head = status.data?.head ?? null;
   const branch = status.data?.branch ?? null;
   const ready = status.data !== undefined && head !== null;
-  const log = useGitQuery(historyLogRpc, ready ? { cwd, scope, limit, skip: 0, filter } : null, { keepPrevious: true });
+  const log = useGitQuery(historyLogRpc, ready ? { cwd, scope: logScope, limit, skip: 0, filter } : null, { keepPrevious: true });
 
   // Read the history again whenever HEAD or any ref moves (upstream's History keyed its query on them).
   const stamp = `${head ?? ""}\u0000${status.data?.refs ?? ""}`;
@@ -141,11 +146,13 @@ function Graph({ cwd, searchRef, focusToken }: { cwd: string; searchRef: RefObje
   const commits = log.data?.commits ?? NONE;
   const sync = log.data?.sync ?? null;
   const names = useMemo(() => ({ branch: branch ?? (head ? shortHash(head) : ""), upstream: status.data?.upstream ?? "" }), [branch, head, status.data?.upstream]);
-  const rows = useMemo<Row[]>(() => (filtered ? [...commits] : withPending(commits, sync, names)), [filtered, commits, sync, names]);
+  // Incoming and outgoing rows belong to the current branch's history: not drawn when the graph shows other refs only.
+  const limited = only.refs !== null;
+  const rows = useMemo<Row[]>(() => (filtered || limited ? [...commits] : withPending(commits, sync, names)), [filtered, limited, commits, sync, names]);
   const rails = useMemo(() => (filtered ? null : layout(rows)), [filtered, rows]);
   const lanesCut = rails !== null && widestRail(rails) > MOST_LANES;
   const order = useMemo(() => rows.filter((row) => !row.pending).map((row) => row.hash), [rows]);
-  const followed = useMemo<Followed>(() => ({ upstream: status.data?.upstream ?? null, base: status.data?.base ?? null, all: scope === "all" }), [status.data?.upstream, status.data?.base, scope]);
+  const followed = useMemo<Followed>(() => ({ upstream: status.data?.upstream ?? null, base: status.data?.base ?? null, all: scope === "all" || limited }), [status.data?.upstream, status.data?.base, scope, limited]);
 
   const [selection, setSelection] = useState<GraphSelection>(EMPTY_SELECTION);
   useEffect(() => setSelection((current) => pruneSelection(current, order)), [order]);
@@ -189,7 +196,7 @@ function Graph({ cwd, searchRef, focusToken }: { cwd: string; searchRef: RefObje
   const fieldItems = (): MenuItem[] =>
     FIELDS.map((field) => ({ id: field, label: t(FIELD_LABELS[field]), checked: field === graph.field, onPress: () => setGraph({ field }), testID: `ag-graph-field-${field}` }));
   const moreItems = (): MenuItem[] => [
-    { id: "scope", label: scope === "all" ? t("graph.scope.showCurrent") : t("graph.scope.showAll"), icon: codicon.gitBranch, onPress: () => setGraph({ scope: scope === "all" ? "current" : "all" }) },
+    { id: "scope", label: scope === "all" ? t("graph.scope.showCurrent") : t("graph.scope.showAll"), icon: codicon.gitBranch, onPress: () => setGraph({ scope: scope === "all" ? "current" : "all", only: null }) },
     { id: "merges", label: t("graph.noMerges"), checked: graph.noMerges, onPress: () => setGraph({ noMerges: !graph.noMerges }) },
     separator("s-safety"),
     { id: "snapshots", label: t("graph.snapshots"), icon: codicon.history, onPress: () => dialogs.open(SnapshotsDialog, { cwd }), testID: "ag-graph-snapshots" },
@@ -235,7 +242,7 @@ function Graph({ cwd, searchRef, focusToken }: { cwd: string; searchRef: RefObje
           icon={codicon.gitBranch}
           label={scope === "all" ? t("graph.scope.showCurrent") : t("graph.scope.showAll")}
           toggled={scope === "all"}
-          onPress={() => setGraph({ scope: scope === "all" ? "current" : "all" })}
+          onPress={() => setGraph({ scope: scope === "all" ? "current" : "all", only: null })}
           testID="ag-graph-scope"
         />
       )}
@@ -288,6 +295,11 @@ function Graph({ cwd, searchRef, focusToken }: { cwd: string; searchRef: RefObje
   return (
     <View style={{ flex: 1, minHeight: 0 }}>
       {header}
+      {limited && (
+        <Notice testID="ag-graph-only" text={t("graph.only.notice", { names: (only.refs ?? []).map(shortRef).join(", ") })}>
+          <Button small variant="ghost" label={t("graph.only.clear")} onPress={only.clear} testID="ag-graph-only-clear" />
+        </Notice>
+      )}
       {filtered && (
         <Notice testID="ag-graph-filtered" text={t("graph.filtered")}>
           <Button small variant="ghost" label={t("graph.clearFilter")} onPress={clearFilter} testID="ag-graph-clear-filter" />
