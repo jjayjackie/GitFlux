@@ -1,177 +1,150 @@
-// Syntax tokens for git.diff.file: highlight.js's HTML turned into the compact per-line encoding of
-// shared/schemas.ts (tokenLineSchema): `[length, scope, length, scope, …]` per line, lengths in UTF-16 code units,
-// `scope` an index into TOKEN_SCOPES. The language comes from the file's name through an explicit table, never from
-// highlightAuto; only the languages in that table are registered.
+// Syntax tokens for git.diff.file, from Prism's tokenizer, in the compact per-line encoding of shared/schemas.ts
+// (tokenLineSchema): `[length, scope, length, scope, …]` per line, lengths in UTF-16 code units, `scope` an index into
+// TOKEN_SCOPES. The language comes from the file's name through an explicit table, never from auto-detection; only the
+// grammars imported below exist.
 //
 // API
-//   languageFor(path) → highlight.js language name | null
-//   highlightLines(lines, language) → Tokens | null   one entry per line; null when the language is unknown or fails
-//   htmlToTokens(html, lineCount?) → Tokens            the pure conversion (unit-tested): nested spans, innermost scope
-//                                                      wins; a span without an `hljs-` class takes its parent's scope;
-//                                                      an `hljs-` scope missing from TOKEN_SCOPES maps to the nearest
-//                                                      one, else to none; entities decoded; a token across lines is
+//   languageFor(path) → Prism language name | null
+//   highlightLines(lines, language) → Tokens | null   one entry per line; null for an unknown language, a line longer
+//                                                      than LINE_MAX, text past HIGHLIGHT_MAX_BYTES, or any failure
+//   streamToTokens(stream, length, lineCount) → Tokens | null
+//                                                      the pure conversion (unit-tested): depth first, the innermost
+//                                                      token's scope wins; a type missing from the table takes a known
+//                                                      alias, else its enclosing token's scope; a token across lines is
 //                                                      split at each line break; text after the last token is plain.
-//   scopeIndex(classAttribute) → number | null         the scope of one span's class attribute.
+//                                                      Null unless the stream's text is exactly `length` long and makes
+//                                                      `lineCount` lines.
+//   scopeFor(type, alias, enclosing) → number          the scope index of one Prism token.
 
-import hljs from "highlight.js/lib/core";
-import bash from "highlight.js/lib/languages/bash";
-import c from "highlight.js/lib/languages/c";
-import cpp from "highlight.js/lib/languages/cpp";
-import csharp from "highlight.js/lib/languages/csharp";
-import css from "highlight.js/lib/languages/css";
-import dart from "highlight.js/lib/languages/dart";
-import diff from "highlight.js/lib/languages/diff";
-import dockerfile from "highlight.js/lib/languages/dockerfile";
-import elixir from "highlight.js/lib/languages/elixir";
-import go from "highlight.js/lib/languages/go";
-import haskell from "highlight.js/lib/languages/haskell";
-import ini from "highlight.js/lib/languages/ini";
-import java from "highlight.js/lib/languages/java";
-import javascript from "highlight.js/lib/languages/javascript";
-import json from "highlight.js/lib/languages/json";
-import kotlin from "highlight.js/lib/languages/kotlin";
-import latex from "highlight.js/lib/languages/latex";
-import less from "highlight.js/lib/languages/less";
-import lua from "highlight.js/lib/languages/lua";
-import makefile from "highlight.js/lib/languages/makefile";
-import markdown from "highlight.js/lib/languages/markdown";
-import objectivec from "highlight.js/lib/languages/objectivec";
-import perl from "highlight.js/lib/languages/perl";
-import php from "highlight.js/lib/languages/php";
-import powershell from "highlight.js/lib/languages/powershell";
-import protobuf from "highlight.js/lib/languages/protobuf";
-import python from "highlight.js/lib/languages/python";
-import r from "highlight.js/lib/languages/r";
-import ruby from "highlight.js/lib/languages/ruby";
-import rust from "highlight.js/lib/languages/rust";
-import scala from "highlight.js/lib/languages/scala";
-import scss from "highlight.js/lib/languages/scss";
-import sql from "highlight.js/lib/languages/sql";
-import swift from "highlight.js/lib/languages/swift";
-import typescript from "highlight.js/lib/languages/typescript";
-import xml from "highlight.js/lib/languages/xml";
-import yaml from "highlight.js/lib/languages/yaml";
+import Prism from "prismjs";
+// Grammars beyond those prism.js itself holds (markup, css, clike, javascript). Each reads the global `Prism` that
+// prism.js sets in Node, and builds on the grammars it extends, so the order matters: a grammar after its parents.
+import "prismjs/components/prism-markup-templating.js"; // markup → (php)
+import "prismjs/components/prism-typescript.js"; // javascript
+import "prismjs/components/prism-jsx.js"; // markup, javascript
+import "prismjs/components/prism-tsx.js"; // jsx, typescript
+import "prismjs/components/prism-json.js";
+import "prismjs/components/prism-yaml.js"; // (markdown's front matter)
+import "prismjs/components/prism-markdown.js"; // markup, (yaml)
+import "prismjs/components/prism-graphql.js"; // (markdown)
+import "prismjs/components/prism-scss.js"; // css
+import "prismjs/components/prism-less.js"; // css
+import "prismjs/components/prism-toml.js";
+import "prismjs/components/prism-ini.js";
+import "prismjs/components/prism-bash.js";
+import "prismjs/components/prism-python.js";
+import "prismjs/components/prism-ruby.js"; // clike
+import "prismjs/components/prism-go.js"; // clike
+import "prismjs/components/prism-rust.js";
+import "prismjs/components/prism-java.js"; // clike
+import "prismjs/components/prism-kotlin.js"; // clike
+import "prismjs/components/prism-scala.js"; // java
+import "prismjs/components/prism-swift.js";
+import "prismjs/components/prism-c.js"; // clike
+import "prismjs/components/prism-cpp.js"; // c
+import "prismjs/components/prism-csharp.js"; // clike
+import "prismjs/components/prism-php.js"; // markup-templating
+import "prismjs/components/prism-sql.js";
+import "prismjs/components/prism-lua.js";
+import "prismjs/components/prism-dart.js"; // clike
+import "prismjs/components/prism-haskell.js";
+import "prismjs/components/prism-elixir.js";
+import "prismjs/components/prism-perl.js";
+import "prismjs/components/prism-r.js";
+import "prismjs/components/prism-powershell.js";
+import "prismjs/components/prism-protobuf.js"; // clike
+import "prismjs/components/prism-latex.js";
+import "prismjs/components/prism-diff.js";
+import "prismjs/components/prism-docker.js";
+import "prismjs/components/prism-makefile.js";
+import { HIGHLIGHT_MAX_BYTES } from "../shared/limits.ts";
 import { TOKEN_SCOPES, type TokenLine, type TokenScope, type Tokens } from "../shared/schemas.ts";
 
-type LanguageFn = Parameters<typeof hljs.registerLanguage>[1];
+// Prism's types, taken from the value: Paseo's compiler resolves every type-only import against the installed package,
+// and prismjs ships no typings (server/prism.d.ts declares it for tsc only).
+type Piece = ReturnType<typeof Prism.tokenize>[number];
+export type TokenStream = Piece | Piece[];
+type Grammar = NonNullable<(typeof Prism.languages)[string]>;
 
-const LANGUAGES: Record<string, unknown> = {
-  bash,
-  c,
-  cpp,
-  csharp,
-  css,
-  dart,
-  diff,
-  dockerfile,
-  elixir,
-  go,
-  haskell,
-  ini,
-  java,
-  javascript,
-  json,
-  kotlin,
-  latex,
-  less,
-  lua,
-  makefile,
-  markdown,
-  objectivec,
-  perl,
-  php,
-  powershell,
-  protobuf,
-  python,
-  r,
-  ruby,
-  rust,
-  scala,
-  scss,
-  sql,
-  swift,
-  typescript,
-  xml,
-  yaml,
-};
-for (const [name, language] of Object.entries(LANGUAGES)) hljs.registerLanguage(name, language as LanguageFn);
+/** A line longer than this (minified code, data) gives the whole side no tokens: tokenising it is slow and useless. */
+export const LINE_MAX = 5_000;
 
-/** File extensions (lower case, without the dot) to language names. */
+/** File extensions (lower case, without the dot) to Prism language names. */
 const BY_EXTENSION: Record<string, string> = {
-  sh: "bash",
-  bash: "bash",
-  zsh: "bash",
-  c: "c",
-  h: "c",
-  cc: "cpp",
-  cpp: "cpp",
-  cxx: "cpp",
-  hh: "cpp",
-  hpp: "cpp",
-  hxx: "cpp",
-  cs: "csharp",
-  css: "css",
-  dart: "dart",
-  diff: "diff",
-  patch: "diff",
-  ex: "elixir",
-  exs: "elixir",
-  go: "go",
-  hs: "haskell",
-  ini: "ini",
-  toml: "ini",
-  cfg: "ini",
-  java: "java",
   js: "javascript",
   mjs: "javascript",
   cjs: "javascript",
-  jsx: "javascript",
-  json: "json",
-  jsonc: "json",
-  kt: "kotlin",
-  kts: "kotlin",
-  tex: "latex",
-  less: "less",
-  lua: "lua",
-  mk: "makefile",
-  md: "markdown",
-  markdown: "markdown",
-  m: "objectivec",
-  mm: "objectivec",
-  pl: "perl",
-  pm: "perl",
-  php: "php",
-  ps1: "powershell",
-  psm1: "powershell",
-  proto: "protobuf",
-  py: "python",
-  pyw: "python",
-  r: "r",
-  rb: "ruby",
-  rs: "rust",
-  scala: "scala",
-  scss: "scss",
-  sql: "sql",
-  swift: "swift",
+  jsx: "jsx",
   ts: "typescript",
   mts: "typescript",
   cts: "typescript",
-  tsx: "typescript",
-  html: "xml",
-  htm: "xml",
-  xhtml: "xml",
-  xml: "xml",
-  svg: "xml",
-  plist: "xml",
-  vue: "xml",
+  tsx: "tsx",
+  json: "json",
+  jsonc: "json",
+  html: "markup",
+  htm: "markup",
+  xhtml: "markup",
+  xml: "markup",
+  svg: "markup",
+  plist: "markup",
+  vue: "markup",
+  css: "css",
+  scss: "scss",
+  less: "less",
+  md: "markdown",
+  markdown: "markdown",
   yml: "yaml",
   yaml: "yaml",
+  toml: "toml",
+  ini: "ini",
+  cfg: "ini",
+  sh: "bash",
+  bash: "bash",
+  zsh: "bash",
+  py: "python",
+  pyw: "python",
+  rb: "ruby",
+  go: "go",
+  rs: "rust",
+  java: "java",
+  kt: "kotlin",
+  kts: "kotlin",
+  scala: "scala",
+  swift: "swift",
+  c: "c",
+  h: "c",
+  cpp: "cpp",
+  cc: "cpp",
+  cxx: "cpp",
+  hpp: "cpp",
+  hh: "cpp",
+  hxx: "cpp",
+  cs: "csharp",
+  php: "php",
+  sql: "sql",
+  lua: "lua",
+  dart: "dart",
+  hs: "haskell",
+  ex: "elixir",
+  exs: "elixir",
+  pl: "perl",
+  pm: "perl",
+  r: "r",
+  ps1: "powershell",
+  psm1: "powershell",
+  proto: "protobuf",
+  tex: "latex",
+  diff: "diff",
+  patch: "diff",
+  graphql: "graphql",
+  gql: "graphql",
+  mk: "makefile",
 };
 
-/** Whole file names (lower case) that say their language. */
-const BY_NAME: Record<string, string> = {
-  dockerfile: "dockerfile",
-  containerfile: "dockerfile",
+/** Whole file names (lower case) that say their language. Ignore files and the like have none. */
+const BY_NAME: Record<string, string | null> = {
+  dockerfile: "docker",
+  containerfile: "docker",
   makefile: "makefile",
   gnumakefile: "makefile",
   gemfile: "ruby",
@@ -181,161 +154,186 @@ const BY_NAME: Record<string, string> = {
   ".profile": "bash",
   ".gitconfig": "ini",
   ".editorconfig": "ini",
+  ".gitignore": null,
+  ".gitattributes": null,
+  ".dockerignore": null,
+  ".npmignore": null,
 };
+
+/** Every language languageFor can answer, and so every one highlightLines accepts. */
+const REGISTERED: ReadonlySet<string> = new Set([...Object.values(BY_EXTENSION), ...Object.values(BY_NAME).filter((name): name is string => name !== null)]);
 
 export function languageFor(path: string): string | null {
   const name = (path.split(/[\\/]/).pop() ?? "").toLowerCase();
   if (Object.hasOwn(BY_NAME, name)) return BY_NAME[name];
-  if (name.startsWith("dockerfile.")) return "dockerfile";
+  if (name.startsWith("dockerfile.") || name.endsWith(".dockerfile")) return "docker";
   const dot = name.lastIndexOf(".");
   if (dot <= 0) return null;
   const extension = name.slice(dot + 1);
   return Object.hasOwn(BY_EXTENSION, extension) ? BY_EXTENSION[extension] : null;
 }
 
-export function highlightLines(lines: readonly string[], language: string): Tokens | null {
-  if (!hljs.getLanguage(language)) return null;
-  try {
-    const html = hljs.highlight(lines.join("\n"), { language, ignoreIllegals: true }).value;
-    return htmlToTokens(html, lines.length);
-  } catch {
-    return null;
-  }
-}
-
 // --- scopes ------------------------------------------------------------------------------------
+
+/** Prism token types (and aliases) to TOKEN_SCOPES. A type not here takes a known alias, else its parent's scope. */
+const SCOPES: Record<string, TokenScope> = {
+  keyword: "keyword",
+  important: "keyword",
+  atrule: "keyword",
+  rule: "keyword",
+  string: "string",
+  "template-string": "string",
+  "triple-quoted-string": "string",
+  "attr-value": "string",
+  char: "char",
+  entity: "char",
+  comment: "comment",
+  prolog: "comment",
+  cdata: "comment",
+  "doc-comment": "comment",
+  doctype: "meta",
+  number: "number",
+  unit: "number",
+  hexcode: "number",
+  color: "number",
+  boolean: "literal",
+  constant: "literal",
+  nil: "literal",
+  null: "literal",
+  builtin: "built_in",
+  "class-name": "class",
+  "maybe-class-name": "class",
+  type: "type",
+  "type-definition": "type",
+  generic: "type",
+  namespace: "type",
+  function: "function",
+  "function-variable": "function",
+  method: "function",
+  parameter: "params",
+  variable: "variable",
+  "assign-left": "variable",
+  environment: "variable",
+  property: "property",
+  "property-access": "property",
+  "literal-property": "property",
+  "string-property": "property",
+  key: "attr",
+  "attr-name": "attr",
+  attribute: "meta",
+  decorator: "meta",
+  annotation: "meta",
+  macro: "meta",
+  directive: "meta",
+  shebang: "meta",
+  delimiter: "meta",
+  coord: "meta",
+  operator: "operator",
+  spread: "operator",
+  punctuation: "punctuation",
+  hr: "punctuation",
+  tag: "tag",
+  selector: "selector",
+  regex: "regexp",
+  symbol: "symbol",
+  lifetime: "symbol",
+  atom: "symbol",
+  inserted: "addition",
+  deleted: "deletion",
+  strike: "deletion",
+  interpolation: "subst",
+  title: "section",
+  section: "section",
+  table: "section",
+  bold: "strong",
+  italic: "emphasis",
+  url: "link",
+  code: "code",
+  "code-snippet": "code",
+  "code-block": "code",
+  blockquote: "quote",
+  list: "bullet",
+  "plain-text": "none",
+};
 
 const INDEX: ReadonlyMap<string, number> = new Map(TOKEN_SCOPES.map((scope, index) => [scope, index]));
 
-/** highlight.js scopes (with their sub-scopes, dot-joined) that TOKEN_SCOPES names otherwise. */
-const NEAREST: Record<string, TokenScope> = {
-  "title.class": "class",
-  "title.class.inherited": "class",
-  "title.function": "function",
-  "title.function.invoke": "function",
-  "variable.language": "variable",
-  "variable.constant": "variable",
-  "char.escape": "char",
-  "meta-keyword": "keyword",
-  "meta-string": "string",
-  "selector-tag": "selector",
-  "selector-id": "selector",
-  "selector-class": "selector",
-  "selector-attr": "selector",
-  "selector-pseudo": "selector",
-  "template-tag": "template",
-  "template-variable": "variable",
-  "builtin-name": "built_in",
-};
+function known(name: string): number | null {
+  return Object.hasOwn(SCOPES, name) ? (INDEX.get(SCOPES[name]) ?? 0) : null;
+}
 
-/**
- * The scope of a span's class attribute: `hljs-title class_` is title.class (sub-scopes end in underscores). A span
- * without an `hljs-` class (`language-xml` around embedded code) is null: it keeps its parent's scope.
- */
-export function scopeIndex(classAttribute: string): number | null {
-  const classes = classAttribute.split(/\s+/).filter(Boolean);
-  const main = classes.find((name) => name.startsWith("hljs-"));
-  if (main === undefined) return null;
-  const base = main.slice("hljs-".length);
-  const subs = classes.filter((name) => name !== main && /^[A-Za-z0-9-]+_+$/.test(name)).map((name) => name.replace(/_+$/, ""));
-  const candidates = [[base, ...subs].join("."), ...subs.map((_, n) => [base, ...subs.slice(0, subs.length - 1 - n)].join("."))];
-  for (const name of candidates) {
-    if (Object.hasOwn(NEAREST, name)) return INDEX.get(NEAREST[name]) ?? 0;
-    const direct = INDEX.get(name);
-    if (direct !== undefined) return direct;
+export function scopeFor(type: string, alias: string | string[] | undefined, enclosing: number): number {
+  const own = known(type);
+  if (own !== null) return own;
+  for (const name of alias === undefined ? [] : Array.isArray(alias) ? alias : [alias]) {
+    const scope = known(name);
+    if (scope !== null) return scope;
   }
-  const head = base.split("-")[0] ?? "";
-  return INDEX.get(head) ?? 0;
+  return enclosing;
 }
 
-// --- HTML to tokens ------------------------------------------------------------------------------
+// --- tokens to lines ------------------------------------------------------------------------------
 
-const ENTITIES: Record<string, string> = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " " };
-
-/** The text of an entity's name (`amp`, `#39`, `#x27`), or null when it is not one. */
-function decodeEntity(name: string): string | null {
-  if (Object.hasOwn(ENTITIES, name)) return ENTITIES[name];
-  const numeric = /^#(?:x([0-9a-fA-F]{1,6})|([0-9]{1,7}))$/.exec(name);
-  if (!numeric) return null;
-  const code = numeric[1] !== undefined ? parseInt(numeric[1], 16) : Number(numeric[2]);
-  if (!Number.isInteger(code) || code < 0 || code > 0x10ffff) return null;
-  return String.fromCodePoint(code);
-}
-
-export function htmlToTokens(html: string, lineCount?: number): Tokens {
+export function streamToTokens(stream: TokenStream, length: number, lineCount: number): Tokens | null {
   const lines: Tokens = [];
   let line: TokenLine = [];
-  let runScope = 0;
-  let runLength = 0;
-  const stack: number[] = [0];
+  let seen = 0; // characters gone through, line breaks included
 
-  const flush = () => {
-    if (runLength === 0) return;
+  const push = (count: number, scope: number) => {
+    if (count <= 0) return;
     const last = line.length - 1;
-    if (last >= 1 && line[last] === runScope) line[last - 1] += runLength;
-    else line.push(runLength, runScope);
-    runLength = 0;
+    if (last >= 1 && line[last] === scope) line[last - 1] += count;
+    else line.push(count, scope);
   };
   const endLine = () => {
-    flush();
     // Plain text at the end needs no token.
     while (line.length >= 2 && line[line.length - 1] === 0) line.length -= 2;
     lines.push(line);
     line = [];
   };
-  const text = (length: number) => {
-    if (length <= 0) return;
-    const scope = stack[stack.length - 1] ?? 0;
-    if (scope !== runScope) {
-      flush();
-      runScope = scope;
+  const text = (piece: string, scope: number) => {
+    let start = 0;
+    for (;;) {
+      const newline = piece.indexOf("\n", start);
+      const end = newline === -1 ? piece.length : newline;
+      push(end - start, scope);
+      seen += end - start;
+      if (newline === -1) return;
+      seen += 1;
+      endLine();
+      start = newline + 1;
     }
-    runLength += length;
+  };
+  const walk = (node: TokenStream, scope: number, depth: number) => {
+    if (depth > 100) throw new Error("tokens nested too deep");
+    if (typeof node === "string") text(node, scope);
+    else if (Array.isArray(node)) for (const child of node) walk(child, scope, depth + 1);
+    else walk(node.content, scopeFor(node.type, node.alias, scope), depth + 1);
   };
 
-  let n = 0;
-  while (n < html.length) {
-    const char = html[n];
-    if (char === "<") {
-      const close = html.indexOf(">", n);
-      if (close === -1) {
-        text(1); // not a tag after all
-        n++;
-        continue;
-      }
-      const tag = html.slice(n + 1, close);
-      if (tag.startsWith("/")) {
-        if (tag.slice(1).trim().toLowerCase() === "span" && stack.length > 1) stack.pop();
-      } else if (/^span\b/i.test(tag)) {
-        const classes = /\bclass\s*=\s*"([^"]*)"/i.exec(tag)?.[1] ?? "";
-        stack.push(scopeIndex(classes) ?? stack[stack.length - 1] ?? 0);
-        if (tag.trimEnd().endsWith("/")) stack.pop(); // a span that closes itself holds nothing
-      }
-      n = close + 1;
-    } else if (char === "&") {
-      const semi = html.indexOf(";", n);
-      const decoded = semi !== -1 && semi - n <= 12 ? decodeEntity(html.slice(n + 1, semi)) : null;
-      if (decoded === null) {
-        text(1);
-        n++;
-      } else {
-        text(decoded.length);
-        n = semi + 1;
-      }
-    } else if (char === "\n") {
-      endLine();
-      n++;
-    } else {
-      let end = n + 1;
-      while (end < html.length && html[end] !== "<" && html[end] !== "&" && html[end] !== "\n") end++;
-      text(end - n);
-      n = end;
-    }
-  }
+  walk(stream, 0, 0);
   endLine();
-  if (lineCount !== undefined) {
-    while (lines.length < lineCount) lines.push([]);
-    lines.length = lineCount;
+  return seen === length && lines.length === lineCount ? lines : null;
+}
+
+export function highlightLines(lines: readonly string[], language: string): Tokens | null {
+  if (!REGISTERED.has(language)) return null;
+  const grammar = Prism.languages[language];
+  if (grammar === undefined || typeof grammar !== "object") return null;
+  if (lines.some((line) => line.length > LINE_MAX)) return null;
+  const text = lines.join("\n");
+  if (text.length > HIGHLIGHT_MAX_BYTES) return null;
+  try {
+    // As Prism.highlight does, without making HTML: the grammars' tokenize hooks (php's templating, jsx's text) run.
+    const env: Record<string, unknown> = { code: text, grammar, language };
+    Prism.hooks.run("before-tokenize", env);
+    const code = env.code;
+    const used = env.grammar as Grammar | undefined;
+    if (typeof code !== "string" || used === undefined || typeof used !== "object") return null;
+    env.tokens = Prism.tokenize(code, used);
+    Prism.hooks.run("after-tokenize", env);
+    return streamToTokens(env.tokens as TokenStream, text.length, lines.length);
+  } catch {
+    return null;
   }
-  return lines;
 }
