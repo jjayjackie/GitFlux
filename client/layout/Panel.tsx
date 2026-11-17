@@ -153,7 +153,7 @@ function Repositories({ directory }: { directory: string }) {
   return (
     <>
       <ActionsHost key={cwd} repository={selected} />
-      <RefMenuProvider key={cwd} repository={selected}>
+      <RefMenuProvider repository={selected}>
       <Shell
       banner={
         <>
