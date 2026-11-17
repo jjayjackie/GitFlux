@@ -74,6 +74,20 @@ test("a branch without an upstream has nothing to pull or sync from", async (t) 
   assert.equal((await failure(plugin.call(remoteSyncRpc, { cwd: repo.cwd, mode: "merge" }))).code, "NO_UPSTREAM");
 });
 
+test("pull from a named remote: the branch named is pulled; with neither a branch nor an upstream, NO_UPSTREAM", async (t) => {
+  const { repo, remote } = published(t);
+  const other = clone(t, fileUrl(remote));
+  other.git("switch", "--quiet", "--create", "feat");
+  other.write("f.txt", "f\n");
+  const feat = other.commit("feat");
+  other.git("push", "--quiet", "origin", "feat");
+  repo.git("switch", "--quiet", "--create", "lonely");
+  assert.equal((await failure(plugin.call(remotePullRpc, { cwd: repo.cwd, mode: "merge", remote: "origin" }))).code, "NO_UPSTREAM");
+  assert.deepEqual(await plugin.call(remotePullRpc, { cwd: repo.cwd, mode: "ff-only", remote: "origin", branch: "feat" }), { result: "fast-forward" });
+  assert.equal(repo.head(), feat);
+  assert.equal((await failure(plugin.call(remotePullRpc, { cwd: repo.cwd, mode: "merge", remote: "origin", branch: "no-such-branch" }))).code, "REF_NOT_FOUND");
+});
+
 test("push publishes a new branch with its upstream; a push the remote cannot fast-forward is NON_FAST_FORWARD", async (t) => {
   const { repo, remote } = diverged(t);
   repo.git("switch", "--quiet", "--create", "feature");

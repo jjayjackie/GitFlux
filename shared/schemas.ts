@@ -308,7 +308,7 @@ export type RemoteEntry = z.infer<typeof remoteEntrySchema>;
 /** A tag. */
 export const tagEntrySchema = z.object({
   name: z.string(),
-  hash: hashSchema, // the commit it points at (peeled), not the tag object
+  hash: hashSchema, // the object it points at, peeled through tag objects: a commit, or rarely a tree or blob
   annotated: z.boolean(),
   message: z.string().optional(), // an annotated tag's message
   tagger: z.string().optional(), // an annotated tag's tagger name

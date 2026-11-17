@@ -93,8 +93,9 @@ export type MergeResult = z.infer<typeof branchMergeRpc.output>["result"];
 
 /**
  * Rebases the current branch onto `onto` (`git rebase`, not interactive: that is git.rebase.start). It rewrites the
- * branch, so it needs `confirm`; when commits being rewritten are already on the branch's upstream it also needs
- * `confirmPublished`, else CONFIRMATION_REQUIRED. A protected branch is refused. `conflicted`: a rebase is under way.
+ * branch, so it needs `confirm`; when commits being rewritten are already on a remote it also needs `confirmPublished`,
+ * else CONFIRMATION_REQUIRED. A protected branch whose rewritten commits are on a remote is refused (PROTECTED_BRANCH);
+ * its unpublished commits may be rebased. `conflicted`: a rebase is under way.
  */
 export const branchRebaseRpc = defineRpc({
   name: "git.branch.rebase",

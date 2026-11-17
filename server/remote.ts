@@ -4,8 +4,9 @@
 // A push never forces bare: `force: "with-lease"` is `--force-with-lease --force-if-includes`, allowed only with the
 // host's allowForcePush switch, the schema's `confirm`, and never onto a protected branch.
 //
-// Still to write (registered with notImplemented): git.remote.add, git.remote.remove, git.remote.rename,
-// git.remote.set-url, git.remote.delete-branch.
+// Configuring remotes: a URL is checked twice, by the contract's schema and by core/validate.ts assertRemoteUrl (no
+// credentials, no command-running transport), and is never returned unredacted. Deleting a branch on a remote needs
+// the host's allowRemoteDelete and is refused for a protected branch.
 
 import { existsSync } from "node:fs";
 import { join } from "node:path";
@@ -27,10 +28,11 @@ import {
 import type { RemoteEntry } from "../shared/schemas.ts";
 import { GitError, isGitError } from "./core/errors.ts";
 import type { GitTools } from "./core/exec.ts";
-import { handle, notImplemented, type HandlerContext, type Registrar, type ServerDeps } from "./core/handler.ts";
+import { handle, type HandlerContext, type Registrar, type ServerDeps } from "./core/handler.ts";
 import { refuseProtected, requireSwitch } from "./core/safety.ts";
 import { redactUrl } from "./core/sanitize.ts";
-import { assertRefName, assertRemoteName, repoDirs } from "./core/validate.ts";
+import { assertRefName, assertRemoteName, assertRemoteUrl, repoDirs } from "./core/validate.ts";
+import { deleteOnRemote, remoteNames } from "./refs.ts";
 
 export function register(server: Registrar, deps: ServerDeps): void {
   handle(server, deps, remoteListRpc, { kind: "read" }, async (_input, ctx) => ({ remotes: parseRemotes(await ctx.read(["remote", "-v"])) }));
@@ -44,11 +46,45 @@ export function register(server: Registrar, deps: ServerDeps): void {
     return {};
   });
   handle(server, deps, remoteSyncRpc, { kind: "network" }, (input, ctx) => sync(ctx, input.mode));
-  notImplemented(server, deps, remoteAddRpc);
-  notImplemented(server, deps, remoteRemoveRpc);
-  notImplemented(server, deps, remoteRenameRpc);
-  notImplemented(server, deps, remoteSetUrlRpc);
-  notImplemented(server, deps, remoteDeleteBranchRpc);
+  handle(server, deps, remoteAddRpc, { kind: "write", index: false }, async (input, ctx) => {
+    await assertNewRemote(ctx, input.name);
+    const url = assertRemoteUrl(input.url);
+    await ctx.git(["remote", "add", "--end-of-options", input.name, url]);
+    return {};
+  });
+  handle(server, deps, remoteRemoveRpc, { kind: "write", index: false }, async (input, ctx) => {
+    await assertRemoteName(ctx.cwd, input.name);
+    await ctx.git(["remote", "remove", "--end-of-options", input.name]);
+    return {};
+  });
+  handle(server, deps, remoteRenameRpc, { kind: "write", index: false }, async (input, ctx) => {
+    await assertRemoteName(ctx.cwd, input.name);
+    await assertNewRemote(ctx, input.newName);
+    await ctx.git(["remote", "rename", "--end-of-options", input.name, input.newName]);
+    return {};
+  });
+  handle(server, deps, remoteSetUrlRpc, { kind: "write", index: false }, async (input, ctx) => {
+    await assertRemoteName(ctx.cwd, input.name);
+    const url = assertRemoteUrl(input.url);
+    await ctx.git(["remote", "set-url", ...(input.push ? ["--push"] : []), "--end-of-options", input.name, url]);
+    return {};
+  });
+  handle(server, deps, remoteDeleteBranchRpc, { kind: "network", index: false }, async (input, ctx) => {
+    await assertRemoteName(ctx.cwd, input.remote, { exists: false });
+    await assertRefName(ctx.cwd, input.branch, "branch");
+    const policy = await ctx.policy();
+    requireSwitch(policy, "allowRemoteDelete");
+    refuseProtected(policy, input.branch);
+    await assertRemoteName(ctx.cwd, input.remote);
+    await deleteOnRemote(ctx, input.remote, `refs/heads/${input.branch}`);
+    return {};
+  });
+}
+
+/** A valid name for a remote that does not exist yet; REF_EXISTS when it does. */
+async function assertNewRemote(tools: GitTools, name: string): Promise<void> {
+  await assertRemoteName(tools.cwd, name, { exists: false });
+  if ((await remoteNames(tools)).includes(name)) throw new GitError("REF_EXISTS", `A remote named '${name}' already exists`);
 }
 
 // --- listing -----------------------------------------------------------------------------------------
@@ -153,15 +189,21 @@ async function outcome(tools: GitTools, before: string | null, after: string | n
   return parents.length > 1 && parents[0] === before ? "merged" : "fast-forward";
 }
 
+/** git's ways of saying a pull has nothing to pull from, which the shared table does not read as NO_UPSTREAM. */
+const NOTHING_TO_PULL_FROM = /did not specify\s+a branch|You are not currently on a branch/i;
+
 async function pull(ctx: HandlerContext, input: PullInput): Promise<PullResult> {
   if (input.remote !== undefined) await assertRemoteName(ctx.cwd, input.remote);
+  // The branch is named in full, so that it is read as a ref and never as a refspec (`+x` would force).
+  if (input.branch !== undefined) await assertRefName(ctx.cwd, input.branch, "branch");
   const before = await headHash(ctx);
   const args = ["pull", MODE_FLAG[input.mode], ...(input.autostash ? ["--autostash"] : [])];
-  if (input.remote !== undefined) args.push(input.remote, ...(input.branch === undefined ? [] : [input.branch]));
+  if (input.remote !== undefined) args.push(input.remote, ...(input.branch === undefined ? [] : [`refs/heads/${input.branch}`]));
   try {
     await ctx.git(args);
   } catch (error) {
     if (isGitError(error) && error.code === "MERGE_CONFLICT" && (await stoppedOnConflict(ctx))) return "conflict";
+    if (isGitError(error) && error.code === "UNKNOWN" && NOTHING_TO_PULL_FROM.test(error.detail)) throw new GitError("NO_UPSTREAM", error.detail, { cause: error });
     throw error;
   }
   return outcome(ctx, before, await headHash(ctx));
