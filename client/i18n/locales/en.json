@@ -317,11 +317,17 @@
       "pulled": "Pulled.",
       "pushed": "Pushed.",
       "pulledAndPushed": "Pulled and pushed.",
-      "conflicts": "Stopped on conflicts. Resolve them in the Conflicts section of Changes."
+      "conflicts": "Stopped on conflicts. Resolve them in the Conflicts section of Changes.",
+      "mergedFrom": "Merged {{ref}}.",
+      "rebasedOnto": "Rebased onto {{ref}}."
     },
     "guidance": "{{title}}. {{hint}}",
     "guidanceDetail": "{{title}}. {{hint}} Git said: {{detail}}",
-    "autoFetchFailed": "Auto fetch failed: {{reason}}"
+    "autoFetchFailed": "Auto fetch failed: {{reason}}",
+    "pullFrom": {
+      "title": "Pull {{ref}} into {{branch}}?",
+      "body": "Fetches {{ref}} and integrates it into {{branch}} ({{mode}}), as Pull does with the upstream."
+    }
   },
   "settings": {
     "title": "Advanced Git",
@@ -777,6 +783,13 @@
       "deselect": "Deselect",
       "copyHash": "Copy Commit Hash",
       "copySubject": "Copy Commit Subject"
+    },
+    "only": {
+      "show": "Show Only {{name}} in the Graph",
+      "add": "Also Show {{name}} in the Graph",
+      "remove": "Hide {{name}} from the Graph",
+      "clear": "Show All Branches in the Graph",
+      "notice": "The graph shows only {{names}}."
     }
   },
   "detail": {
@@ -1254,7 +1267,8 @@
       "chosen": "Upstream: {{upstream}}",
       "submit": "Set Upstream",
       "set": "{{name}} now tracks {{upstream}}."
-    }
+    },
+    "createTag": "Create Tag Here…"
   },
   "remote": {
     "title": "Remotes",
@@ -1274,7 +1288,8 @@
     "invalidUrl": "Not a usable URL: no spaces, no password or token, and no command transports such as ext::.",
     "branch": {
       "checkout": "Check Out as Local Branch…",
-      "delete": "Delete on Remote…"
+      "delete": "Delete on Remote…",
+      "pull": "Pull into Current Branch…"
     },
     "addDialog": {
       "title": "Add a remote",
@@ -1355,7 +1370,8 @@
       "lost": "Tag {{name}} on {{remote}}",
       "submit": "Delete on Remote",
       "deleted": "Deleted {{name}} on {{remote}}."
-    }
+    },
+    "compare": "Compare with Current Branch"
   },
   "stash": {
     "title": "Stashes",

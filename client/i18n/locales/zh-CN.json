@@ -311,11 +311,17 @@
       "pulled": "已拉取。",
       "pushed": "已推送。",
       "pulledAndPushed": "已拉取并推送。",
-      "conflicts": "因冲突而停止。请在“更改”的“冲突”部分中解决。"
+      "conflicts": "因冲突而停止。请在“更改”的“冲突”部分中解决。",
+      "mergedFrom": "已合并 {{ref}}。",
+      "rebasedOnto": "已变基到 {{ref}}。"
     },
     "guidance": "{{title}}。{{hint}}",
     "guidanceDetail": "{{title}}。{{hint}} Git 输出：{{detail}}",
-    "autoFetchFailed": "自动获取失败：{{reason}}"
+    "autoFetchFailed": "自动获取失败：{{reason}}",
+    "pullFrom": {
+      "title": "将 {{ref}} 拉取到 {{branch}}？",
+      "body": "获取 {{ref}} 并以“{{mode}}”方式整合到 {{branch}}，与对上游执行“拉取”时相同。"
+    }
   },
   "settings": {
     "title": "高级 Git",
@@ -741,6 +747,13 @@
       "deselect": "取消选择",
       "copyHash": "复制提交哈希",
       "copySubject": "复制提交标题"
+    },
+    "only": {
+      "show": "在提交图中仅显示 {{name}}",
+      "add": "在提交图中同时显示 {{name}}",
+      "remove": "从提交图中隐藏 {{name}}",
+      "clear": "在提交图中显示所有分支",
+      "notice": "提交图仅显示 {{names}}。"
     }
   },
   "detail": {
@@ -1202,7 +1215,8 @@
       "chosen": "上游：{{upstream}}",
       "submit": "设置上游",
       "set": "{{name}} 现在跟踪 {{upstream}}。"
-    }
+    },
+    "createTag": "在此处创建标签…"
   },
   "remote": {
     "title": "远程",
@@ -1222,7 +1236,8 @@
     "invalidUrl": "此 URL 不可用：不能包含空格、密码或令牌，也不能使用 ext:: 等会执行命令的传输方式。",
     "branch": {
       "checkout": "检出为本地分支…",
-      "delete": "在远程删除…"
+      "delete": "在远程删除…",
+      "pull": "拉取到当前分支…"
     },
     "addDialog": {
       "title": "添加远程",
@@ -1302,7 +1317,8 @@
       "lost": "{{remote}} 上的标签 {{name}}",
       "submit": "在远程删除",
       "deleted": "已在 {{remote}} 上删除 {{name}}。"
-    }
+    },
+    "compare": "与当前分支比较"
   },
   "stash": {
     "title": "储藏",
