@@ -31,6 +31,8 @@ Upstream code is reused wherever it fits: keep its file headers and third-party 
    imports — values or types — only the SDK, `zod`, `react`, `react-native`, `@tanstack/react-query`, Node built-ins
    and the runtime dependencies listed in §2. Never a devDependency. A dependency's own typings are followed as
    well: one whose `.d.ts` imports something Paseo cannot resolve (highlight.js does) cannot be used at all.
+   Each entry's default export is a function *declaration*: Paseo copies a bundle's exports by value before the
+   module body runs, so `export default someCall()` arrives as `undefined` and the plugin fails to load.
 10. Everything committed is public: no personal paths, user names, internal hosts, tokens, or real repository data.
 
 ## 2. Identity

@@ -2,6 +2,10 @@
 //
 // `createContribution(overrides)` exists for tests (test/helpers/plugin.ts) and the preview, which shorten deadlines and
 // lock waits; Paseo loads the default export, which uses the real ones.
+//
+// The default export must be a function DECLARATION. Paseo copies the bundle's exports by value before the module's
+// body has run (its compiler makes esbuild's export getters eager), so only a hoisted function is there to copy:
+// `export default someCall()` reaches the daemon as undefined ("Plugin server bundle must default export a function").
 
 import type { PluginServerContext } from "@getpaseo/plugin/server";
 import * as branch from "./server/branch.ts";
@@ -36,4 +40,6 @@ export function createContribution(overrides: Omit<DepsOverrides, "policy"> = {}
   };
 }
 
-export default createContribution();
+export default function contribute(server: PluginServerContext) {
+  return createContribution()(server);
+}
