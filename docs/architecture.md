@@ -70,6 +70,11 @@ server/                  daemon half: Node APIs
   core/safety.ts         policy checks for destructive operations, safety snapshots
   core/handler.ts        wraps a handler: validation, locking, error encoding
   <domain>.ts            handlers, one file per domain
+  refs.ts                for-each-ref parsing and ref helpers shared by branch, remote and tag
+  patch.ts               unified-diff parsing and partial-patch building (hunk and line staging)
+  sequencer.ts           what operation is under way, files in conflict, labels (conflict, operation, rebase)
+  blame.ts               blame --porcelain parsing and the blame handler
+  highlight.ts           syntax tokens for diffs (prismjs)
 client/                  app half: React Native only, no DOM outside web.ts
   i18n/locales/en.json   every string, English (canonical keys)
   i18n/locales/zh-CN.json  every string, 简体中文
@@ -80,8 +85,12 @@ client/                  app half: React Native only, no DOM outside web.ts
   views/nav/             left column: repositories, branches, remotes, tags, stashes, worktrees, submodules
   views/changes/         centre top: commit composer, staged / unstaged / conflicts
   views/graph/           centre bottom: commit graph, search and filters
-  views/detail/          right column: diff, commit details, file history, blame
-  dialogs/               branch, merge, rebase, reset, tag, stash, push, interactive rebase, confirmations
+  views/toolbar/         centre top bar: repository, branch, fetch / pull / push / sync, auto-fetch
+  views/files/           the changed-files tree used by changes, commit, stash and comparison
+  views/detail/          right column: a router over diff, conflict, commit, comparison, stash, file history, blame
+  views/actions/         command-bus handlers always mounted, whatever the layout shows
+  dialogs/refs/          branch, remote, tag, stash, worktree, submodule dialogs and their command handlers
+  dialogs/history/       reset, cherry-pick, revert, interactive rebase, safety snapshots
   commands.ts            Command Center items
   settings/              the settings screen
   web.ts                 the only file that touches browser APIs (keyboard shortcuts, context-menu events)
