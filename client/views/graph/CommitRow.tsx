@@ -65,7 +65,7 @@ export function CommitRow({ cwd, row, rail, selected, head, followed, current, n
         contextMenu.rowProps.ref.current = node;
         card.ref.current = node;
       }}
-      accessibilityRole="button"
+      role="option" // not a button: the row holds its own ⋯ button (ui/Row.tsx)
       accessibilityLabel={label}
       accessibilityState={{ selected }}
       aria-selected={selected}

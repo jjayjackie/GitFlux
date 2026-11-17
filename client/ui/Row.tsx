@@ -1,6 +1,9 @@
 // A list row: fixed height, highlighted under the pointer (VS Code's list.hoverBackground, as upstream's useRowHover),
 // when selected, and when the keyboard is on it. Every list and tree row of the panel is one.
 //
+// A row is an `option` (a selectable item) unless told otherwise, never a `button`: rows hold buttons of their own (a
+// tree's twistie, inline actions, ⋯), and on the web a button inside a <button> is invalid HTML.
+//
 // Usage:
 //   const menu = useContextMenu(items);
 //   <Row {...menu.rowProps} selected={sel} onPress={open} accessibilityLabel={file.path} testID={`ag-change-${file.path}`}>
@@ -17,7 +20,8 @@ export interface RowProps {
   children: ReactNode;
   /** What the row is, for screen readers (a file's path, a branch's name). */
   accessibilityLabel: string;
-  accessibilityRole?: AccessibilityRole;
+  /** Instead of the default `option` role: `radio` in a picker, `text` for a notice row. Never `button`. */
+  accessibilityRole?: Exclude<AccessibilityRole, "button">;
   onPress?: () => void;
   onLongPress?: () => void;
   delayLongPress?: number;
@@ -34,7 +38,7 @@ export interface RowProps {
 }
 
 function RowBase(
-  { children, accessibilityLabel, accessibilityRole = "button", onPress, onLongPress, delayLongPress, selected, focused, disabled, height, indent = 0, style, testID }: RowProps,
+  { children, accessibilityLabel, accessibilityRole, onPress, onLongPress, delayLongPress, selected, focused, disabled, height, indent = 0, style, testID }: RowProps,
   ref: ForwardedRef<View>,
 ) {
   const th = useTheme();
@@ -42,6 +46,7 @@ function RowBase(
     <Pressable
       ref={ref}
       accessibilityRole={accessibilityRole}
+      role={accessibilityRole === undefined ? "option" : undefined}
       accessibilityLabel={accessibilityLabel}
       accessibilityState={{ selected: selected === true, disabled: disabled === true }}
       aria-selected={selected === true}

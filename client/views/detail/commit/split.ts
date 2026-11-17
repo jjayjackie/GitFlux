@@ -9,7 +9,7 @@ import { useCallback } from "react";
 import { useViewExtra } from "../../../state/view.ts";
 
 export function useSplitSize(key: string): [number | null, (size: number | null) => void] {
-  const [stored, setStored] = useViewExtra(key, "");
+  const [stored, setStored] = useViewExtra<string>(key, "");
   const value = stored === "" ? NaN : Number(stored);
   const size = Number.isFinite(value) && value >= 0 ? value : null;
   const set = useCallback((next: number | null) => setStored(next === null ? "" : String(Math.round(next))), [setStored]);

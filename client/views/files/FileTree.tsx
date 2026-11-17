@@ -231,7 +231,7 @@ function FolderRow({ node, row, actions, onPress, testID }: { node: FolderNode; 
   const shownName = node.name.split("/").join(" / ");
   return (
     <View {...reveal.boxProps}>
-      <Row indent={row.indent} selected={row.selected} focused={row.focused} onPress={onPress} accessibilityLabel={label} accessibilityRole="button" testID={testID}>
+      <Row indent={row.indent} selected={row.selected} focused={row.focused} onPress={onPress} accessibilityLabel={label} testID={testID}>
         <TreeTwistie row={row} label={node.path} />
         <Glyph icon={row.expanded ? codicon.folderOpened : codicon.folder} size={th.small + 5} />
         <T lines={1} style={{ flex: 1, minWidth: 0 }}>
@@ -284,7 +284,6 @@ function FileRow({
         focused={row.focused}
         onPress={onPress}
         accessibilityLabel={label}
-        accessibilityRole="button"
         testID={testID}
       >
         {mode === "tree" && <TreeTwistie row={row} label={file.path} />}
