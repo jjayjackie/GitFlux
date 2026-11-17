@@ -354,8 +354,9 @@ function Sections({ cwd, status, filter, mode }: SectionsProps) {
             onToggle={toggle}
             actions={item.actions}
             fill
-            // Measured: the height it was given; before that, an even share.
-            style={height !== undefined ? { height, flex: 0 } : collapsed ? null : { flex: 1 }}
+            // Measured: the height it was given; before that, an even share. Not `flex: 0`: on the web that is CSS's
+            // `flex: 0 1 0%`, whose zero basis wins over the height.
+            style={height !== undefined ? { height, flexGrow: 0, flexShrink: 0, flexBasis: "auto" } : collapsed ? null : { flex: 1 }}
             testID={`${item.testID}-section`}
           >
             {item.tree}
