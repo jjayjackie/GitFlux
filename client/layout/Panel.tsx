@@ -28,6 +28,7 @@ import { ErrorNotice } from "../ui/ErrorNotice.tsx";
 import { FileOpener } from "../ui/FileOpener.tsx";
 import { usePanelRoot } from "../ui/floating/context.ts";
 import { PanelRoot } from "../ui/floating/PanelRoot.tsx";
+import { ActionsHost } from "../views/actions/index.tsx";
 import { ChangesView } from "../views/changes/index.tsx";
 import { DetailView } from "../views/detail/index.tsx";
 import { GraphView } from "../views/graph/index.tsx";
@@ -149,7 +150,9 @@ function Repositories({ directory }: { directory: string }) {
     setView({ repository: root });
   };
   return (
-    <Shell
+    <>
+      <ActionsHost key={cwd} repository={selected} />
+      <Shell
       banner={
         <>
           {banner}
@@ -163,6 +166,7 @@ function Repositories({ directory }: { directory: string }) {
       detail={<DetailView key={cwd} cwd={cwd} />}
       detailOpen={detail.kind !== "none"}
       onCloseDetail={() => setDetail(NO_DETAIL)}
-    />
+      />
+    </>
   );
 }
