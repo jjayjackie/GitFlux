@@ -10,8 +10,14 @@ the workspace, local or remote, through the system `git`.
 It is a deep rework of [Source Control for Paseo](https://github.com/KosmoCHE/paseo-source-control), whose history and
 licence it keeps.
 
+![The panel: navigator, changes and graph, and a commit's details with its diff](media/commit.png)
+
 What each part of the panel does is in [docs/features.md](docs/features.md); how it is built, in
 [docs/architecture.md](docs/architecture.md).
+
+| Diff | Conflict | 简体中文 |
+| --- | --- | --- |
+| ![A file's diff with syntax colours](media/diff.png) | ![A merge conflict being resolved](media/conflict.png) | ![The panel in Simplified Chinese, light theme](media/zh-CN-light.png) |
 
 ## Requirements
 

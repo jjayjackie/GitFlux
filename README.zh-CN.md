@@ -6,7 +6,13 @@
 
 本插件由 [Source Control for Paseo](https://github.com/KosmoCHE/paseo-source-control) 深度重构而来，保留了其提交历史和许可证。
 
-面板各部分的功能见 [docs/features.md](docs/features.md)；实现方式见 [docs/architecture.md](docs/architecture.md)。
+![面板：导航、更改与提交图，以及提交详情和它的差异](media/commit.png)
+
+面板各部分的功能见 [docs/features.zh-CN.md](docs/features.zh-CN.md)；实现方式见 [docs/architecture.md](docs/architecture.md)。
+
+| 差异 | 冲突 | 简体中文界面 |
+| --- | --- | --- |
+| ![带语法着色的文件差异](media/diff.png) | ![正在解决的合并冲突](media/conflict.png) | ![浅色主题下的简体中文界面](media/zh-CN-light.png) |
 
 ## 环境要求
 

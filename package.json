@@ -14,6 +14,7 @@
     "OVERVIEW.*.md",
     "README*.md",
     "LICENSE",
+    "media/",
     "tsconfig.json",
     "index.client.tsx",
     "index.server.ts",
