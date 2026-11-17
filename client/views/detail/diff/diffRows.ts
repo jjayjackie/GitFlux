@@ -1,7 +1,7 @@
 // Lays a diff out in rows as VS Code's diff editor draws it: inline, the lines taken out above the lines put in, or side
 // by side, the two versions facing each other with room left where one has fewer lines.
 
-import type { LineChange } from "../../shared/git";
+import type { LineChange } from "../../../../shared/schemas.ts";
 
 /** Stretches of a line's text that changed, as [start, end) offsets. */
 export type Marks = [number, number][];

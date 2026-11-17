@@ -5,7 +5,7 @@
 // and the ways a region opens from UnchangedRegion's methods there.
 // Copyright (c) Microsoft Corporation. Licensed under the MIT License: https://github.com/microsoft/vscode/blob/1.142.0/LICENSE.txt
 
-import type { LineChange } from "../../shared/git";
+import type { LineChange } from "../../../../shared/schemas.ts";
 
 // VS Code's defaults for diffEditor.hideUnchangedRegions: contextLineCount, minimumLineCount and revealLineCount.
 const CONTEXT = 3; // unchanged lines kept beside a change

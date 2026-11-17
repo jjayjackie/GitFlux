@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { tabColumns, wrap } from "../../../client/legacy/wrap.ts";
+import { codeMetrics, lineColumns, numberWidth, tabColumns, wrap, wrapColumn } from "../../../client/views/detail/diff/wrap.ts";
 
 // VS Code's own cases, from monospaceLineBreaksComputer.test.ts in 1.142.0: `|` marks where a row starts. As there, a
 // character is 7 pixels wide and a full-width one 14, and tabs are four columns.
@@ -44,4 +44,27 @@ test("a tab reaches to the next tab stop from the start of the line, wherever it
   // A Chinese character takes two columns here, a surrogate pair two.
   assert.deepEqual([...tabColumns("中\tx", widths)], [[1, 2]]);
   assert.deepEqual([...tabColumns("🐇x\t", widths)], [[3, 1]]);
+});
+
+test("the code's sizes follow the font size: upstream's fixed 16 pixels give upstream's sizes", () => {
+  assert.deepEqual(codeMetrics(16), { fontSize: 16, lineHeight: 24, indicator: 16, bar: 24, digit: 16 * 0.6 });
+  // Smaller: the folded region's bar keeps 24 pixels to be pressed; larger, it grows with the line.
+  assert.equal(codeMetrics(13).lineHeight, 20);
+  assert.equal(codeMetrics(13).bar, 24);
+  assert.equal(codeMetrics(20).bar, 30);
+  // A line-number column holds the last line's digits: upstream's 0.6 of the size per digit, and 12 pixels.
+  assert.equal(numberWidth(16, 999), 16 * 0.6 * 3 + 12);
+  assert.equal(numberWidth(10, 0), 10 * 0.6 + 12);
+});
+
+test("an unwrapped line is as wide as its columns; wrapping follows the measured width of the size drawn", () => {
+  assert.equal(lineColumns("abc", widths), 3);
+  assert.equal(lineColumns("a\tb", widths), 5); // the tab reaches column 4
+  assert.equal(lineColumns("中x", widths), 3);
+  assert.equal(lineColumns("🐇", widths), 2);
+  // The same text, twice the font: half the columns fit, so it wraps sooner.
+  const text = "word ".repeat(20).trim();
+  const small = wrap(text, wrapColumn(352, widths), widths).breaks.length;
+  const large = wrap(text, wrapColumn(352, { half: 14, full: 28 }), { half: 14, full: 28 }).breaks.length;
+  assert.ok(large > small, `${large} > ${small}`);
 });

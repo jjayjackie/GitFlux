@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { inlineRows, pairRows } from "../../../client/legacy/diffRows.ts";
-import { dragged, fold, folded, regions, reveal } from "../../../client/legacy/unchanged.ts";
+import { inlineRows, pairRows } from "../../../client/views/detail/diff/diffRows.ts";
+import { dragged, fold, folded, regions, reveal } from "../../../client/views/detail/diff/unchanged.ts";
 
 const change = (original: [number, number], modified: [number, number]) => ({ original, modified, inner: [] });
 const lines = (count: number, from = 1) => Array.from({ length: count }, (_, n) => `line ${from + n}`);

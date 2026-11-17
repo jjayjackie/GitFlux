@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { changeSpans, slider, zone } from "../../../client/legacy/overview.ts";
+import { changeSpans, slider, zone } from "../../../client/views/detail/diff/overview.ts";
 
 test("the slider is as tall as the view is of the content, and moves with the scroll", () => {
   // A 500 pixel view of 2000 pixels: a quarter, 125 tall, with 375 to move over 1500 of scroll.

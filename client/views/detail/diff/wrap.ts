@@ -1,3 +1,6 @@
+// Moved from upstream's paseo-source-control: client/wrap.ts; codeMetrics, numberWidth and lineColumns added so that the diff follows
+// the code font size the host's preferences set instead of upstream's fixed 16 pixels.
+//
 // Where a line of code wraps, as VS Code's editor wraps it with word wrap on: into rows no wider than the text column,
 // broken after a space or a closing mark, before an opening one, or between Chinese and Japanese characters, the rows
 // after the first set in as far as the line is (editor.wrappingIndent "same"). Each row is drawn without wrapping, so
@@ -49,6 +52,37 @@ function canBreak(before: number, code: number, after: number) {
   return (
     code !== SPACE && ((before === AFTER && after !== AFTER) || (before !== BEFORE && after === BEFORE) || (before === IDEOGRAPHIC && after !== AFTER) || (after === IDEOGRAPHIC && before !== BEFORE))
   );
+}
+
+/**
+ * The sizes the diff draws its code with, from the code font's size (prefs.codeFontSize). Upstream drew code at 16
+ * pixels and fixed these for it: a line 1.5 times the font (as ui/theme.ts `code(size)` sets it), the + / − indicator
+ * a font size wide, a folded region's bar at least 24 pixels tall, and about 0.6 of the size per digit of a line number.
+ * The widths the text wraps at are measured (CharWidths), not derived from these.
+ */
+export function codeMetrics(fontSize: number) {
+  const lineHeight = Math.round(fontSize * 1.5);
+  return { fontSize, lineHeight, indicator: Math.round(fontSize), bar: Math.max(24, lineHeight), digit: fontSize * 0.6 };
+}
+
+/** How wide a column of line numbers is for a file of `lines` lines: room for the last one's digits, and 12 pixels. */
+export function numberWidth(fontSize: number, lines: number) {
+  return codeMetrics(fontSize).digit * String(Math.max(1, Math.floor(lines))).length + 12;
+}
+
+/** How many columns `text` takes unwrapped: tabs to their stops, full-width characters by `widths`, a surrogate pair as two. */
+export function lineColumns(text: string, widths: CharWidths) {
+  const fullColumns = widths.full / widths.half;
+  let at = 0;
+  for (let i = 0; i < text.length; i++) {
+    const code = text.charCodeAt(i);
+    if (isHighSurrogate(code)) {
+      [at, i] = [at + 2, i + 1];
+      continue;
+    }
+    at += columnsOf(code, at, fullColumns);
+  }
+  return at;
 }
 
 /** How many columns text `width` pixels wide holds: VS Code leaves two pixels for the cursor (EditorLayoutInfoComputer). */

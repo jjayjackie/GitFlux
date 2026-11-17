@@ -1,10 +1,13 @@
 // The overview ruler at the right of the diff: where the file changed, and which part of it is in view. Pressing it
 // scrolls there, and dragging moves the part in view, as on VS Code's.
+//
+// Moved from upstream's paseo-source-control: client/OverviewRuler.tsx; the wheel is now heard through client/web.ts.
 
 import { useEffect, useMemo, useReducer, useRef, useState } from "react";
-import { PanResponder, Platform, View } from "react-native";
-import { slider, WIDTH, zone } from "./overview";
-import type { Span } from "./overview";
+import { PanResponder, View } from "react-native";
+import { onWheel } from "../../../web.ts";
+import { slider, WIDTH, zone } from "./overview.ts";
+import type { Span } from "./overview.ts";
 
 /** What the list tells the ruler as it is laid out and scrolled. */
 export interface Measures {
@@ -20,16 +23,6 @@ export interface RulerColours {
   slider: [rest: string, hover: string, active: string];
 }
 
-// The little of the DOM the wheel needs: the plugin is typed without the DOM's types.
-interface WheelEvent {
-  deltaY: number;
-  preventDefault(): void;
-}
-interface WheelTarget {
-  addEventListener(type: "wheel", listener: (event: WheelEvent) => void, options: { passive: boolean }): void;
-  removeEventListener(type: "wheel", listener: (event: WheelEvent) => void): void;
-}
-
 interface Props {
   starts: Float64Array; // where each row starts, and, last, where the last ends
   after: number; // the room the list leaves after its last row
@@ -37,9 +30,12 @@ interface Props {
   measures: Measures;
   colours: RulerColours;
   scrollTo: (offset: number) => void;
+  /** What it is, for screen readers (translated). */
+  label: string;
+  testID?: string;
 }
 
-export function OverviewRuler({ starts, after, spans, measures, colours, scrollTo }: Props) {
+export function OverviewRuler({ starts, after, spans, measures, colours, scrollTo, label, testID }: Props) {
   const [, redraw] = useReducer((n: number) => n + 1, 0);
   useEffect(() => {
     let frame: number | null = null;
@@ -83,16 +79,14 @@ export function OverviewRuler({ starts, after, spans, measures, colours, scrollT
 
   // The wheel over the ruler scrolls the diff, as it does over VS Code's.
   const root = useRef<View>(null);
-  useEffect(() => {
-    const node = root.current as unknown as WheelTarget | null; // on the web, the element itself
-    if (Platform.OS !== "web" || !node) return;
-    const wheel = (event: WheelEvent) => {
-      event.preventDefault();
-      scrollTo(live.current.scrolled + event.deltaY);
-    };
-    node.addEventListener("wheel", wheel, { passive: false });
-    return () => node.removeEventListener("wheel", wheel);
-  }, [scrollTo]);
+  useEffect(
+    () =>
+      onWheel(root.current, (pixels) => {
+        scrollTo(live.current.scrolled + pixels);
+        return true;
+      }),
+    [scrollTo],
+  );
 
   const marks = (list: Span[], colour: string, left: number) =>
     view > 0 &&
@@ -104,6 +98,9 @@ export function OverviewRuler({ starts, after, spans, measures, colours, scrollT
   return (
     <View
       ref={root}
+      accessibilityRole="scrollbar"
+      accessibilityLabel={label}
+      testID={testID}
       {...responder.panHandlers}
       {...({ onPointerMove: (event: { nativeEvent: { offsetY: number } }) => over(event.nativeEvent.offsetY), onPointerLeave: () => setHovered(false) } as object)}
       style={{ width: WIDTH, backgroundColor: colours.background }}

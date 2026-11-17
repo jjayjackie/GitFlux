@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { inlineRows, pairRows } from "../../../client/legacy/diffRows.ts";
+import { inlineRows, pairRows } from "../../../client/views/detail/diff/diffRows.ts";
 
 // Line 2 changed a word, line 4 was added after line 3; lines 1 and 3 are the same.
 const diff = {
