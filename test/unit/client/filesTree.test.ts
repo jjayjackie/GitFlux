@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import type { FileChange } from "../../../shared/schemas.ts";
-import { childrenOf, fileKey, fileNodes, filterFiles, folderKey, folderKeys, folderTone, rowCount } from "../../../client/views/files/tree.ts";
+import { childrenOf, fileKey, fileName, fileNodes, filterFiles, folderKey, folderKeys, folderOf, folderTone, rowCount } from "../../../client/views/files/tree.ts";
 import type { FileNode } from "../../../client/views/files/tree.ts";
 
 const files = (...paths: string[]): FileChange[] => paths.map((path) => ({ path, status: "M" }));
@@ -73,4 +73,20 @@ test("the filter matches paths and a rename's old path, ignoring case; an empty 
     ["docs/new.md"],
   );
   assert.equal(filterFiles(list, "nothing").length, 0);
+});
+
+test("a directory git lists whole (an untracked nested repository) is a leaf named for its folder", () => {
+  const nested: FileChange[] = [{ path: "packages/tools/", status: "?" }];
+  assert.equal(fileName(nested[0]), "tools/");
+  assert.equal(folderOf("packages/tools/"), "packages");
+  const nodes = fileNodes(nested, "tree");
+  assert.equal(nodes.length, 1);
+  const folder = nodes[0];
+  assert.equal(folder.kind, "folder");
+  if (folder.kind !== "folder") return;
+  assert.equal(folder.path, "packages");
+  assert.deepEqual(
+    folder.children.map((child) => [child.kind, child.name]),
+    [["file", "tools/"]],
+  );
 });

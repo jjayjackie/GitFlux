@@ -8,8 +8,8 @@
 
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
-import { Pressable } from "react-native";
-import type { StyleProp, View, ViewStyle } from "react-native";
+import { View } from "react-native";
+import type { StyleProp, ViewStyle } from "react-native";
 import { useFloating } from "./context.ts";
 
 const HINT_DELAY = 500; // VS Code's workbench.hover.delay off a Mac
@@ -47,12 +47,15 @@ export interface TooltipProps {
   testID?: string;
 }
 
-/** Shows `text` over whatever it wraps once the pointer rests on it. It is not a button: it has no press of its own. */
+/**
+ * Shows `text` over whatever it wraps once the pointer rests on it. It is not a button, and a plain View rather than a
+ * Pressable: a Pressable inside a row would take the row's press for itself (the innermost one becomes the responder).
+ */
 export function Tooltip({ text, children, style, testID }: TooltipProps) {
   const hint = useHint(text);
   return (
-    <Pressable {...hint} accessible={false} testID={testID} style={style}>
+    <View ref={hint.ref} onPointerEnter={hint.onHoverIn} onPointerLeave={hint.onHoverOut} onPointerDown={hint.onPressIn} testID={testID} style={style}>
       {children}
-    </Pressable>
+    </View>
   );
 }

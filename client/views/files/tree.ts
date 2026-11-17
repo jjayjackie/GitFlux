@@ -15,9 +15,18 @@ export interface Folder {
 }
 
 const inOrder = (a: string, b: string) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" });
-export const fileName = (file: Pick<FileChange, "path">) => file.path.slice(file.path.lastIndexOf("/") + 1);
+// A path ending in "/" is a directory git lists whole: an untracked nested repository (`packages/tools/`). It is a leaf
+// named for its last folder, the slash kept so it reads as a folder.
+const bare = (path: string) => (path.endsWith("/") ? path.slice(0, -1) : path);
+export const fileName = (file: Pick<FileChange, "path">) => {
+  const path = bare(file.path);
+  return path.slice(path.lastIndexOf("/") + 1) + (path === file.path ? "" : "/");
+};
 /** The folder a file is in, "" at the top. */
-export const folderOf = (path: string) => (path.includes("/") ? path.slice(0, path.lastIndexOf("/")) : "");
+export const folderOf = (path: string) => {
+  const own = bare(path);
+  return own.includes("/") ? own.slice(0, own.lastIndexOf("/")) : "";
+};
 
 /** Merges the chains below a folder and puts its contents in order. */
 function tidy(folder: Folder): Folder {
@@ -34,7 +43,7 @@ export function tree(files: readonly FileChange[]): Folder {
   const made = new Map<string, Folder>(); // by path: a folder can hold thousands of others
   for (const file of files) {
     let folder = root;
-    for (const name of file.path.split("/").slice(0, -1)) {
+    for (const name of bare(file.path).split("/").slice(0, -1)) {
       const path = folder.path ? `${folder.path}/${name}` : name;
       let next = made.get(path);
       if (!next) {
