@@ -4,6 +4,7 @@
 import type { PluginClientContext } from "@getpaseo/plugin/client";
 import { registerCommands } from "./client/commands.ts";
 import { messages } from "./client/i18n/messages.ts";
+import { GITFLUX_ICON } from "./client/icon.ts";
 import { Panel } from "./client/layout/Panel.tsx";
 import { SettingsScreen } from "./client/settings/SettingsScreen.tsx";
 import { clearBusy } from "./client/state/busyStore.ts";
@@ -14,14 +15,14 @@ export default function contribute(client: PluginClientContext) {
     client.addWorkspacePanel({
       id: "gitflux",
       title: messages.message("panel.title"),
-      icon: "GitBranch",
+      icon: GITFLUX_ICON,
       locations: ["workspace", "explorer"],
       Component: Panel,
     }),
     client.addSettingsScreen({
       id: "gitflux",
       title: messages.message("settings.title"),
-      icon: "Settings",
+      icon: GITFLUX_ICON,
       Component: SettingsScreen,
     }),
   ];
