@@ -6,9 +6,10 @@
 // Usage (index.client.tsx): const remove = registerCommands(client);
 
 import type { PluginText } from "@getpaseo/plugin";
-import type { PluginClientContext, PluginCommandCenterItemContribution, PluginWorkspaceCommandContext } from "@getpaseo/plugin/client";
+import type { PluginClientContext, PluginCommandCenterItemContribution, PluginSerializableIcon, PluginWorkspaceCommandContext } from "@getpaseo/plugin/client";
 import { messages } from "./i18n/messages.ts";
 import type { MessageKey } from "./i18n/messages.ts";
+import { GITFLUX_ICON } from "./icon.ts";
 import { dispatch } from "./state/selectionStore.ts";
 import type { GitCommand } from "./state/selectionStore.ts";
 
@@ -18,7 +19,7 @@ export const PANEL_ID = "gitflux";
 interface Item {
   id: string;
   title: MessageKey;
-  icon: string;
+  icon: PluginSerializableIcon;
   keywords: readonly string[];
   /** What the panel is asked to do once open; none: just open it. */
   command: GitCommand | null;
@@ -26,7 +27,7 @@ interface Item {
 
 // Keywords are search terms, not shown: git's own words, so they stay English in every language.
 const ITEMS: readonly Item[] = [
-  { id: "open", title: "commands.open", icon: "GitBranch", keywords: ["git", "source control", "scm"], command: null },
+  { id: "open", title: "commands.open", icon: GITFLUX_ICON, keywords: ["git", "source control", "scm"], command: null },
   { id: "fetch", title: "commands.fetch", icon: "CloudDownload", keywords: ["git", "fetch", "remote"], command: { type: "fetch" } },
   { id: "pull", title: "commands.pull", icon: "ArrowDownToLine", keywords: ["git", "pull"], command: { type: "pull" } },
   { id: "push", title: "commands.push", icon: "ArrowUpFromLine", keywords: ["git", "push"], command: { type: "push" } },
