@@ -87,14 +87,14 @@ jobs:
           cat > "$notes_file" <<EOF
           Install from Git with Paseo, or download an archive below:
 
-          - \`paseo-advanced-git-${VERSION}.tgz\`: the plugin source as installed from Git. Extract it, run \`npm ci --omit=dev\` in the extracted directory (the manifest's build step), then install that directory.
-          - \`paseo-advanced-git-${VERSION}-bundled.tgz\`: the same with its production dependencies included, for hosts without registry access. Extract it and install the directory as is.
+          - \`gitflux-${VERSION}.tgz\`: the plugin source as installed from Git. Extract it, run \`npm ci --omit=dev\` in the extracted directory (the manifest's build step), then install that directory.
+          - \`gitflux-${VERSION}-bundled.tgz\`: the same with its production dependencies included, for hosts without registry access. Extract it and install the directory as is.
           - \`SHA256SUMS\`: checksums of both (\`sha256sum --check SHA256SUMS\`).
           EOF
           gh release create "$TAG" \
             --repo "$GITHUB_REPOSITORY" \
             --verify-tag \
-            --title "Advanced Git ${VERSION}" \
+            --title "GitFlux ${VERSION}" \
             --notes-file "$notes_file" \
             --generate-notes \
             "${prerelease[@]}" \

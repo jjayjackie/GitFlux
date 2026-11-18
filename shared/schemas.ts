@@ -358,7 +358,7 @@ export type SubmoduleEntry = z.infer<typeof submoduleEntrySchema>;
 
 /** A safety snapshot: tracked changes recorded before an operation that could discard them (architecture §5). */
 export const snapshotEntrySchema = z.object({
-  ref: z.string(), // `refs/advanced-git/snapshots/<time>`
+  ref: z.string(), // `refs/gitflux/snapshots/<time>`
   hash: hashSchema, // the `git stash create` commit
   time: timeSchema,
   reason: z.string(), // the wire name of the RPC that took it, e.g. `git.branch.reset`

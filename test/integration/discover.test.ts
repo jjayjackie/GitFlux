@@ -16,7 +16,7 @@ const discover = (cwd: string, includeParent = true) => plugin.call(repoDiscover
 
 /** A temporary folder. `repo` makes a repository below it, `settings` writes its .vscode/settings.json. */
 function workspace(t: TestContext) {
-  const top = tempDir(t, "advanced-git-workspace-");
+  const top = tempDir(t, "gitflux-workspace-");
   const at = (path: string) => (path === "." ? top : join(top, ...path.split("/")));
   const folder = (path: string) => mkdirSync(at(path), { recursive: true });
   const repo = (path: string) => {
@@ -217,7 +217,7 @@ test("a settings file that cannot be used is reported", async (t) => {
 });
 
 test("submodules, initialised and not, are listed with their parent", async (t) => {
-  const source = repository(t, "advanced-git-module-");
+  const source = repository(t, "gitflux-module-");
   source.write("lib.txt", "lib\n");
   source.commit("lib");
   const { repo, top } = workspace(t);

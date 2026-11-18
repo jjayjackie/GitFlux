@@ -108,7 +108,7 @@ async function discard(ctx: HandlerContext, files: readonly FileChange[], trash:
     await toTrash(ctx, untracked);
   } catch (error) {
     // As in VS Code, the panel then asks whether to delete them for good.
-    console.warn(`[advanced-git] could not move to the Trash: ${redact(error instanceof Error ? error.message : String(error))}`);
+    console.warn(`[gitflux] could not move to the Trash: ${redact(error instanceof Error ? error.message : String(error))}`);
     return { trashFailed: true };
   }
   return { trashFailed: false };
@@ -307,7 +307,7 @@ async function applyHunks(ctx: HandlerContext, input: ApplyInput): Promise<void>
     try {
       await ctx.git(["--literal-pathspecs", "rm", "--cached", "--quiet", "--", input.path]);
     } catch (error) {
-      console.warn(`[advanced-git] could not take ${input.path} out of the index again: ${redact(error instanceof Error ? error.message : String(error))}`);
+      console.warn(`[gitflux] could not take ${input.path} out of the index again: ${redact(error instanceof Error ? error.message : String(error))}`);
     }
   };
 

@@ -56,19 +56,19 @@ export function isGitErrorCode(value: string): value is GitErrorCode {
   return CODES.has(value);
 }
 
-// The wire form: `[[advanced-git:CODE]]detail[[/advanced-git]]`, or `[[advanced-git:CODE:setting]]…`. The closing
+// The wire form: `[[gitflux:CODE]]detail[[/gitflux]]`, or `[[gitflux:CODE:setting]]…`. The closing
 // sentinel lets the detail be cut out of a longer message; a message that lost it ends the detail at its own end.
-const OPEN = /\[\[advanced-git:([A-Z_]+)(?::([A-Za-z][A-Za-z0-9_]*))?\]\]/;
-const CLOSE = "[[/advanced-git]]";
+const OPEN = /\[\[gitflux:([A-Z_]+)(?::([A-Za-z][A-Za-z0-9_]*))?\]\]/;
+const CLOSE = "[[/gitflux]]";
 const SETTING = /^[A-Za-z][A-Za-z0-9_]*$/;
 
 /** Text that looks like a sentinel, inside a detail, is broken up so that it cannot be read as one. */
-const defuse = (text: string) => text.replace(/\[\[(\/?)advanced-git/g, "[ [$1advanced-git");
+const defuse = (text: string) => text.replace(/\[\[(\/?)gitflux/g, "[ [$1gitflux");
 
 /** The message of an Error that carries `code`. `extra.setting` must be a plain identifier, or it is left out. */
 export function encodeGitError(code: GitErrorCode, detail: string, extra?: { setting?: string }): string {
   const setting = extra?.setting !== undefined && SETTING.test(extra.setting) ? `:${extra.setting}` : "";
-  return `[[advanced-git:${code}${setting}]]${defuse(detail)}${CLOSE}`;
+  return `[[gitflux:${code}${setting}]]${defuse(detail)}${CLOSE}`;
 }
 
 /** Finds the wire form anywhere in `message`; null when there is none or its code is not one of GIT_ERROR_CODES. */

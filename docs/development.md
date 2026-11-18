@@ -1,6 +1,8 @@
-# Working on the plugin
+# Developing GitFlux
 
-The rules every change follows are in [architecture.md](architecture.md) §1 and `.claude/rules/advanced-git.md`; what
+[← README](../README.md) · [Features](features.md) · [Design](design.md) · [Architecture](architecture.md)
+
+The rules every change follows are in [architecture.md](architecture.md) §1 and `.claude/rules/gitflux.md`; what
 the panel does, in [features.md](features.md); where it follows or departs from VS Code and why, in
 [design.md](design.md).
 
@@ -27,7 +29,7 @@ gh run watch            # or: gh run view --log-failed
 | integration | `node --test` over `test/integration/**` on Ubuntu and Windows (not macOS: GitHub's macOS runners are too scarce): every RPC against throwaway repositories, with local bare repositories as remotes |
 | plugin-load | a real headless Paseo daemon (0.14.0 and latest) installs, compiles and runs the plugin; with two daemons, that installation and state are per host |
 | e2e | Playwright drives the real panel in the browser preview against a fixture repository: layout widths, themes, both languages, the fallback language, offline host, and the flows; screenshots are uploaded as an artifact |
-| package | builds the two release archives and `SHA256SUMS` (artifact `paseo-advanced-git-<version>-<sha>`) |
+| package | builds the two release archives and `SHA256SUMS` (artifact `gitflux-<version>-<sha>`) |
 | ci-ok | the required check: every job above passed |
 
 `.github/workflows/release.yml` runs on a `v<version>` tag: it checks the tag matches `package.json`, runs the whole CI

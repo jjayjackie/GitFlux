@@ -132,13 +132,13 @@ test("remotes, sorted, their URLs redacted", () => {
 test("snapshots, newest first, with their reason and branch", () => {
   const line = (ref: string, hash: string, subject: string) => [ref, hash, subject].join("\0");
   const out = [
-    line("refs/advanced-git/snapshots/1700000000000-0", H1, "On main: advanced-git snapshot reason=git.changes.discard branch=main"),
-    line("refs/advanced-git/snapshots/1700000005000-1", H2, "On (no branch): advanced-git snapshot reason=git.branch.reset branch="),
+    line("refs/gitflux/snapshots/1700000000000-0", H1, "On main: gitflux snapshot reason=git.changes.discard branch=main"),
+    line("refs/gitflux/snapshots/1700000005000-1", H2, "On (no branch): gitflux snapshot reason=git.branch.reset branch="),
     "",
   ].join("\n");
   assert.deepEqual(parseSnapshots(out), [
-    { ref: "refs/advanced-git/snapshots/1700000005000-1", hash: H2, time: 1700000005, reason: "git.branch.reset", branch: null },
-    { ref: "refs/advanced-git/snapshots/1700000000000-0", hash: H1, time: 1700000000, reason: "git.changes.discard", branch: "main" },
+    { ref: "refs/gitflux/snapshots/1700000005000-1", hash: H2, time: 1700000005, reason: "git.branch.reset", branch: null },
+    { ref: "refs/gitflux/snapshots/1700000000000-0", hash: H1, time: 1700000000, reason: "git.changes.discard", branch: "main" },
   ]);
 });
 

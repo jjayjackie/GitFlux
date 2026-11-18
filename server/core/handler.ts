@@ -108,7 +108,7 @@ export function toWireError(error: unknown): Error {
 function logFailure(name: string, error: unknown): void {
   const info = infoOf(error);
   const line = redact(info.detail).replace(/\s+/g, " ").trim().slice(0, 500);
-  console.error(`[advanced-git] ${name} failed: ${info.code}${info.setting === undefined ? "" : ` (${info.setting})`}: ${line}`);
+  console.error(`[gitflux] ${name} failed: ${info.code}${info.setting === undefined ? "" : ` (${info.setting})`}: ${line}`);
 }
 
 function cwdOf(input: unknown): string {

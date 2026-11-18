@@ -204,7 +204,7 @@ async function writeResolution(ctx: HandlerContext, path: string, content: strin
   } catch {
     // not in the work tree: a new file
   }
-  const temp = join(folder, `.${basename(absolute)}.advanced-git-${process.pid}-${Date.now()}-${temporary++}.tmp`);
+  const temp = join(folder, `.${basename(absolute)}.gitflux-${process.pid}-${Date.now()}-${temporary++}.tmp`);
   try {
     await writeFile(temp, content, { encoding: "utf8", mode, flag: "wx" });
     await rename(temp, absolute);

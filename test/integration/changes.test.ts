@@ -68,7 +68,7 @@ test("discarding tracked changes takes a safety snapshot first, and restoring it
   const { snapshots } = await plugin.call(safetySnapshotsRpc, { cwd });
   assert.equal(snapshots.length, 1);
   const [snapshot] = snapshots;
-  assert.match(snapshot.ref, /^refs\/advanced-git\/snapshots\/\d+-\d+$/);
+  assert.match(snapshot.ref, /^refs\/gitflux\/snapshots\/\d+-\d+$/);
   assert.equal(snapshot.reason, "git.changes.discard");
   assert.equal(snapshot.branch, "main");
 
@@ -80,7 +80,7 @@ test("discarding tracked changes takes a safety snapshot first, and restoring it
   repo.write("a.txt", "newer work\n");
   assert.equal((await failure(plugin.call(safetyRestoreRpc, { cwd, ref: snapshot.ref }))).code, "WOULD_OVERWRITE_CHANGES");
   assert.equal(lf(repo.read("a.txt")), "newer work\n");
-  assert.equal((await failure(plugin.call(safetyRestoreRpc, { cwd, ref: "refs/advanced-git/snapshots/1-0" }))).code, "REF_NOT_FOUND");
+  assert.equal((await failure(plugin.call(safetyRestoreRpc, { cwd, ref: "refs/gitflux/snapshots/1-0" }))).code, "REF_NOT_FOUND");
   assert.equal((await failure(plugin.call(safetyRestoreRpc, { cwd, ref: "refs/heads/main" }))).code, "INVALID_ARGUMENT");
 });
 
@@ -111,7 +111,7 @@ test("untracked files go to the Trash where there is one; elsewhere the call say
 
 test("markers are looked for only inside the repository: not through a link that leads out of it", async (t) => {
   const repo = repository(t);
-  const outside = tempDir(t, "advanced-git-outside-");
+  const outside = tempDir(t, "gitflux-outside-");
   writeFileSync(join(outside, "secret.txt"), "<<<<<<< ours\nx\n=======\ny\n>>>>>>> theirs\n");
   // A directory junction on Windows (no privilege needed), a symbolic link elsewhere.
   symlinkSync(outside, repo.path("link"), "junction");

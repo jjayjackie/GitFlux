@@ -42,7 +42,7 @@ export function ScopeProvider({ workspaceId, children }: { workspaceId: string; 
 export function useScope(): Scope {
   const { id } = useHost();
   const scope = useContext(ScopeContext);
-  if (!scope) throw new Error("Advanced Git: this component needs a ScopeProvider above it");
+  if (!scope) throw new Error("GitFlux: this component needs a ScopeProvider above it");
   return { hostId: id, workspaceId: scope.workspaceId, instance: scope.instance };
 }
 

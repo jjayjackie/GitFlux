@@ -1,4 +1,4 @@
-// The registered panel (`advanced-git`, in the workspace and the Explorer). It sets up, outside in:
+// The registered panel (`gitflux`, in the workspace and the Explorer). It sets up, outside in:
 //   HostProvider (theme, layout, host) → PanelRoot (the floating layer) → keyed by host.id, so switching hosts remounts
 //   everything with nothing carried over → ScopeProvider (host + workspace + this instance) → ViewProvider (the tab's
 //   state) → DialogHost → FileOpener → the workspace's directory → git.repo.discover → the selected repository →

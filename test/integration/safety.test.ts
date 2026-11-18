@@ -90,7 +90,7 @@ test("an index.lock in the way is reported, and left where it is", async (t) => 
 
 /** A remote whose upload-pack never answers: a Node script that writes its pid and waits for ever. */
 function hangingRemote(t: Parameters<typeof repository>[0]) {
-  const folder = tempDir(t, "advanced-git-hang-");
+  const folder = tempDir(t, "gitflux-hang-");
   const pidFile = join(folder, "pid");
   const script = join(folder, "hang.mjs");
   writeFileSync(script, `import { writeFileSync } from "node:fs";\nwriteFileSync(${JSON.stringify(pidFile)}, String(process.pid));\nsetInterval(() => {}, 1000);\n`);
@@ -128,7 +128,7 @@ test("a remote that never answers is stopped at the deadline, with everything gi
 
 test("no git on the daemon's PATH is GIT_NOT_FOUND", async (t) => {
   const repo = repository(t);
-  const empty = tempDir(t, "advanced-git-nopath-");
+  const empty = tempDir(t, "gitflux-nopath-");
   const { code } = await withEnv({ PATH: empty }, () => failure(plugin.call(repoStatusRpc, { cwd: repo.cwd })));
   assert.equal(code, "GIT_NOT_FOUND");
   assert.equal((await plugin.call(repoStatusRpc, { cwd: repo.cwd })).branch, "main"); // and back once it is there

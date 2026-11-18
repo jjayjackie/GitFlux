@@ -25,7 +25,7 @@ export function gitDirOf(repo: Repo): string {
 
 /** Whether the plugin left its folder in the git dir. */
 export function pluginFolderLeft(repo: Repo): boolean {
-  return existsSync(join(gitDirOf(repo), "advanced-git"));
+  return existsSync(join(gitDirOf(repo), "gitflux"));
 }
 
 /** Commits that each add a file of their own (`<name>.txt`), with their names as subjects; returns their hashes. */

@@ -404,7 +404,7 @@ test("reset: soft and mixed anywhere, keep only on an unprotected branch and onl
 
   repo.git("switch", "--quiet", "--create", "work");
   const kept = await plugin.call(branchResetRpc, { cwd, target: root, mode: "keep", confirm: true });
-  assert.ok(kept.snapshot !== null && kept.snapshot.startsWith("refs/advanced-git/snapshots/"), String(kept.snapshot));
+  assert.ok(kept.snapshot !== null && kept.snapshot.startsWith("refs/gitflux/snapshots/"), String(kept.snapshot));
   assert.equal(repo.head(), root);
   assert.equal(lf(repo.read("a.txt")), "local\n");
   assert.equal(existsSync(repo.path("b.txt")), false);

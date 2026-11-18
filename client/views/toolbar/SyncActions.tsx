@@ -2,7 +2,7 @@
 // (keyboard shortcuts, the Command Center, other views) with the same steps as the toolbar's buttons (./useSync.ts), and
 // fetches the selected repository in the background. Draws nothing.
 //
-// `commit` (Ctrl/Cmd+Enter, "Advanced Git: Commit") goes to the commit composer (views/changes/commitRequests.ts): it
+// `commit` (Ctrl/Cmd+Enter, "GitFlux: Commit") goes to the commit composer (views/changes/commitRequests.ts): it
 // commits when a message is written and there is something to commit, and otherwise puts the cursor in the message box;
 // when the composer is not on screen, the Changes pane is shown first and the composer, once drawn, does the same.
 //

@@ -29,7 +29,7 @@ export const HostProvider = HostValueContext.Provider;
 /** The raw host value. Throws outside a HostProvider: every kit component needs one. */
 export function useHostValue(): HostValue {
   const value = useContext(HostValueContext);
-  if (!value) throw new Error("Advanced Git: this component needs a HostProvider above it");
+  if (!value) throw new Error("GitFlux: this component needs a HostProvider above it");
   return value;
 }
 

@@ -11,7 +11,7 @@ import { pathToFileURL } from "node:url";
 import type { TestContext } from "node:test";
 
 /** A new empty folder, removed (with retries for Windows' file locks) when the test ends. */
-export function tempDir(t: TestContext, prefix = "advanced-git-"): string {
+export function tempDir(t: TestContext, prefix = "gitflux-"): string {
   const directory = realpathSync.native(mkdtempSync(join(tmpdir(), prefix)));
   t.after(() => rmSync(directory, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 }));
   return directory;
@@ -71,7 +71,7 @@ export function repoAt(cwd: string): Repo {
 }
 
 /** A new repository on `main`, with no commit. */
-export function repository(t: TestContext, prefix = "advanced-git-"): Repo {
+export function repository(t: TestContext, prefix = "gitflux-"): Repo {
   const cwd = tempDir(t, prefix);
   gitIn(cwd, ["init", "--quiet", "--initial-branch=main"]);
   return repoAt(cwd);
@@ -79,7 +79,7 @@ export function repository(t: TestContext, prefix = "advanced-git-"): Repo {
 
 /** A new bare repository on `main`, to push to and fetch from; returns its folder. */
 export function bareRemote(t: TestContext): string {
-  const cwd = tempDir(t, "advanced-git-remote-");
+  const cwd = tempDir(t, "gitflux-remote-");
   gitIn(cwd, ["init", "--quiet", "--bare", "--initial-branch=main"]);
   return cwd;
 }
@@ -91,7 +91,7 @@ export function fileUrl(folder: string): string {
 
 /** A clone of `remote` (a folder or URL) in a new folder. */
 export function clone(t: TestContext, remote: string): Repo {
-  const parent = tempDir(t, "advanced-git-clone-");
+  const parent = tempDir(t, "gitflux-clone-");
   const cwd = join(parent, "clone");
   gitIn(parent, ["clone", "--quiet", remote, cwd]);
   return repoAt(realpathSync.native(cwd));
@@ -133,7 +133,7 @@ export function addSubmodule(parent: Repo, source: string, path: string): void {
 
 /** Adds a linked worktree of `repo` on a new branch, in a new folder; returns the worktree's root. */
 export function addWorktree(t: TestContext, repo: Repo, branch: string): string {
-  const parent = tempDir(t, "advanced-git-worktree-");
+  const parent = tempDir(t, "gitflux-worktree-");
   const root = join(parent, branch.replace(/[^A-Za-z0-9]/g, "-"));
   repo.git("worktree", "add", "--quiet", "-b", branch, root);
   return realpathSync.native(root);

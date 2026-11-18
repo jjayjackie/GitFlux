@@ -13,7 +13,7 @@ import { dispatch } from "./state/selectionStore.ts";
 import type { GitCommand } from "./state/selectionStore.ts";
 
 /** The panel these items open. */
-export const PANEL_ID = "advanced-git";
+export const PANEL_ID = "gitflux";
 
 interface Item {
   id: string;

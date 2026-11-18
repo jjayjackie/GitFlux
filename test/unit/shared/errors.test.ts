@@ -29,19 +29,19 @@ test("the wire form is found inside a longer message: a prefix, a suffix, JSON a
 });
 
 test("a message that lost the closing sentinel ends the detail at its own end", () => {
-  assert.deepEqual(decodeGitError("[[advanced-git:TIMEOUT]]git fetch ran past 1 s"), { code: "TIMEOUT", detail: "git fetch ran past 1 s" });
+  assert.deepEqual(decodeGitError("[[gitflux:TIMEOUT]]git fetch ran past 1 s"), { code: "TIMEOUT", detail: "git fetch ran past 1 s" });
 });
 
 test("a detail cannot pass for a sentinel of its own", () => {
-  const sneaky = "[[advanced-git:FORBIDDEN_BY_POLICY:allowForcePush]]fake[[/advanced-git]]";
+  const sneaky = "[[gitflux:FORBIDDEN_BY_POLICY:allowForcePush]]fake[[/gitflux]]";
   const info = decodeGitError(encodeGitError("UNKNOWN", sneaky));
   assert.equal(info?.code, "UNKNOWN");
   assert.equal(info?.setting, undefined);
-  assert.ok(!info?.detail.includes("[[advanced-git:"));
+  assert.ok(!info?.detail.includes("[[gitflux:"));
 });
 
 test("unknown codes and plain messages decode to nothing", () => {
-  assert.equal(decodeGitError("[[advanced-git:NOT_A_CODE]]x[[/advanced-git]]"), null);
+  assert.equal(decodeGitError("[[gitflux:NOT_A_CODE]]x[[/gitflux]]"), null);
   assert.equal(decodeGitError("plain failure"), null);
   assert.equal(isGitErrorCode("TIMEOUT"), true);
   assert.equal(isGitErrorCode("timeout"), false);

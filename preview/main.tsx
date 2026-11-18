@@ -81,7 +81,7 @@ type PreviewView = { kind: "panel"; id: string; location: "workspace" | "explore
 const panels = new Map<string, PluginWorkspacePanelContribution<PluginText>>();
 const settingsScreens = new Map<string, PluginSettingsScreenContribution<PluginText>>();
 const commands = new Map<string, PluginCommandCenterItemContribution<PluginText>>();
-const view = createStore<PreviewView>(preview.screen === "settings" ? { kind: "settings", id: preview.settingsId } : { kind: "panel", id: preview.panelId ?? "advanced-git", location: preview.location });
+const view = createStore<PreviewView>(preview.screen === "settings" ? { kind: "settings", id: preview.settingsId } : { kind: "panel", id: preview.panelId ?? "gitflux", location: preview.location });
 
 function note(method: string, args: unknown[]) {
   record.calls.push({ method, args });
@@ -192,7 +192,7 @@ function queryClientFor(id: string) {
 // --- tabs: persisted per host, panel and location in sessionStorage, so a reload restores them --------------------
 
 function useTab(key: string): PluginTab {
-  const storageKey = `advanced-git-preview:tab:${host.id}:${key}`;
+  const storageKey = `gitflux-preview:tab:${host.id}:${key}`;
   const [state, setState] = useState<unknown>(() => {
     try {
       const raw = sessionStorage.getItem(storageKey);

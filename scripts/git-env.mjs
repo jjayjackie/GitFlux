@@ -47,7 +47,7 @@ const CONFIG = [
  * @returns {NodeJS.ProcessEnv}
  */
 export function isolatedGitEnv(base = process.env) {
-  const directory = mkdtempSync(join(tmpdir(), "advanced-git-config-"));
+  const directory = mkdtempSync(join(tmpdir(), "gitflux-config-"));
   const globalConfig = join(directory, "gitconfig");
   writeFileSync(globalConfig, "");
   /** @type {NodeJS.ProcessEnv} */

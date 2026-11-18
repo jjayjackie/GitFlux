@@ -1,10 +1,12 @@
-# Advanced Git — architecture
+# GitFlux architecture
+
+[← README](../README.md) · [Features](features.md) · [Design](design.md) · [Development](development.md)
 
 This is the contract every contributor (human or agent) works to. It says what the plugin is made of, who owns which
 files, and the rules that keep it safe. Where it and the code disagree, fix one of them in the same change.
 
-Advanced Git is a fork of [paseo-source-control](https://github.com/KosmoCHE/paseo-source-control). Upstream is a
-VS Code-style read-mostly panel; this fork turns it into a full Git client (branches, remotes, tags, stashes, worktrees,
+GitFlux began as a fork of [paseo-source-control](https://github.com/KosmoCHE/paseo-source-control). Upstream is a
+VS Code-style read-mostly panel; GitFlux turns it into a full Git client (branches, remotes, tags, stashes, worktrees,
 submodules, history rewriting, hunk staging, conflict resolution) with a three-column layout and English / 简体中文 UI.
 Upstream code is reused wherever it fits: keep its file headers and third-party notices when moving or adapting it.
 
@@ -39,13 +41,19 @@ Upstream code is reused wherever it fits: keep its file headers and third-party 
 
 | | |
 | --- | --- |
-| Plugin id | `advanced-git` |
-| Display name | `Advanced Git` (`高级 Git` in zh-CN listing) |
+| Plugin id | `gitflux` |
+| Display name | `GitFlux`, in every language (the zh-CN listing uses it too) |
+| Icon | `assets/icon.png`, a 512 × 512 PNG named by the manifest `icon` and packaged through `files` |
 | `requirements.paseo` | `>=0.14.0` |
-| Panels | `advanced-git` (locations `workspace` and `explorer`) |
+| Panels | `gitflux` (locations `workspace` and `explorer`) |
 | Settings documents | `safety` and `view`, both scope `host` (SDK 0.14 has no device scope; per-tab layout lives in `useTabState`) |
-| Query-key prefix | `"advanced-git"` |
+| Query-key prefix | `"gitflux"` |
 | Runtime dependencies (daemon half only) | `vscode-diff`, `strip-json-comments`, `prismjs` |
+
+Up to 0.2.0 the plugin was `advanced-git`, shown as "Advanced Git" (高级 Git in zh-CN). The rename changed every
+identifier above together with the snapshot namespace (`refs/gitflux/`), the rebase folder (`<git dir>/gitflux/`) and
+the error wire tag. Nothing reads or migrates the old names: Paseo installs GitFlux as a new plugin, and snapshots under
+`refs/advanced-git/snapshots/` stay in their repositories, unlisted.
 
 ## 3. Layout and ownership
 
@@ -185,13 +193,13 @@ names exactly what will be lost.
 | `allowForceDelete` | deleting an unmerged branch, removing a dirty worktree, `git.stash.clear` |
 | `allowRemoteDelete` | deleting a branch or tag on a remote |
 | `protectedBranches` | glob list (default `main`, `master`, `develop`, `release/*`): never force-pushed, deleted or hard-reset through the plugin, whatever the switches say |
-| `safetySnapshots` | on by default: before an operation that can discard tracked changes, record them (`git stash create` → `refs/advanced-git/snapshots/<time>`), bounded in number |
+| `safetySnapshots` | on by default: before an operation that can discard tracked changes, record them (`git stash create` → `refs/gitflux/snapshots/<time>`), bounded in number |
 
 A gated call without its switch fails with `FORBIDDEN_BY_POLICY` and names the setting. The handler reads the settings
 on the daemon (`server.registerSettings`), never from the request.
 
 Never used at all: `git push --force` (bare), `git clean -x`, `git checkout --force`, `--no-verify`, `gc --prune=now`,
-`reflog expire`, `filter-branch`, `update-ref -d` on anything outside `refs/advanced-git/`.
+`reflog expire`, `filter-branch`, `update-ref -d` on anything outside `refs/gitflux/`.
 
 Discarding untracked files goes to the system Trash where there is one (upstream behaviour); deleting for good asks.
 
@@ -199,7 +207,7 @@ Discarding untracked files goes to the system Trash where there is one (upstream
 
 Paseo installs a plugin per daemon, and the selected host supplies the bundle, the RPC transport and the query cache.
 
-- **Client.** Every query key starts `["advanced-git", host.id, …]`. Every module-level store is keyed by host id
+- **Client.** Every query key starts `["gitflux", host.id, …]`. Every module-level store is keyed by host id
   (then workspace id). The panel's tree is keyed by `host.id`, so switching hosts remounts it with nothing carried
   over. `useRpc` is the only transport; `getPaseoClient` is not used to reach other hosts.
 - **Server.** In-memory caches are keyed by repository root and hold nothing that outlives the process. No listeners,

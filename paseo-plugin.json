@@ -1,10 +1,11 @@
 {
-  "id": "advanced-git",
-  "name": "Advanced Git",
+  "id": "gitflux",
+  "name": "GitFlux",
+  "icon": "assets/icon.png",
   "description": "A full Git client beside every workspace: branches, remotes, tags, stashes, worktrees, submodules, history and conflict resolution",
   "translations": {
     "zh-CN": {
-      "name": "高级 Git",
+      "name": "GitFlux",
       "description": "每个工作区旁的完整 Git 客户端：分支、远程、标签、储藏、工作树、子模块、历史与冲突解决"
     }
   },

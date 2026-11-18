@@ -60,6 +60,6 @@ test("extra variables are set last, and undefined removes one", () => {
 });
 
 test("process.env is read at each call", async () => {
-  await withEnv({ ADVANCED_GIT_PROBE: "one" }, async () => assert.equal(lookup(gitEnv("read"), "ADVANCED_GIT_PROBE"), "one"));
-  await withEnv({ ADVANCED_GIT_PROBE: "two" }, async () => assert.equal(lookup(gitEnv("read"), "ADVANCED_GIT_PROBE"), "two"));
+  await withEnv({ GITFLUX_PROBE: "one" }, async () => assert.equal(lookup(gitEnv("read"), "GITFLUX_PROBE"), "one"));
+  await withEnv({ GITFLUX_PROBE: "two" }, async () => assert.equal(lookup(gitEnv("read"), "GITFLUX_PROBE"), "two"));
 });

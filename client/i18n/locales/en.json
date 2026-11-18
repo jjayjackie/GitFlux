@@ -1,6 +1,6 @@
 {
   "panel": {
-    "title": "Advanced Git",
+    "title": "GitFlux",
     "noRepository": "No Git repository in this folder.",
     "noRepositoryHint": "Open a folder that holds a Git repository, or open the repository this folder is in.",
     "openParent": "Open {{name}}, the repository this folder is in",
@@ -102,7 +102,7 @@
     },
     "INDEX_LOCKED": {
       "title": "The index is locked",
-      "hint": "Another Git process may be running. If none is, remove the .git/index.lock file by hand; Advanced Git never deletes it."
+      "hint": "Another Git process may be running. If none is, remove the .git/index.lock file by hand; GitFlux never deletes it."
     },
     "TIMEOUT": {
       "title": "Git took too long",
@@ -110,11 +110,11 @@
     },
     "OUTPUT_TOO_LARGE": {
       "title": "Too much output",
-      "hint": "Git produced more output than Advanced Git reads. Narrow the request, for example with a filter."
+      "hint": "Git produced more output than GitFlux reads. Narrow the request, for example with a filter."
     },
     "AUTH_FAILED": {
       "title": "Authentication failed",
-      "hint": "Configure a credential helper or ssh-agent for Git on the host running Paseo. Advanced Git never asks for passwords or tokens."
+      "hint": "Configure a credential helper or ssh-agent for Git on the host running Paseo. GitFlux never asks for passwords or tokens."
     },
     "HOST_KEY_VERIFICATION_FAILED": {
       "title": "Host key verification failed",
@@ -178,7 +178,7 @@
     },
     "FORBIDDEN_BY_POLICY": {
       "title": "Not allowed by the safety settings",
-      "hint": "Turn on “{{setting}}” in Advanced Git's safety settings for this host to allow it."
+      "hint": "Turn on “{{setting}}” in GitFlux's safety settings for this host to allow it."
     },
     "PROTECTED_BRANCH": {
       "title": "Protected branch",
@@ -330,7 +330,7 @@
     }
   },
   "settings": {
-    "title": "Advanced Git",
+    "title": "GitFlux",
     "loading": "Loading settings…",
     "loadFailed": "The settings could not be read.",
     "invalid": "The stored settings are not valid. They are kept as they are until you reset them.",
@@ -341,7 +341,7 @@
     "saveFailed": "The settings were not saved.",
     "safety": {
       "title": "Safety",
-      "info": "These settings belong to this host. Advanced Git's daemon reads them before every destructive operation; they are all off by default.",
+      "info": "These settings belong to this host. GitFlux's daemon reads them before every destructive operation; they are all off by default.",
       "allowForcePush": {
         "label": "Allow force push",
         "hint": "Push with --force-with-lease (never a bare --force) after a confirmation.",
@@ -373,12 +373,12 @@
       },
       "safetySnapshots": {
         "label": "Safety snapshots",
-        "hint": "Before an operation that can discard tracked changes, record them under refs/advanced-git/snapshots so they can be restored."
+        "hint": "Before an operation that can discard tracked changes, record them under refs/gitflux/snapshots so they can be restored."
       }
     },
     "view": {
       "title": "View",
-      "info": "These settings belong to this host: they apply to everyone using Advanced Git on it.",
+      "info": "These settings belong to this host: they apply to everyone using GitFlux on it.",
       "diffMode": {
         "label": "Diff layout",
         "hint": "Show diffs side by side or in one column.",
@@ -442,20 +442,20 @@
     }
   },
   "commands": {
-    "open": "Advanced Git: Open",
-    "fetch": "Advanced Git: Fetch",
-    "pull": "Advanced Git: Pull",
-    "push": "Advanced Git: Push",
-    "sync": "Advanced Git: Sync",
-    "commit": "Advanced Git: Commit",
-    "createBranch": "Advanced Git: Create Branch…",
-    "switchBranch": "Advanced Git: Switch Branch…",
-    "stash": "Advanced Git: Stash Changes…",
-    "refresh": "Advanced Git: Refresh"
+    "open": "GitFlux: Open",
+    "fetch": "GitFlux: Fetch",
+    "pull": "GitFlux: Pull",
+    "push": "GitFlux: Push",
+    "sync": "GitFlux: Sync",
+    "commit": "GitFlux: Commit",
+    "createBranch": "GitFlux: Create Branch…",
+    "switchBranch": "GitFlux: Switch Branch…",
+    "stash": "GitFlux: Stash Changes…",
+    "refresh": "GitFlux: Refresh"
   },
   "shortcuts": {
     "title": "Keyboard shortcuts",
-    "intro": "Shortcuts work while Advanced Git has focus.",
+    "intro": "Shortcuts work while GitFlux has focus.",
     "nativeLimit": "Keyboard shortcuts are available in the browser and the desktop app only.",
     "commit": "Commit",
     "fetch": "Fetch",
@@ -1147,7 +1147,7 @@
     }
   },
   "dialog": {
-    "title": "Advanced Git"
+    "title": "GitFlux"
   },
   "branch": {
     "title": "Branches",
@@ -1202,7 +1202,7 @@
     "checkoutDialog": {
       "switched": "Switched to {{ref}}.",
       "dirtyTitle": "Local changes are in the way",
-      "dirtyBody": "Switching to {{ref}} would overwrite local changes. Advanced Git can stash them, switch, and apply them again.",
+      "dirtyBody": "Switching to {{ref}} would overwrite local changes. GitFlux can stash them, switch, and apply them again.",
       "stashSwitch": "Stash, Switch and Re-apply",
       "stashConflict": "Switched to {{ref}}, but applying your changes again conflicted. The stash is kept: resolve the conflicts in Changes.",
       "detachedTitle": "Check out {{ref}}?",
@@ -1569,7 +1569,7 @@
     "title": "Safety",
     "snapshots": {
       "title": "Safety Snapshots",
-      "intro": "Before an operation that can discard changes to tracked files, Advanced Git records them here. Restoring applies a snapshot's changes to the work tree and keeps the snapshot.",
+      "intro": "Before an operation that can discard changes to tracked files, GitFlux records them here. Restoring applies a snapshot's changes to the work tree and keeps the snapshot.",
       "off": "Safety snapshots are turned off in the safety settings: no new ones are taken.",
       "empty": "No safety snapshots yet.",
       "detail": "{{reason}} · {{branch}}",
