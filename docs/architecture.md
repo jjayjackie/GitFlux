@@ -44,6 +44,7 @@ Upstream code is reused wherever it fits: keep its file headers and third-party 
 | Plugin id | `gitflux` |
 | Display name | `GitFlux`, in every language (the zh-CN listing uses it too) |
 | Icon | `assets/icon.png`, a 512 × 512 PNG named by the manifest `icon` and packaged through `files` |
+| Contribution icon | `client/icon.ts`: the app icon's three nodes as inline SVG on Lucide's grid, for the panel, the settings screen and the "Open" Command Center item |
 | `requirements.paseo` | `>=0.14.0` |
 | Panels | `gitflux` (locations `workspace` and `explorer`) |
 | Settings documents | `safety` and `view`, both scope `host` (SDK 0.14 has no device scope; per-tab layout lives in `useTabState`) |
@@ -102,6 +103,7 @@ client/                  app half: React Native only, no DOM outside web.ts
                          (RefMenu.tsx provides it around the shell)
   dialogs/history/       reset, cherry-pick, revert, interactive rebase, safety snapshots
   commands.ts            Command Center items
+  icon.ts                GitFlux's glyph as inline SVG (`currentColor`), for the panel, the settings screen and "Open"
   settings/              the settings screen
   web.ts                 the only file that touches browser APIs (keyboard shortcuts, context-menu events)
 test/
