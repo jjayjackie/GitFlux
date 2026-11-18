@@ -89,11 +89,11 @@ test("add on a new branch at a start point, or detached", async (t) => {
 
 test("the folder: an empty one is fine; a non-empty one, a file, a missing parent or a .git folder are refused", async (t) => {
   const repo = base(t);
-  const empty = tempDir(t, "advanced-git-empty-");
+  const empty = tempDir(t, "gitflux-empty-");
   await plugin.call(worktreeAddRpc, { cwd: repo.cwd, path: empty, newBranch: "in-empty" });
   assert.equal(existsSync(join(empty, "a.txt")), true);
 
-  const full = tempDir(t, "advanced-git-full-");
+  const full = tempDir(t, "gitflux-full-");
   writeFileSync(join(full, "keep.txt"), "mine\n");
   assert.equal((await failure(plugin.call(worktreeAddRpc, { cwd: repo.cwd, path: full, newBranch: "n1" }))).code, "REF_EXISTS");
   assert.equal((await failure(plugin.call(worktreeAddRpc, { cwd: repo.cwd, path: join(full, "keep.txt"), newBranch: "n2" }))).code, "REF_EXISTS");
@@ -153,7 +153,7 @@ test("remove: clean at once; dirty refused, then forced only with the switch; th
   await allowed.call(worktreeRemoveRpc, { cwd: repo.cwd, path: dirty, force: true, confirm: true });
   assert.equal(existsSync(dirty), false);
   // Its tracked change was recorded first.
-  assert.notEqual(repo.git("for-each-ref", "--format=%(refname)", "refs/advanced-git/snapshots/"), "");
+  assert.notEqual(repo.git("for-each-ref", "--format=%(refname)", "refs/gitflux/snapshots/"), "");
 
   const linked = addWorktree(t, repo, "linked");
   assert.equal((await failure(allowed.call(worktreeRemoveRpc, { cwd: repo.cwd, path: repo.cwd, force: true, confirm: true }))).code, "INVALID_ARGUMENT");

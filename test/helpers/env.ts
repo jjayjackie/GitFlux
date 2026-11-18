@@ -43,7 +43,7 @@ const CONFIG: Array<[string, string]> = [
   ["advice.detachedHead", "false"],
 ];
 
-const MARK = "ADVANCED_GIT_TEST_ENV";
+const MARK = "GITFLUX_TEST_ENV";
 
 export const IDENTITY = {
   GIT_AUTHOR_NAME: "Test Author",
@@ -54,7 +54,7 @@ export const IDENTITY = {
 
 export function applyIsolatedGitEnv(): void {
   if (process.env[MARK] === "1") return;
-  const directory = mkdtempSync(join(tmpdir(), "advanced-git-config-"));
+  const directory = mkdtempSync(join(tmpdir(), "gitflux-config-"));
   const globalConfig = join(directory, "gitconfig");
   writeFileSync(globalConfig, "");
   process.on("exit", () => rmSync(directory, { recursive: true, force: true }));

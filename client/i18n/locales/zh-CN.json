@@ -1,6 +1,6 @@
 {
   "panel": {
-    "title": "高级 Git",
+    "title": "GitFlux",
     "noRepository": "此文件夹中没有 Git 仓库。",
     "noRepositoryHint": "打开包含 Git 仓库的文件夹，或打开此文件夹所在的仓库。",
     "openParent": "打开此文件夹所在的仓库 {{name}}",
@@ -99,7 +99,7 @@
     },
     "INDEX_LOCKED": {
       "title": "索引已被锁定",
-      "hint": "可能有另一个 Git 进程正在运行。如果没有，请手动删除 .git/index.lock 文件；高级 Git 不会自动删除它。"
+      "hint": "可能有另一个 Git 进程正在运行。如果没有，请手动删除 .git/index.lock 文件；GitFlux 不会自动删除它。"
     },
     "TIMEOUT": {
       "title": "Git 执行超时",
@@ -107,11 +107,11 @@
     },
     "OUTPUT_TOO_LARGE": {
       "title": "输出过多",
-      "hint": "Git 的输出超出了高级 Git 的读取上限。请缩小请求范围，例如使用筛选。"
+      "hint": "Git 的输出超出了 GitFlux 的读取上限。请缩小请求范围，例如使用筛选。"
     },
     "AUTH_FAILED": {
       "title": "身份验证失败",
-      "hint": "请在运行 Paseo 的主机上为 Git 配置凭据助手（credential helper）或 ssh-agent。高级 Git 从不索取密码或令牌。"
+      "hint": "请在运行 Paseo 的主机上为 Git 配置凭据助手（credential helper）或 ssh-agent。GitFlux 从不索取密码或令牌。"
     },
     "HOST_KEY_VERIFICATION_FAILED": {
       "title": "主机密钥验证失败",
@@ -175,7 +175,7 @@
     },
     "FORBIDDEN_BY_POLICY": {
       "title": "安全设置不允许此操作",
-      "hint": "在此主机的高级 Git 安全设置中开启“{{setting}}”即可允许此操作。"
+      "hint": "在此主机的 GitFlux 安全设置中开启“{{setting}}”即可允许此操作。"
     },
     "PROTECTED_BRANCH": {
       "title": "受保护的分支",
@@ -324,7 +324,7 @@
     }
   },
   "settings": {
-    "title": "高级 Git",
+    "title": "GitFlux",
     "loading": "正在加载设置…",
     "loadFailed": "无法读取设置。",
     "invalid": "已保存的设置无效。在你重置之前，它们会保持原样。",
@@ -335,7 +335,7 @@
     "saveFailed": "设置未保存。",
     "safety": {
       "title": "安全",
-      "info": "这些设置属于此主机。高级 Git 的守护进程会在每次破坏性操作前读取它们；默认全部关闭。",
+      "info": "这些设置属于此主机。GitFlux 的守护进程会在每次破坏性操作前读取它们；默认全部关闭。",
       "allowForcePush": {
         "label": "允许强制推送",
         "hint": "确认后使用 --force-with-lease 推送（从不使用单独的 --force）。",
@@ -367,12 +367,12 @@
       },
       "safetySnapshots": {
         "label": "安全快照",
-        "hint": "在可能丢弃已跟踪更改的操作之前，将这些更改记录到 refs/advanced-git/snapshots 下，以便恢复。"
+        "hint": "在可能丢弃已跟踪更改的操作之前，将这些更改记录到 refs/gitflux/snapshots 下，以便恢复。"
       }
     },
     "view": {
       "title": "视图",
-      "info": "这些设置属于此主机：对在此主机上使用高级 Git 的所有人生效。",
+      "info": "这些设置属于此主机：对在此主机上使用 GitFlux 的所有人生效。",
       "diffMode": {
         "label": "差异布局",
         "hint": "并排显示差异，或在单列中显示。",
@@ -435,20 +435,20 @@
     }
   },
   "commands": {
-    "open": "高级 Git：打开",
-    "fetch": "高级 Git：获取",
-    "pull": "高级 Git：拉取",
-    "push": "高级 Git：推送",
-    "sync": "高级 Git：同步",
-    "commit": "高级 Git：提交",
-    "createBranch": "高级 Git：创建分支…",
-    "switchBranch": "高级 Git：切换分支…",
-    "stash": "高级 Git：储藏更改…",
-    "refresh": "高级 Git：刷新"
+    "open": "GitFlux：打开",
+    "fetch": "GitFlux：获取",
+    "pull": "GitFlux：拉取",
+    "push": "GitFlux：推送",
+    "sync": "GitFlux：同步",
+    "commit": "GitFlux：提交",
+    "createBranch": "GitFlux：创建分支…",
+    "switchBranch": "GitFlux：切换分支…",
+    "stash": "GitFlux：储藏更改…",
+    "refresh": "GitFlux：刷新"
   },
   "shortcuts": {
     "title": "键盘快捷键",
-    "intro": "快捷键在高级 Git 获得焦点时可用。",
+    "intro": "快捷键在 GitFlux 获得焦点时可用。",
     "nativeLimit": "键盘快捷键仅在浏览器和桌面应用中可用。",
     "commit": "提交",
     "fetch": "获取",
@@ -1095,7 +1095,7 @@
     }
   },
   "dialog": {
-    "title": "高级 Git"
+    "title": "GitFlux"
   },
   "branch": {
     "title": "分支",
@@ -1150,7 +1150,7 @@
     "checkoutDialog": {
       "switched": "已切换到 {{ref}}。",
       "dirtyTitle": "本地更改会被覆盖",
-      "dirtyBody": "切换到 {{ref}} 会覆盖本地更改。高级 Git 可以先储藏这些更改，切换后再重新应用。",
+      "dirtyBody": "切换到 {{ref}} 会覆盖本地更改。GitFlux 可以先储藏这些更改，切换后再重新应用。",
       "stashSwitch": "储藏、切换并重新应用",
       "stashConflict": "已切换到 {{ref}}，但重新应用更改时发生冲突。储藏已保留：请在“更改”中解决冲突。",
       "detachedTitle": "检出 {{ref}}？",
@@ -1508,7 +1508,7 @@
     "title": "安全",
     "snapshots": {
       "title": "安全快照",
-      "intro": "在可能放弃已跟踪文件更改的操作之前，高级 Git 会在此记录这些更改。恢复会将快照中的更改应用到工作树，并保留快照。",
+      "intro": "在可能放弃已跟踪文件更改的操作之前，GitFlux 会在此记录这些更改。恢复会将快照中的更改应用到工作树，并保留快照。",
       "off": "安全快照已在安全设置中关闭：不会再创建新的快照。",
       "empty": "尚无安全快照。",
       "detail": "{{reason}} · {{branch}}",

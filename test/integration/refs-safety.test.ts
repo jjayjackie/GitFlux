@@ -60,7 +60,7 @@ test("with allowHardReset, a protected branch is still refused; an unprotected o
 
   repo.git("switch", "--quiet", "--create", "feature");
   const { snapshot } = await allowed.call(branchResetRpc, { cwd, target: "HEAD", mode: "hard", confirm: true });
-  assert.ok(snapshot !== null && snapshot.startsWith("refs/advanced-git/snapshots/"), String(snapshot));
+  assert.ok(snapshot !== null && snapshot.startsWith("refs/gitflux/snapshots/"), String(snapshot));
   assert.equal(lf(repo.read("a.txt")), "a\n");
 
   const { snapshots } = await allowed.call(safetySnapshotsRpc, { cwd });

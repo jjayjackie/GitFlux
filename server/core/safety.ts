@@ -9,14 +9,14 @@
 //   refuseProtected(policy, branch)           PROTECTED_BRANCH when the branch matches `protectedBranches`.
 //   snapshot(tools, reason, policy) → ref | null
 //       With `safetySnapshots` on, records the work tree's tracked changes (and the index) as `git stash create` does,
-//       under refs/advanced-git/snapshots/<unix-ms>-<n>, with `reason` (an RPC's wire name) and the branch in its
+//       under refs/gitflux/snapshots/<unix-ms>-<n>, with `reason` (an RPC's wire name) and the branch in its
 //       message; then removes the oldest beyond SNAPSHOT_KEEP (the only refs this plugin ever deletes). Null when it is
 //       off, or there is nothing it can record: no tracked change, no commit yet, or files in conflict (git cannot
 //       stash an index in conflict). Call it inside the repository's lock, before the destructive git command.
 //   listSnapshots(tools) → SnapshotEntry[]    newest first.
 //   restoreSnapshot(tools, ref) → { conflicted }
 //       `git stash apply <its commit>`: the snapshot is kept. WOULD_OVERWRITE_CHANGES when local changes are in the way.
-//   SNAPSHOT_PREFIX                           "refs/advanced-git/snapshots/".
+//   SNAPSHOT_PREFIX                           "refs/gitflux/snapshots/".
 
 import { SNAPSHOT_KEEP } from "../../shared/limits.ts";
 import type { SnapshotEntry } from "../../shared/schemas.ts";
@@ -24,7 +24,7 @@ import { DEFAULT_SAFETY_POLICY, isProtectedBranch, safetyPolicySchema, type Safe
 import { GitError, isGitError } from "./errors.ts";
 import type { GitTools } from "./exec.ts";
 
-export const SNAPSHOT_PREFIX = "refs/advanced-git/snapshots/";
+export const SNAPSHOT_PREFIX = "refs/gitflux/snapshots/";
 
 /** What createPolicyReader needs of the handle server.registerSettings returns. */
 export interface SettingsHandle {
@@ -66,9 +66,9 @@ export function refuseProtected(policy: SafetyPolicy, branch: string): void {
 // --- snapshots ---------------------------------------------------------------------------------
 
 /** Marks a snapshot's message, followed by ` reason=<rpc> branch=<name>` (empty when detached). */
-const MARK = "advanced-git snapshot";
+const MARK = "gitflux snapshot";
 const DESCRIBED = / reason=(\S+) branch=(\S*)$/;
-const NAME = /^refs\/advanced-git\/snapshots\/(\d+)-(\d+)$/;
+const NAME = /^refs\/gitflux\/snapshots\/(\d+)-(\d+)$/;
 
 let sequence = 0; // tells apart two snapshots taken in the same millisecond
 
@@ -117,7 +117,7 @@ export async function snapshot(tools: GitTools, reason: string, policy: SafetyPo
   if (hash === "") return null; // no tracked change
   if (!/^(?:[0-9a-f]{40}|[0-9a-f]{64})$/.test(hash)) throw new GitError("UNKNOWN", `git stash create answered ${hash.slice(0, 200)}`);
   const ref = `${SNAPSHOT_PREFIX}${Date.now()}-${sequence++}`;
-  await tools.git(["update-ref", "-m", `advanced-git: ${label}`, ref, hash], { kind: "write" });
+  await tools.git(["update-ref", "-m", `gitflux: ${label}`, ref, hash], { kind: "write" });
   await prune(tools);
   return ref;
 }

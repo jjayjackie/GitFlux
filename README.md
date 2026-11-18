@@ -1,4 +1,6 @@
-# Advanced Git for Paseo
+<img src="assets/icon.png" alt="" width="96" height="96">
+
+# GitFlux for Paseo
 
 **English** | [简体中文](README.zh-CN.md)
 
@@ -34,20 +36,24 @@ More in [docs/features.md](docs/features.md).
 Requires Paseo 0.14.0+, and on each host: `git` 2.35+ and `npm` on the daemon's `PATH`.
 
 ```bash
-paseo plugin install git:jjayjackie/paseo-advanced-git-plugin --ref v0.2.0
+paseo plugin install git:jjayjackie/GitFlux --ref v0.2.0
 ```
 
-Or paste `git:jjayjackie/paseo-advanced-git-plugin` into **Settings → Plugins → Plugin source**. For a host without
-network access, download `paseo-advanced-git-<version>-bundled.tgz` from
-[Releases](https://github.com/jjayjackie/paseo-advanced-git-plugin/releases), check it with `SHA256SUMS`, extract it
+Or paste `git:jjayjackie/GitFlux` into **Settings → Plugins → Plugin source**. For a host without
+network access, download `gitflux-<version>-bundled.tgz` from
+[Releases](https://github.com/jjayjackie/GitFlux/releases), check it with `SHA256SUMS`, extract it
 and install the folder:
 
 ```bash
-tar -xzf paseo-advanced-git-0.2.0-bundled.tgz
-paseo plugin install "$(pwd)/paseo-advanced-git-0.2.0"
+tar -xzf gitflux-0.2.0-bundled.tgz
+paseo plugin install "$(pwd)/gitflux-0.2.0"
 ```
 
-Open a workspace: **Advanced Git** appears as a tab and in the Explorer, with commands in the Command Center.
+Open a workspace: **GitFlux** appears as a tab and in the Explorer, with commands in the Command Center.
+
+Upgrading from 0.2.0 or earlier, when the plugin was called Advanced Git: its id changed from `advanced-git` to `gitflux`,
+so uninstall `advanced-git`, install GitFlux, and turn your safety settings on again. Snapshots taken before are still
+in each repository under `refs/advanced-git/snapshots/` but are no longer listed.
 
 ## Safety
 
@@ -57,7 +63,7 @@ Open a workspace: **Advanced Git** appears as a tab and in the Explorer, with co
   are **off by default**, checked on the host, and confirmed with what will be lost.
 - Protected branches (`main`, `master`, `develop`, `release/*` by default) are never force-pushed, hard-reset or
   deleted.
-- Changes about to be discarded are saved as safety snapshots under `refs/advanced-git/snapshots/`.
+- Changes about to be discarded are saved as safety snapshots under `refs/gitflux/snapshots/`.
 - The plugin never asks for, stores or sends a password or token: Git uses the host's SSH keys or credential helper.
 
 ## Known limitations

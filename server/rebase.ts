@@ -12,9 +12,9 @@
 // hooks run as for any commit (`--no-verify` is never used).
 //
 // Those files must outlive a rebase that stops (on a conflict, at an `edit`) and is continued later: they live in
-// `<git dir>/advanced-git/rebase-<id>/` (the work tree's own git dir, files 0600), and `cleanupRebaseFiles` removes
+// `<git dir>/gitflux/rebase-<id>/` (the work tree's own git dir, files 0600), and `cleanupRebaseFiles` removes
 // every such folder once no rebase is under way, after git.rebase.start and after every git.operation.control (and
-// before a new start, for a rebase that ended outside the plugin). The `advanced-git` folder goes when it is empty.
+// before a new start, for a rebase that ended outside the plugin). The `gitflux` folder goes when it is empty.
 //
 // Refusals: OPERATION_IN_PROGRESS when anything is under way; STALE_STATE when the todo does not name exactly the
 // commits the plan lists now; PROTECTED_BRANCH when the checked-out branch is protected and a commit that would be
@@ -85,7 +85,7 @@ export async function plan(tools: GitTools, base: string): Promise<RebasePlan> {
 
 // --- the files a rebase keeps ---------------------------------------------------------------------------------
 
-const FOLDER = "advanced-git";
+const FOLDER = "gitflux";
 const PREFIX = "rebase-";
 
 /** Removes every rebase-* folder this plugin left in the work tree's git dir, unless a rebase is under way. */

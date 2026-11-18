@@ -1,6 +1,6 @@
 # Design
 
-Advanced Git grew out of upstream's Source Control panel and keeps its rule: where VS Code (release 1.142.0) has a behaviour, a default or words for something, the panel takes them. What VS Code's Source Control view lacks — branches, remotes, tags, stashes, worktrees, submodules, interactive rebase, conflict resolution, blame — follows Git Graph, GitLens and Fork in layout, and git's own vocabulary in its words. The core of it is VS Code's Source Control view inside Paseo: the same sections, the same behaviour, the same defaults and the same words. Someone who knows VS Code should find nothing to relearn. Where the panel cannot or does not follow VS Code, the difference is listed below with its reason.
+GitFlux grew out of upstream's Source Control panel and keeps its rule: where VS Code (release 1.142.0) has a behaviour, a default or words for something, the panel takes them. What VS Code's Source Control view lacks — branches, remotes, tags, stashes, worktrees, submodules, interactive rebase, conflict resolution, blame — follows Git Graph, GitLens and Fork in layout, and git's own vocabulary in its words. The core of it is VS Code's Source Control view inside Paseo: the same sections, the same behaviour, the same defaults and the same words. Someone who knows VS Code should find nothing to relearn. Where the panel cannot or does not follow VS Code, the difference is listed below with its reason.
 
 ## Where behaviour comes from
 
@@ -75,7 +75,7 @@ The panel runs inside Paseo's window: running out of memory there closes every a
 
 ## Nothing lost by accident
 
-Every action that destroys work asks first, in VS Code's words where it has them, and lists what will be lost. Force push, hard reset, force deletion and deletion on a remote are refused by the daemon unless the host's settings allow them and the call says it was confirmed; protected branches are refused whatever the settings say. Before tracked changes can be lost the daemon records them under `refs/advanced-git/snapshots/`. Untracked files that are discarded go to the Trash where the system has one, and the panel asks before deleting them for good where it does not.
+Every action that destroys work asks first, in VS Code's words where it has them, and lists what will be lost. Force push, hard reset, force deletion and deletion on a remote are refused by the daemon unless the host's settings allow them and the call says it was confirmed; protected branches are refused whatever the settings say. Before tracked changes can be lost the daemon records them under `refs/gitflux/snapshots/`. Untracked files that are discarded go to the Trash where the system has one, and the panel asks before deleting them for good where it does not.
 
 ## Words
 

@@ -213,7 +213,7 @@ async function stashIndex(ctx: HandlerContext, hash: string): Promise<number | n
 async function stashLocal(ctx: HandlerContext): Promise<string | null> {
   if (!(await hasLocalChanges(ctx))) return null;
   const before = await refHash(ctx, "refs/stash");
-  await ctx.git(["stash", "push", "--include-untracked", "--message", "advanced-git: local changes while switching"]);
+  await ctx.git(["stash", "push", "--include-untracked", "--message", "gitflux: local changes while switching"]);
   const after = await refHash(ctx, "refs/stash");
   return after !== null && after !== before ? after : null;
 }

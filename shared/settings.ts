@@ -28,7 +28,7 @@ export const safetyPolicySchema = z.object({
     .array(z.string().trim().min(1).max(NAME_MAX))
     .max(PROTECTED_BRANCHES_MAX)
     .default(["main", "master", "develop", "release/*"]),
-  /** Before an operation that can discard tracked changes, record them under refs/advanced-git/snapshots/. */
+  /** Before an operation that can discard tracked changes, record them under refs/gitflux/snapshots/. */
   safetySnapshots: z.boolean().default(true),
 });
 export type SafetyPolicy = z.infer<typeof safetyPolicySchema>;

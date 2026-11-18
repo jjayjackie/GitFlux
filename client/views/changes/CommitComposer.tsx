@@ -7,7 +7,7 @@
 // only that question sends). IDENTITY_MISSING, HOOK_FAILED and every other failure show under the box, with git's words.
 //
 // The draft is per repository (./drafts.ts): it survives switching repositories, folding the pane and, through the tab,
-// a reload. Ctrl/Cmd+Enter and "Advanced Git: Commit" reach the composer through ./commitRequests.ts: with a message
+// a reload. Ctrl/Cmd+Enter and "GitFlux: Commit" reach the composer through ./commitRequests.ts: with a message
 // and something to commit (or an operation to continue) they do what the button does; otherwise they put the cursor in
 // the box.
 

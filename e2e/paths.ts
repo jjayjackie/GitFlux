@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 export const REPOSITORY = fileURLToPath(new URL("..", import.meta.url));
 
 /** The fixture workspace's root: E2E_FIXTURE_ROOT, else a fixed directory in the (symlink-resolved) temp directory. */
-export const FIXTURE_ROOT = process.env.E2E_FIXTURE_ROOT ?? join(realpathSync(tmpdir()), "advanced-git-e2e-fixtures");
+export const FIXTURE_ROOT = process.env.E2E_FIXTURE_ROOT ?? join(realpathSync(tmpdir()), "gitflux-e2e-fixtures");
 
 export const PORT = Number(process.env.E2E_PORT ?? 4174);
 export const BASE_URL = `http://127.0.0.1:${PORT}`;

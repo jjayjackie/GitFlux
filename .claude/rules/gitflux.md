@@ -1,4 +1,4 @@
-# Working on the Advanced Git plugin
+# Working on the GitFlux plugin
 
 `docs/architecture.md` is the contract: read it before changing anything, and keep it true.
 

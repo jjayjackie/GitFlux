@@ -105,7 +105,7 @@ export function ViewProvider({ tab, children }: { tab: PluginTab; children: Reac
 /** The tab's state and its setter. */
 export function useView(): ViewApi {
   const api = useContext(ViewContext);
-  if (!api) throw new Error("Advanced Git: this component needs a ViewProvider above it");
+  if (!api) throw new Error("GitFlux: this component needs a ViewProvider above it");
   return api;
 }
 

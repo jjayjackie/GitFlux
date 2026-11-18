@@ -6,10 +6,10 @@ import { cwdSchema, invalid, snapshotEntrySchema } from "../schemas.ts";
 import { safetyPolicySchema } from "../settings.ts";
 import { cwdInput } from "./common.ts";
 
-/** A snapshot's ref: only refs under refs/advanced-git/snapshots/ are ever read or restored. */
+/** A snapshot's ref: only refs under refs/gitflux/snapshots/ are ever read or restored. */
 export const snapshotRefSchema = z
   .string()
-  .regex(/^refs\/advanced-git\/snapshots\/[0-9A-Za-z._-]{1,128}$/, invalid("Not a safety snapshot"))
+  .regex(/^refs\/gitflux\/snapshots\/[0-9A-Za-z._-]{1,128}$/, invalid("Not a safety snapshot"))
   .refine((ref) => !ref.includes("..") && !ref.endsWith(".lock") && !ref.endsWith("."), invalid("Not a safety snapshot"));
 
 /** The repository's safety snapshots, newest first; SNAPSHOT_KEEP of them at most are kept. */

@@ -1,5 +1,5 @@
 {
-  "name": "paseo-advanced-git",
+  "name": "gitflux",
   "private": true,
   "version": "0.2.0",
   "description": "A full Git client beside every Paseo workspace: branches, remotes, tags, stashes, worktrees, submodules, history and conflicts",

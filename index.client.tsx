@@ -12,14 +12,14 @@ import { clearAll } from "./client/state/selectionStore.ts";
 export default function contribute(client: PluginClientContext) {
   const removers = [
     client.addWorkspacePanel({
-      id: "advanced-git",
+      id: "gitflux",
       title: messages.message("panel.title"),
       icon: "GitBranch",
       locations: ["workspace", "explorer"],
       Component: Panel,
     }),
     client.addSettingsScreen({
-      id: "advanced-git",
+      id: "gitflux",
       title: messages.message("settings.title"),
       icon: "Settings",
       Component: SettingsScreen,

@@ -10,7 +10,7 @@
 //   <root>/conflict                 a second repository with a merge stopped on a conflict in greeting.txt
 //   <root>/remotes/app.git, lib.git bare repositories (origin, and the submodule's source)
 //
-//   node e2e/fixtures.mjs [<root>]          (default: $E2E_FIXTURE_ROOT, else <tmp>/advanced-git-e2e-fixtures)
+//   node e2e/fixtures.mjs [<root>]          (default: $E2E_FIXTURE_ROOT, else <tmp>/gitflux-e2e-fixtures)
 //
 // The root is deleted and recreated; it must be inside the temp directory or this repository's tmp/.
 
@@ -22,7 +22,7 @@ import { fileURLToPath } from "node:url";
 import { isolatedGitEnv } from "../scripts/git-env.mjs";
 
 const repository = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const root = resolve(process.argv[2] ?? process.env.E2E_FIXTURE_ROOT ?? join(realpathSync(tmpdir()), "advanced-git-e2e-fixtures"));
+const root = resolve(process.argv[2] ?? process.env.E2E_FIXTURE_ROOT ?? join(realpathSync(tmpdir()), "gitflux-e2e-fixtures"));
 const inside = (parent, child) => {
   const path = relative(parent, child);
   return path !== "" && !path.startsWith("..") && !isAbsolute(path);
@@ -93,7 +93,7 @@ git(root, ["init", "-q", "--bare", "-b", "main", origin]);
 git(root, ["init", "-q", "-b", "main", workspace]);
 git(workspace, ["remote", "add", "origin", origin]);
 
-write(workspace, "README.md", "# Demo app\n\nA small application used by the Advanced Git end-to-end tests.\n");
+write(workspace, "README.md", "# Demo app\n\nA small application used by the GitFlux end-to-end tests.\n");
 write(workspace, ".gitignore", "node_modules/\n*.log\n");
 commit(workspace, "Initial commit");
 write(workspace, "src/app.js", "import { slugify } from './util.js';\n\nexport function main(argv) {\n  return argv.map(slugify);\n}\n");
@@ -164,7 +164,7 @@ git(workspace, ["push", "-q", "origin", "release/1.0", "feature/login", "feature
 git(workspace, ["push", "-q", "origin", "--tags"]);
 const elsewhere = join(scratch, "elsewhere");
 git(root, ["clone", "-q", origin, elsewhere]);
-write(elsewhere, "README.md", "# Demo app\n\nA small application used by the Advanced Git end-to-end tests.\n\nSee docs/guide.md.\n");
+write(elsewhere, "README.md", "# Demo app\n\nA small application used by the GitFlux end-to-end tests.\n\nSee docs/guide.md.\n");
 commit(elsewhere, "Point the README at the guide", 2);
 git(elsewhere, ["push", "-q", "origin", "main"]);
 git(workspace, ["fetch", "-q", "origin"]);
@@ -182,7 +182,7 @@ git(workspace, ["stash", "push", "-q", "-m", "WIP: normalise before slugifying"]
 write(workspace, "src/app.js", "import { slugify } from './util.js';\n\nexport function main(argv) {\n  console.log('started at', Date.now());\n  return argv.map(slugify);\n}\n");
 write(workspace, "src/flags.js", "export const flags = { search: false };\n");
 git(workspace, ["add", "src/app.js", "src/flags.js"]);
-write(workspace, "README.md", "# Demo app\n\nA small application used by the Advanced Git end-to-end tests.\n\nRun `node src/app.js`.\n");
+write(workspace, "README.md", "# Demo app\n\nA small application used by the GitFlux end-to-end tests.\n\nRun `node src/app.js`.\n");
 write(workspace, "docs/guide.md", "# Guide\n\nRun the app with a list of words.\n\n## Configuration\n\nPass a JSON file, or nothing.\n");
 rmSync(join(workspace, "test", "app.test.js"));
 write(workspace, "notes.txt", "Remember to update the changelog.\n");

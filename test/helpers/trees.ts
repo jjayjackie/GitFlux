@@ -35,7 +35,7 @@ export interface Library {
 /** A bare repository on `main` holding one commit (lib.txt), and the work repository that pushed it. */
 export function libraryRemote(t: TestContext): Library {
   const remote = bareRemote(t);
-  const work = repository(t, "advanced-git-lib-");
+  const work = repository(t, "gitflux-lib-");
   work.write("lib.txt", "one\n");
   const first = work.commit("lib: one");
   work.git("remote", "add", "origin", fileUrl(remote));
@@ -53,7 +53,7 @@ export function advanceLibrary(library: Library, text: string): string {
 
 /** A parent repository with a commit, and the submodules `paths` cloned from `remote`, committed. */
 export function parentWith(t: TestContext, remote: string, paths: readonly string[]): Repo {
-  const parent = repository(t, "advanced-git-parent-");
+  const parent = repository(t, "gitflux-parent-");
   parent.write("README.md", "parent\n");
   parent.commit("root");
   for (const path of paths) parent.git("submodule", "add", "--quiet", fileUrl(remote), path);
@@ -63,7 +63,7 @@ export function parentWith(t: TestContext, remote: string, paths: readonly strin
 
 /** A clone of `parent` whose submodules are not initialised (registered in .gitmodules, no work tree yet). */
 export function cloneWithoutSubmodules(t: TestContext, parent: Repo): Repo {
-  const folder = tempDir(t, "advanced-git-parent-clone-");
+  const folder = tempDir(t, "gitflux-parent-clone-");
   const root = join(folder, "clone");
   gitIn(folder, ["clone", "--quiet", fileUrl(parent.cwd), root]);
   return repoAt(realpathSync.native(root));
@@ -71,5 +71,5 @@ export function cloneWithoutSubmodules(t: TestContext, parent: Repo): Repo {
 
 /** A path for a new work tree, not created yet, inside a new empty folder. */
 export function newFolder(t: TestContext, name: string): string {
-  return join(tempDir(t, "advanced-git-wt-"), name);
+  return join(tempDir(t, "gitflux-wt-"), name);
 }

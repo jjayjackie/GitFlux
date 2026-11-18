@@ -2,7 +2,7 @@
 
 [简体中文](features.zh-CN.md)
 
-Advanced Git is one panel, offered as a workspace tab and in the Explorer. It has three columns: the navigator on the
+GitFlux is one panel, offered as a workspace tab and in the Explorer. It has three columns: the navigator on the
 left, the selected repository's changes and commit graph in the middle, and the details of whatever is selected on the
 right. Columns and the two middle panes resize by dragging; the navigator hides with Alt+E. Narrower than a desktop
 sidebar, the panel shows one pane at a time under tabs (Changes, Graph, Branches) and pushes the details over them.
@@ -121,7 +121,7 @@ with their reason and time, and restore with one press.
 
 ## Settings
 
-Per host, in Paseo's settings under Advanced Git:
+Per host, in Paseo's settings under GitFlux:
 
 - **Safety**: allow force push, allow hard reset, allow force deletion, allow deleting on remotes (all off by default),
   safety snapshots (on), and the protected branches (`main`, `master`, `develop`, `release/*`).

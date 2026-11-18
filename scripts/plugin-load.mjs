@@ -8,8 +8,8 @@
 // What it does, per host: a fresh PASEO_HOME in a temporary directory; `paseo daemon config set` for
 // `daemon.listen 127.0.0.1:<free port>`, `daemon.relay.enabled false` and `pluginsEnabled true`;
 // `paseo daemon start --home <home>`; `paseo plugin install <plugin dir> --home <home> --json`; then it polls
-// `paseo plugin ls --home <home> --json` until `advanced-git` reports `running` (or `failed`), and finally
-// `paseo daemon stop --home <home>`. On failure it prints `paseo plugin logs advanced-git` and the daemon log.
+// `paseo plugin ls --home <home> --json` until `gitflux` reports `running` (or `failed`), and finally
+// `paseo daemon stop --home <home>`. On failure it prints `paseo plugin logs gitflux` and the daemon log.
 // With --hosts 2 it starts two isolated daemons (two homes, two ports) and checks that installation is per host:
 // install on A only → B does not list it; install on B → both run; remove from A → B still runs.
 //
@@ -31,7 +31,7 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const PLUGIN_ID = "advanced-git";
+const PLUGIN_ID = "gitflux";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const isWindows = process.platform === "win32";
 
@@ -65,7 +65,7 @@ function fatal(message) {
 }
 
 const log = (message) => console.log(`plugin-load: ${message}`);
-const scratch = mkdtempSync(join(tmpdir(), "advanced-git-plugin-load-"));
+const scratch = mkdtempSync(join(tmpdir(), "gitflux-plugin-load-"));
 
 // --- the CLI -------------------------------------------------------------------------------------------------------
 

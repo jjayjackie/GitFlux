@@ -1,4 +1,6 @@
-# Paseo 高级 Git
+<img src="assets/icon.png" alt="" width="96" height="96">
+
+# GitFlux：Paseo 的 Git 客户端
 
 [English](README.md) | **简体中文**
 
@@ -29,17 +31,19 @@
 需要 Paseo 0.14.0 或更高版本；每台主机上的守护进程 `PATH` 中需要有 `git` 2.35+ 和 `npm`。
 
 ```bash
-paseo plugin install git:jjayjackie/paseo-advanced-git-plugin --ref v0.2.0
+paseo plugin install git:jjayjackie/GitFlux --ref v0.2.0
 ```
 
-也可以在 **设置 → 插件 → 插件来源** 中粘贴 `git:jjayjackie/paseo-advanced-git-plugin`。对于无法联网的主机，请从 [Releases](https://github.com/jjayjackie/paseo-advanced-git-plugin/releases) 下载 `paseo-advanced-git-<版本>-bundled.tgz`，用 `SHA256SUMS` 校验后解压并安装该目录：
+也可以在 **设置 → 插件 → 插件来源** 中粘贴 `git:jjayjackie/GitFlux`。对于无法联网的主机，请从 [Releases](https://github.com/jjayjackie/GitFlux/releases) 下载 `gitflux-<版本>-bundled.tgz`，用 `SHA256SUMS` 校验后解压并安装该目录：
 
 ```bash
-tar -xzf paseo-advanced-git-0.2.0-bundled.tgz
-paseo plugin install "$(pwd)/paseo-advanced-git-0.2.0"
+tar -xzf gitflux-0.2.0-bundled.tgz
+paseo plugin install "$(pwd)/gitflux-0.2.0"
 ```
 
-打开一个工作区：**高级 Git** 会作为标签页出现，也会出现在资源管理器中，命令中心里也有它的命令。
+打开一个工作区：**GitFlux** 会作为标签页出现，也会出现在资源管理器中，命令中心里也有它的命令。
+
+从 0.2.0 或更早版本（当时名为“高级 Git”）升级：插件 ID 已从 `advanced-git` 改为 `gitflux`，请先卸载 `advanced-git`，再安装 GitFlux，并重新开启安全设置。之前的安全快照仍保存在各仓库的 `refs/advanced-git/snapshots/` 下，但不再列出。
 
 ## 安全
 
@@ -47,7 +51,7 @@ paseo plugin install "$(pwd)/paseo-advanced-git-0.2.0"
 
 - 强制推送（始终使用 `--force-with-lease`，从不使用单独的 `--force`）、硬重置、强制删除和删除远程上的内容**默认关闭**，由主机端检查，执行前会列出将丢失的内容并要求确认。
 - 受保护的分支（默认 `main`、`master`、`develop`、`release/*`）永远不会被强制推送、硬重置或删除。
-- 即将被放弃的更改会先保存为安全快照，位于 `refs/advanced-git/snapshots/`。
+- 即将被放弃的更改会先保存为安全快照，位于 `refs/gitflux/snapshots/`。
 - 插件从不索取、保存或发送密码和令牌：Git 使用主机上的 SSH 密钥或凭据助手。
 
 ## 已知限制

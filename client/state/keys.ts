@@ -1,10 +1,10 @@
-// Query keys (architecture §6): every key starts `["advanced-git", hostId, …]`, so two hosts never share a cached
+// Query keys (architecture §6): every key starts `["gitflux", hostId, …]`, so two hosts never share a cached
 // answer, and a repository's queries share a prefix, so one invalidation reads all of them again. Pure: unit-tested.
 //
 // The shape:
-//   ["advanced-git", hostId, "repo", cwd, rpcName, rest-of-input]   a query of one repository (its input has `cwd`)
-//   ["advanced-git", hostId, "rpc", rpcName, input]                  a query of the host (git.safety.policy)
-//   ["advanced-git", hostId, "auto-fetch", cwd]                      the background fetch (not read again by invalidation)
+//   ["gitflux", hostId, "repo", cwd, rpcName, rest-of-input]   a query of one repository (its input has `cwd`)
+//   ["gitflux", hostId, "rpc", rpcName, input]                  a query of the host (git.safety.policy)
+//   ["gitflux", hostId, "auto-fetch", cwd]                      the background fetch (not read again by invalidation)
 // state/rpc.ts's useGitQuery builds the first two from the contract and the input, so the factories below name the same
 // keys: pass one to `queryClient.invalidateQueries({ queryKey })` (a factory called without `params` is the prefix of
 // every query of that family), or to `getQueryData` with the exact params.
@@ -15,11 +15,11 @@
 //   queryClient.getQueryData(keys.status(hostId, cwd));
 
 /** The first part of every query key of the plugin. */
-export const QUERY_PREFIX = "advanced-git";
+export const QUERY_PREFIX = "gitflux";
 
 export type GitQueryKey = readonly unknown[];
 
-/** Any key of one host: `["advanced-git", hostId, …parts]`. */
+/** Any key of one host: `["gitflux", hostId, …parts]`. */
 export function gitKey(hostId: string, ...parts: readonly unknown[]): GitQueryKey {
   return [QUERY_PREFIX, hostId, ...parts];
 }

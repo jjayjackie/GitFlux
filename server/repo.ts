@@ -490,7 +490,7 @@ async function scan(folder: string, depth: number, ignored: readonly string[]): 
       names = entries.filter((entry) => entry.isDirectory() && entry.name !== ".git" && !ignored.includes(entry.name)).map((entry) => entry.name);
     } catch (error) {
       // One unreadable folder does not hide the rest.
-      console.warn(`[advanced-git] not scanned for repositories: ${redact(error instanceof Error ? error.message : String(error))}`);
+      console.warn(`[gitflux] not scanned for repositories: ${redact(error instanceof Error ? error.message : String(error))}`);
       continue;
     }
     for (const name of names.sort()) {

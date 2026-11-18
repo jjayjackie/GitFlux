@@ -126,7 +126,7 @@ test("every area has its section in both languages", () => {
   }
 });
 
-test("the panel's title is translated", () => {
-  assert.equal(en.get("panel.title"), "Advanced Git");
-  assert.equal(zh.get("panel.title"), "高级 Git");
+test("the panel's title is GitFlux in every language", () => {
+  assert.equal(en.get("panel.title"), "GitFlux");
+  assert.equal(zh.get("panel.title"), "GitFlux");
 });

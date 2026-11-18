@@ -357,6 +357,6 @@ export function DialogHost({ children }: { children: ReactNode }) {
 /** The panel's dialogs: `confirm(options)` and `open(Component, props)`. */
 export function useDialogs(): Dialogs {
   const dialogs = useContext(DialogsContext);
-  if (!dialogs) throw new Error("Advanced Git: useDialogs needs a DialogHost above it (layout/Panel.tsx mounts one)");
+  if (!dialogs) throw new Error("GitFlux: useDialogs needs a DialogHost above it (layout/Panel.tsx mounts one)");
   return dialogs;
 }

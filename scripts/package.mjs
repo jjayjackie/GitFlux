@@ -1,9 +1,9 @@
 // Builds the release archives into dist/:
 //
-//   paseo-advanced-git-<version>.tgz          the plugin as a user installs it: everything package.json's `files`
+//   gitflux-<version>.tgz          the plugin as a user installs it: everything package.json's `files`
 //                                             names, plus package.json and package-lock.json (Paseo's manifest build
 //                                             step runs `npm ci --omit=dev` against that lock)
-//   paseo-advanced-git-<version>-bundled.tgz  the same with production node_modules already installed, for hosts
+//   gitflux-<version>-bundled.tgz  the same with production node_modules already installed, for hosts
 //                                             without registry access (install the extracted directory as is)
 //   SHA256SUMS                                sha256sum-compatible checksums of both
 //
@@ -38,9 +38,9 @@ const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
 const manifest = JSON.parse(readFileSync(join(root, "paseo-plugin.json"), "utf8"));
 const version = String(pkg.version ?? "");
 const SEMVER = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/;
-if (pkg.name !== "paseo-advanced-git") die(`package.json name is "${pkg.name}", expected "paseo-advanced-git"`);
+if (pkg.name !== "gitflux") die(`package.json name is "${pkg.name}", expected "gitflux"`);
 if (!SEMVER.test(version)) die(`package.json version "${version}" is not a semantic version`);
-if (manifest.id !== "advanced-git") die(`paseo-plugin.json id is "${manifest.id}", expected "advanced-git"`);
+if (manifest.id !== "gitflux") die(`paseo-plugin.json id is "${manifest.id}", expected "gitflux"`);
 if (typeof manifest.name !== "string" || !manifest.name.trim()) die("paseo-plugin.json has no name");
 if (!Array.isArray(manifest.build) || !manifest.build.some((command) => command.join(" ").startsWith("npm ci")))
   die("paseo-plugin.json build no longer runs npm ci; the archive layout assumes it does");
@@ -51,7 +51,7 @@ const lock = JSON.parse(readFileSync(join(root, "package-lock.json"), "utf8"));
 if (lock.name !== pkg.name || lock.version !== version || lock.packages?.[""]?.version !== version)
   die("package-lock.json does not match package.json (name or version); let CI's lockfile job regenerate it");
 
-const name = `paseo-advanced-git-${version}`;
+const name = `gitflux-${version}`;
 const epoch = Number(process.env.SOURCE_DATE_EPOCH ?? gitTime() ?? 315532800);
 
 function gitTime() {
