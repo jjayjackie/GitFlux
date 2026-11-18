@@ -1,4 +1,6 @@
-# Design
+# GitFlux design
+
+[← README](../README.md) · [Features](features.md) · [Architecture](architecture.md) · [Development](development.md)
 
 GitFlux grew out of upstream's Source Control panel and keeps its rule: where VS Code (release 1.142.0) has a behaviour, a default or words for something, the panel takes them. What VS Code's Source Control view lacks — branches, remotes, tags, stashes, worktrees, submodules, interactive rebase, conflict resolution, blame — follows Git Graph, GitLens and Fork in layout, and git's own vocabulary in its words. The core of it is VS Code's Source Control view inside Paseo: the same sections, the same behaviour, the same defaults and the same words. Someone who knows VS Code should find nothing to relearn. Where the panel cannot or does not follow VS Code, the difference is listed below with its reason.
 

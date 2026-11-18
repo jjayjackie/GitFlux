@@ -1,10 +1,12 @@
-# GitFlux — architecture
+# GitFlux architecture
+
+[← README](../README.md) · [Features](features.md) · [Design](design.md) · [Development](development.md)
 
 This is the contract every contributor (human or agent) works to. It says what the plugin is made of, who owns which
 files, and the rules that keep it safe. Where it and the code disagree, fix one of them in the same change.
 
-GitFlux is a fork of [paseo-source-control](https://github.com/KosmoCHE/paseo-source-control). Upstream is a
-VS Code-style read-mostly panel; this fork turns it into a full Git client (branches, remotes, tags, stashes, worktrees,
+GitFlux began as a fork of [paseo-source-control](https://github.com/KosmoCHE/paseo-source-control). Upstream is a
+VS Code-style read-mostly panel; GitFlux turns it into a full Git client (branches, remotes, tags, stashes, worktrees,
 submodules, history rewriting, hunk staging, conflict resolution) with a three-column layout and English / 简体中文 UI.
 Upstream code is reused wherever it fits: keep its file headers and third-party notices when moving or adapting it.
 

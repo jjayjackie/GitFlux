@@ -1,6 +1,6 @@
-# What the panel does
+# GitFlux features
 
-[简体中文](features.zh-CN.md)
+[← README](../README.md) · **English** · [简体中文](features.zh-CN.md)
 
 GitFlux is one panel, offered as a workspace tab and in the Explorer. It has three columns: the navigator on the
 left, the selected repository's changes and commit graph in the middle, and the details of whatever is selected on the

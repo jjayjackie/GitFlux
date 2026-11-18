@@ -1,4 +1,6 @@
-# Working on the plugin
+# Developing GitFlux
+
+[← README](../README.md) · [Features](features.md) · [Design](design.md) · [Architecture](architecture.md)
 
 The rules every change follows are in [architecture.md](architecture.md) §1 and `.claude/rules/gitflux.md`; what
 the panel does, in [features.md](features.md); where it follows or departs from VS Code and why, in
