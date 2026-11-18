@@ -1,7 +1,7 @@
 {
   "name": "gitflux",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A full Git client beside every Paseo workspace: branches, remotes, tags, stashes, worktrees, submodules, history and conflicts",
   "license": "MIT",
   "type": "module",
