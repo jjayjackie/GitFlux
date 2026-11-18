@@ -1,6 +1,7 @@
 {
   "id": "advanced-git",
   "name": "Advanced Git",
+  "icon": "assets/icon.png",
   "description": "A full Git client beside every workspace: branches, remotes, tags, stashes, worktrees, submodules, history and conflict resolution",
   "translations": {
     "zh-CN": {
